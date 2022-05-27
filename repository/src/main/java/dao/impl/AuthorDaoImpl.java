@@ -3,6 +3,7 @@ package dao.impl;
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
 import entities.Author;
+import entities.Book;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
 
@@ -25,7 +26,7 @@ public class AuthorDaoImpl implements Dao<Author> {
      * @throws DaoException from work with database
      */
     @Override
-    public void create(Author author) throws DaoException {
+    public void save(Author author) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -58,7 +59,6 @@ public class AuthorDaoImpl implements Dao<Author> {
         }
         return forFind;
     }
-
 
     /**
      *
@@ -116,5 +116,19 @@ public class AuthorDaoImpl implements Dao<Author> {
                 criteriaBuilder.equal(author.get("surname"), name));
         criteria.select(author).where(predicate);
         return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * @return list of authors
+     * @throws DaoException from work with database
+     */
+    @Override
+    public List<Author> findAll() throws DaoException {
+        EntityManager em = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Author> criteria = criteriaBuilder.createQuery(Author.class);
+        Root<Author> allAuthors = criteria.from(Author.class);
+        criteria.select(allAuthors);
+        return em.createQuery(criteria).getResultList();
     }
 }

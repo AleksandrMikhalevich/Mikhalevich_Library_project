@@ -23,7 +23,7 @@ public class GenreServiceImpl implements GenreService {
     public void addGenre(Genre genre) throws ServiceException {
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            genreDao.create(genre);
+            genreDao.save(genre);
         } catch (DaoException e) {
             throw new ServiceException();
         }

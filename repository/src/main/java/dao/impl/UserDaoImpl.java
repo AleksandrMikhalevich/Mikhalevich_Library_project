@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
+import entities.Book;
 import entities.User;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
@@ -24,7 +25,7 @@ public class UserDaoImpl implements Dao<User> {
      * @throws DaoException from work with database
      */
     @Override
-    public void create(User user) throws DaoException {
+    public void save(User user) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -110,5 +111,19 @@ public class UserDaoImpl implements Dao<User> {
         Root<User> user = criteria.from(User.class);
         criteria.select(user).where(criteriaBuilder.equal(user.get("login"), name));
         return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * @return list of users
+     * @throws DaoException from work with database
+     */
+    @Override
+    public List<User> findAll() throws DaoException {
+        EntityManager em = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
+        Root<User> allUsers = criteria.from(User.class);
+        criteria.select(allUsers);
+        return em.createQuery(criteria).getResultList();
     }
 }

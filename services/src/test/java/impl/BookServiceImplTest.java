@@ -46,7 +46,7 @@ class BookServiceImplTest {
         bookService.addBook(book);
         Book bookToUpdate = Book.builder()
                 .id(book.getId())
-                .name("Aaa")
+                .title("Aaa")
                 .language("Bbb")
                 .authors(Set.of(author))
                 .genres(Set.of(genre))
@@ -79,7 +79,7 @@ class BookServiceImplTest {
         Book bookFromDB = bookService.findById(book.getId());
         Assertions.assertNotNull(bookFromDB);
         Assertions.assertNotNull(bookFromDB.getId());
-        Assertions.assertEquals(BOOK_NAME, bookFromDB.getName(), "Book name is not equals");
+        Assertions.assertEquals(BOOK_TITLE, bookFromDB.getTitle(), "Book name is not equals");
         Assertions.assertEquals(LANGUAGE, bookFromDB.getLanguage(), "Language is not equals");
         Assertions.assertEquals(YEAR_OF_PUBLISHING, bookFromDB.getYearOfPublishing(), "Year of publishing is not equals");
 
@@ -93,7 +93,7 @@ class BookServiceImplTest {
         Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
         bookService.addBook(book);
-        List<Book> books = bookService.findBookByName(BOOK_NAME);
+        List<Book> books = bookService.findBookByName(BOOK_TITLE);
         System.out.println(books);
     }
 }

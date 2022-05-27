@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
+import entities.Book;
 import entities.Publisher;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
@@ -24,7 +25,7 @@ public class PublisherDaoImpl implements Dao<Publisher> {
      * @throws DaoException from work with database
      */
     @Override
-    public void create(Publisher publisher) throws DaoException {
+    public void save(Publisher publisher) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -110,5 +111,19 @@ public class PublisherDaoImpl implements Dao<Publisher> {
         Root<Publisher> publisher = criteria.from(Publisher.class);
         criteria.select(publisher).where(criteriaBuilder.equal(publisher.get("name"), name));
         return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * @return list of publishers
+     * @throws DaoException from work with database
+     */
+    @Override
+    public List<Publisher> findAll() throws DaoException {
+        EntityManager em = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Publisher> criteria = criteriaBuilder.createQuery(Publisher.class);
+        Root<Publisher> allPublishers = criteria.from(Publisher.class);
+        criteria.select(allPublishers);
+        return em.createQuery(criteria).getResultList();
     }
 }

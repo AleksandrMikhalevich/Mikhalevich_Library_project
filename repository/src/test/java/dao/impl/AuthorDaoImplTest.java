@@ -21,7 +21,7 @@ class AuthorDaoImplTest {
     void shouldCreateAuthorInDatabase() throws DaoException {
         Author author = MockUtils.createAuthor();
         Dao<Author> authorDao = new AuthorDaoImpl();
-        authorDao.create(author);
+        authorDao.save(author);
         Author authorFromDB = authorDao.findById(author.getId());
         Assertions.assertNotNull(authorFromDB);
         Assertions.assertEquals(author, authorFromDB);
@@ -31,7 +31,7 @@ class AuthorDaoImplTest {
     void shouldFindAuthorInDatabaseById() throws DaoException {
         Author author = MockUtils.createAuthor();
         Dao<Author> authorDao = new AuthorDaoImpl();
-        authorDao.create(author);
+        authorDao.save(author);
         Author authorFromDB = authorDao.findById(author.getId());
         Assertions.assertNotNull(authorFromDB);
         Assertions.assertNotNull(authorFromDB.getId());
@@ -45,7 +45,7 @@ class AuthorDaoImplTest {
     void shouldUpdateAuthorInDatabase() throws DaoException {
         Author author = MockUtils.createAuthor();
         Dao<Author> authorDao = new AuthorDaoImpl();
-        authorDao.create(author);
+        authorDao.save(author);
         Author authorToUpdate = Author.builder()
                 .id(author.getId())
                 .firstName("Aaa")
@@ -54,29 +54,40 @@ class AuthorDaoImplTest {
                 .country("Ddd")
                 .build();
         authorDao.update(authorToUpdate);
+        Author authorFromDB = authorDao.findById(authorToUpdate.getId());
+        Assertions.assertEquals(authorToUpdate,authorFromDB);
     }
 
     @Test
     void shouldDeleteAuthorFromDatabase() throws DaoException {
         Author author = MockUtils.createAuthor();
         Dao<Author> authorDao = new AuthorDaoImpl();
-        authorDao.create(author);
+        authorDao.save(author);
         authorDao.delete(author.getId());
+        Author authorFromDB = authorDao.findById(author.getId());
+        Assertions.assertNull(authorFromDB);
     }
 
     @Test
-    void shouldFindAuthorByName() throws DaoException {
+    void shouldFindAuthorInDatabaseByName() throws DaoException {
         Author author = MockUtils.createAuthor();
-        Author author2 = Author.builder()
-                .firstName("Maxim")
-                .secondName("Bbb")
-                .surname("Ccc")
-                .country("Ddd")
-                .build();
         Dao<Author> authorDao = new AuthorDaoImpl();
-        authorDao.create(author);
-        authorDao.create(author2);
-        List<Author> authors = authorDao.findByName(FIRST_NAME);
-        System.out.println(authors);
+        authorDao.save(author);
+        List<Author> listFromDB = authorDao.findByName(FIRST_NAME);
+        Assertions.assertTrue(listFromDB.contains(author));
+    }
+
+    @Test
+    void shouldFindAllAuthorsInDatabase() throws DaoException {
+        Author author = MockUtils.createAuthor();
+        Author author2 = MockUtils.createAuthor();
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
+        authorDao.save(author2);
+        Author authorFromDB = authorDao.findById(author.getId());
+        Author authorFromDB2 = authorDao.findById(author2.getId());
+        List<Author> listFromDB = authorDao.findAll();
+        Assertions.assertTrue(listFromDB.contains(authorFromDB));
+        Assertions.assertTrue(listFromDB.contains(authorFromDB2));
     }
 }

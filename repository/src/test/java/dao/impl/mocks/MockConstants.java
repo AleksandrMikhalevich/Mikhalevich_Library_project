@@ -10,7 +10,7 @@ public class MockConstants {
     public static final String SECOND_NAME = "Adamavich";
     public static final String SURNAME = "Bagdanovich";
     public static final String AUTHOR_COUNTRY = "Belarus";
-    public static final String BOOK_NAME = "Vianok";
+    public static final String BOOK_TITLE = "Vianok";
     public static final String LANGUAGE = "belarusian";
     public static final String YEAR_OF_PUBLISHING = "1914";
     public static final String GENRE_NAME = "Lyrics";

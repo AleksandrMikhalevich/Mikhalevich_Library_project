@@ -21,7 +21,7 @@ class GenreDaoImplTest {
     void shouldCreateGenreInDatabase() throws DaoException {
         Genre genre = MockUtils.createGenre();
         Dao<Genre> genreDao = new GenreDaoImpl();
-        genreDao.create(genre);
+        genreDao.save(genre);
         Genre genreFromDB = genreDao.findById(genre.getId());
         Assertions.assertNotNull(genreFromDB);
         Assertions.assertEquals(genre, genreFromDB);
@@ -31,7 +31,7 @@ class GenreDaoImplTest {
     void shouldFindGenreInDatabaseById() throws DaoException {
         Genre genre = MockUtils.createGenre();
         Dao<Genre> genreDao = new GenreDaoImpl();
-        genreDao.create(genre);
+        genreDao.save(genre);
         Genre genreFromDB = genreDao.findById(genre.getId());
         Assertions.assertNotNull(genreFromDB);
         Assertions.assertNotNull(genreFromDB.getId());
@@ -42,28 +42,46 @@ class GenreDaoImplTest {
     void shouldUpdateGenreInDatabase() throws DaoException {
         Genre genre = MockUtils.createGenre();
         Dao<Genre> genreDao = new GenreDaoImpl();
-        genreDao.create(genre);
+        genreDao.save(genre);
         Genre genreToUpdate = Genre.builder()
                 .id(genre.getId())
                 .name("Action")
                 .build();
         genreDao.update(genreToUpdate);
+        Genre genreFromDB = genreDao.findById(genreToUpdate.getId());
+        Assertions.assertEquals(genreToUpdate, genreFromDB);
     }
 
     @Test
     void shouldDeleteGenreFromDatabase() throws DaoException {
         Genre genre = MockUtils.createGenre();
         Dao<Genre> genreDao = new GenreDaoImpl();
-        genreDao.create(genre);
+        genreDao.save(genre);
         genreDao.delete(genre.getId());
+        Genre genreFromDB = genreDao.findById(genre.getId());
+        Assertions.assertNull(genreFromDB);
     }
 
     @Test
-    void shouldFindGenreByName() throws DaoException {
+    void shouldFindGenreInDatabaseByName() throws DaoException {
         Genre genre = MockUtils.createGenre();
         Dao<Genre> genreDao = new GenreDaoImpl();
-        genreDao.create(genre);
-        List<Genre> genres = genreDao.findByName(GENRE_NAME);
-        System.out.println(genres);
+        genreDao.save(genre);
+        List<Genre> listFromDB = genreDao.findByName(GENRE_NAME);
+        Assertions.assertTrue(listFromDB.contains(genre));
+    }
+
+    @Test
+    void shouldFindAllGenresInDatabase() throws DaoException {
+        Genre genre = MockUtils.createGenre();
+        Genre genre2 = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        genreDao.save(genre2);
+        Genre genreFromDB = genreDao.findById(genre.getId());
+        Genre genreFromDB2 = genreDao.findById(genre2.getId());
+        List<Genre> listFromDB = genreDao.findAll();
+        Assertions.assertTrue(listFromDB.contains(genreFromDB));
+        Assertions.assertTrue(listFromDB.contains(genreFromDB2));
     }
 }

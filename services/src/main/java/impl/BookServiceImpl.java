@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
     public void addBook(Book book) throws ServiceException {
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            bookDao.create(book);
+            bookDao.save(book);
         } catch (DaoException e) {
             throw new ServiceException();
         }

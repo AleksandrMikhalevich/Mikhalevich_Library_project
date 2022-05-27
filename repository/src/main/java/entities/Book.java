@@ -32,7 +32,7 @@ public class Book implements Serializable {
     private Integer id;
 
     @Column
-    private String name;
+    private String title;
 
     @Column
     private String language;

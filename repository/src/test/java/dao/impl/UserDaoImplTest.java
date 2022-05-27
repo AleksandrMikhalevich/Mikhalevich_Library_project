@@ -21,7 +21,7 @@ class UserDaoImplTest {
     void shouldCreateUserInDatabase() throws DaoException {
         User user = MockUtils.createUser();
         Dao<User> userDao = new UserDaoImpl();
-        userDao.create(user);
+        userDao.save(user);
         User userFromDB = userDao.findById(user.getId());
         Assertions.assertNotNull(userFromDB);
         Assertions.assertEquals(user, userFromDB);
@@ -31,7 +31,7 @@ class UserDaoImplTest {
     void shouldFindUserInDatabaseById() throws DaoException {
         User user = MockUtils.createUser();
         Dao<User> userDao = new UserDaoImpl();
-        userDao.create(user);
+        userDao.save(user);
         User userFromDB = userDao.findById(user.getId());
         Assertions.assertNotNull(userFromDB);
         Assertions.assertNotNull(userFromDB.getId());
@@ -44,7 +44,7 @@ class UserDaoImplTest {
     void shouldUpdateUserInDatabase() throws DaoException {
         User user = MockUtils.createUser();
         Dao<User> userDao = new UserDaoImpl();
-        userDao.create(user);
+        userDao.save(user);
         User userToUpdate = User.builder()
                 .id(user.getId())
                 .login("user_22")
@@ -52,22 +52,40 @@ class UserDaoImplTest {
                 .email("user_22@library.org")
                 .build();
         userDao.update(userToUpdate);
+        User userFromDB = userDao.findById(userToUpdate.getId());
+        Assertions.assertEquals(userToUpdate, userFromDB);
     }
 
     @Test
     void shouldDeleteUserFromDatabase() throws DaoException {
         User user = MockUtils.createUser();
         Dao<User> userDao = new UserDaoImpl();
-        userDao.create(user);
+        userDao.save(user);
         userDao.delete(user.getId());
+        User userFromDB = userDao.findById(user.getId());
+        Assertions.assertNull(userFromDB);
     }
 
     @Test
-    void shouldFindUserByName() throws DaoException {
+    void shouldFindUserInDatabaseByName() throws DaoException {
         User user = MockUtils.createUser();
         Dao<User> userDao = new UserDaoImpl();
-        userDao.create(user);
-        List<User> users = userDao.findByName(LOGIN);
-        System.out.println(users);
+        userDao.save(user);
+        List<User> listFromDB = userDao.findByName(LOGIN);
+        Assertions.assertTrue(listFromDB.contains(user));
+    }
+
+    @Test
+    void shouldFindAllUsersInDatabase() throws DaoException {
+        User user = MockUtils.createUser();
+        User user2 = MockUtils.createUser();
+        Dao<User> userDao = new UserDaoImpl();
+        userDao.save(user);
+        userDao.save(user2);
+        User userFromDB = userDao.findById(user.getId());
+        User userFromDB2 = userDao.findById(user2.getId());
+        List<User> listFromDB = userDao.findAll();
+        Assertions.assertTrue(listFromDB.contains(userFromDB));
+        Assertions.assertTrue(listFromDB.contains(userFromDB2));
     }
 }

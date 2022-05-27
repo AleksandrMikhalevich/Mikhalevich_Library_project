@@ -55,7 +55,7 @@
                 id                 int auto_increment
                     primary key,
                 language           varchar(255) null,
-                name               varchar(255) null,
+                title              varchar(255) null,
                 receipt_date       date         null,
                 year_of_publishing varchar(255) null,
                 publisher_id       int          null,

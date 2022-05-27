@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) throws ServiceException {
         try {
             Dao<User> userDao = new UserDaoImpl();
-            userDao.create(user);
+            userDao.save(user);
         } catch (DaoException e) {
             throw new ServiceException();
         }

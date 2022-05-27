@@ -15,7 +15,7 @@ public interface Dao<T> {
      * @param t is Class-parameter of created record
      * @throws DaoException from work with database
      */
-    void create(T t) throws DaoException;
+    void save(T t) throws DaoException;
 
     /**
      * Method to read record from database
@@ -46,5 +46,12 @@ public interface Dao<T> {
      * @throws DaoException from work with database
      */
     List<T> findByName(String name) throws DaoException;
+
+    /**
+     * Method to read all records from database
+     * @return all found records
+     * @throws DaoException from work with database
+     */
+    List<T> findAll() throws DaoException;
 
 }

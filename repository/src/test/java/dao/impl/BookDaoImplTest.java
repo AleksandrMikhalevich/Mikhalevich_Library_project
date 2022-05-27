@@ -30,7 +30,7 @@ class BookDaoImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
-        bookDao.create(book);
+        bookDao.save(book);
         Book bookFromDB = bookDao.findById(book.getId());
         Assertions.assertNotNull(bookFromDB);
         Assertions.assertEquals(book, bookFromDB);
@@ -43,11 +43,11 @@ class BookDaoImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
-        bookDao.create(book);
+        bookDao.save(book);
         Book bookFromDB = bookDao.findById(book.getId());
         Assertions.assertNotNull(bookFromDB);
         Assertions.assertNotNull(bookFromDB.getId());
-        Assertions.assertEquals(BOOK_NAME, bookFromDB.getName(), "Book name is not equals");
+        Assertions.assertEquals(BOOK_TITLE, bookFromDB.getTitle(), "Book name is not equals");
         Assertions.assertEquals(LANGUAGE, bookFromDB.getLanguage(), "Language is not equals");
         Assertions.assertEquals(YEAR_OF_PUBLISHING, bookFromDB.getYearOfPublishing(), "Year of publishing is not equals");
     }
@@ -59,9 +59,10 @@ class BookDaoImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
-        bookDao.create(book);
+        bookDao.save(book);
         Book bookToUpdate = Book.builder()
-                .name("Aaa")
+                .id(book.getId())
+                .title("Aaa")
                 .language("Bbb")
                 .authors(Set.of(author))
                 .genres(Set.of(genre))
@@ -70,6 +71,8 @@ class BookDaoImplTest {
                 .receiptDate(new Date(LocalDate.now().toEpochDay()))
                 .build();
         bookDao.update(bookToUpdate);
+        Book bookFromDB = bookDao.findById(bookToUpdate.getId());
+        Assertions.assertEquals(bookToUpdate,bookFromDB);
     }
 
     @Test
@@ -79,19 +82,35 @@ class BookDaoImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
-        bookDao.create(book);
+        bookDao.save(book);
         bookDao.delete(book.getId());
+        Book bookFromDB = bookDao.findById(book.getId());
+        Assertions.assertNull(bookFromDB);
     }
 
     @Test
-    void shouldFindBookByName() throws DaoException {
+    void shouldFindBookInDatabaseByName() throws DaoException {
         Author author = MockUtils.createAuthor();
         Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
-        bookDao.create(book);
-        List<Book> books = bookDao.findByName(BOOK_NAME);
-        System.out.println(books);
+        bookDao.save(book);
+        Book bookFromDB = bookDao.findById(book.getId());
+        List<Book> listFromDB = bookDao.findByName(BOOK_TITLE);
+        Assertions.assertTrue(listFromDB.contains(bookFromDB));
+    }
+
+    @Test
+    void shouldFindAllBooksInDatabase() throws DaoException {
+        Author author = MockUtils.createAuthor();
+        Genre genre = MockUtils.createGenre();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Book book = MockUtils.createBook(author, genre, publisher);
+        Dao<Book> bookDao = new BookDaoImpl();
+        bookDao.save(book);
+        Book bookFromDB = bookDao.findById(book.getId());
+        List<Book> listFromDB = bookDao.findAll();
+        Assertions.assertTrue(listFromDB.contains(bookFromDB));
     }
 }

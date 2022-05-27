@@ -23,7 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
     public void addAuthor(Author author) throws ServiceException {
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
-            authorDao.create(author);
+            authorDao.save(author);
         } catch (DaoException e) {
             throw new ServiceException();
         }

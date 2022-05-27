@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
+import entities.Book;
 import entities.Genre;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
@@ -24,7 +25,7 @@ public class GenreDaoImpl implements Dao<Genre> {
      * @throws DaoException from work with database
      */
     @Override
-    public void create(Genre genre) throws DaoException {
+    public void save(Genre genre) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -98,7 +99,7 @@ public class GenreDaoImpl implements Dao<Genre> {
     /**
      *
      * @param name is name of genre
-     * @return  list of found genres
+     * @return  list of genres
      * @throws DaoException from work with database
      */
     @Override
@@ -109,5 +110,19 @@ public class GenreDaoImpl implements Dao<Genre> {
         Root<Genre> genre = criteria.from(Genre.class);
         criteria.select(genre).where(criteriaBuilder.equal(genre.get("name"), name));
         return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * @return list of genres
+     * @throws DaoException from work with database
+     */
+    @Override
+    public List<Genre> findAll() throws DaoException {
+        EntityManager em = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Genre> criteria = criteriaBuilder.createQuery(Genre.class);
+        Root<Genre> allGenres = criteria.from(Genre.class);
+        criteria.select(allGenres);
+        return em.createQuery(criteria).getResultList();
     }
 }

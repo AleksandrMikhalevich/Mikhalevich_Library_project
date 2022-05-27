@@ -4,6 +4,7 @@ import impl.BookServiceImpl;
 import impl.UserServiceImpl;
 import interfaces.BookService;
 import interfaces.UserService;
+import utils.HibernateUtil;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -16,21 +17,22 @@ import java.util.Set;
 public class Runner {
 
     public static void main(String[] args) {
+        Publisher publisher = Publisher.builder()
+                .name("Arcade")
+                .address(new Address("USA", "Chicago", "Main", "10", "100122"))
+                .build();
         Author author = Author.builder()
                 .firstName("Jack")
                 .secondName("Jackovich")
                 .surname("Black")
                 .country("USA")
+                .publishers(Set.of(publisher))
                 .build();
         Genre genre = Genre.builder()
                 .name("Thriller")
                 .build();
-        Publisher publisher = Publisher.builder()
-                .name("Arcade")
-                .address(new Address("USA", "Chicago", "Main", "10", "100122"))
-                .build();
         Book book = Book.builder()
-                .name("Spooky")
+                .title("Spooky")
                 .language("English")
                 .authors(Set.of(author))
                 .genres(Set.of(genre))
@@ -38,7 +40,6 @@ public class Runner {
                 .yearOfPublishing("1950")
                 .receiptDate(new Date(LocalDate.now().toEpochDay()))
                 .build();
-        author.setPublishers(Set.of(publisher));
         User user = User.builder()
                 .login("user_22")
                 .password("qwerty")
@@ -52,5 +53,6 @@ public class Runner {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
+        HibernateUtil.close();
     }
 }

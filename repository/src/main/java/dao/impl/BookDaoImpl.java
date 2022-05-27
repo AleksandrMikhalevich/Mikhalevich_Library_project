@@ -24,7 +24,7 @@ public class BookDaoImpl implements Dao<Book> {
      * @throws DaoException from work with database
      */
     @Override
-    public void create(Book book) throws DaoException {
+    public void save(Book book) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -100,7 +100,7 @@ public class BookDaoImpl implements Dao<Book> {
     /**
      *
      * @param name is name of book
-     * @return list of found books
+     * @return list of books
      * @throws DaoException from work with database
      */
     @Override
@@ -109,7 +109,22 @@ public class BookDaoImpl implements Dao<Book> {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> criteria = criteriaBuilder.createQuery(Book.class);
         Root<Book> book = criteria.from(Book.class);
-        criteria.select(book).where(criteriaBuilder.equal(book.get("name"), name));
+        criteria.select(book).where(criteriaBuilder.equal(book.get("title"), name));
         return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * Method to find all records in database
+     * @return list of books
+     * @throws DaoException from work with database
+     */
+    @Override
+    public List<Book> findAll() throws DaoException{
+        EntityManager em = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Book> criteria = criteriaBuilder.createQuery(Book.class);
+        Root<Book> allBooks = criteria.from(Book.class);
+        criteria.select(allBooks);
+        return em.createQuery(criteria).getResultList();
     }
 }

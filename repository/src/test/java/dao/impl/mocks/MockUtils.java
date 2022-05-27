@@ -25,7 +25,7 @@ public class MockUtils {
 
     public static Book createBook(Author author, Genre genre, Publisher publisher) {
         Book book = Book.builder()
-                .name(BOOK_NAME)
+                .title(BOOK_TITLE)
                 .language(LANGUAGE)
                 .authors(Set.of(author))
                 .genres(Set.of(genre))

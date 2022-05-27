@@ -23,7 +23,7 @@ public class PublisherServiceImpl implements PublisherService {
     public void addPublisher(Publisher publisher) throws ServiceException {
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
-            publisherDao.create(publisher);
+            publisherDao.save(publisher);
         } catch (DaoException e) {
             throw new ServiceException();
         }
