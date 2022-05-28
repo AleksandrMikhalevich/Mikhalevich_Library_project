@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet id="1" author="Alex Mikhalevich">
+        <comment>create table library_user</comment>
+        <sql>
+            create table library_user
+            (
+                id       int auto_increment
+                    primary key,
+                email    varchar(255) null,
+                login    varchar(255) null,
+                password varchar(255) null
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

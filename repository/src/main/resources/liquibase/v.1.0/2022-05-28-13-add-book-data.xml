@@ -5,5 +5,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <include file="v.1.0/changelog-v.1.0-cumulative.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="1" author="Alex Mikhalevich">
+        <comment>add book data</comment>
+        <sql>
+            insert into book(title, language, receipt_date, year_of_publishing, publisher_id) values
+            ('Spooky', 'English', '2022-05-28', '1950', '1')
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

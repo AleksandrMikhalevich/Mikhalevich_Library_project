@@ -5,5 +5,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <include file="v.1.0/changelog-v.1.0-cumulative.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="1" author="Alex Mikhalevich">
+        <comment>set author_publisher data</comment>
+        <sql>
+            insert into author_publisher(author_id, publisher_id) values
+            ('1', '1')
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

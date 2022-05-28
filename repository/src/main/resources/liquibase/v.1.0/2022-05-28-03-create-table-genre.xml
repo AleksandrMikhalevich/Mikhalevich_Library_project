@@ -5,5 +5,17 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <include file="v.1.0/changelog-v.1.0-cumulative.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="3" author="Alex Mikhalevich">
+        <comment>create table genre</comment>
+        <sql>
+            create table genre
+            (
+                id   int auto_increment
+                    primary key,
+                name varchar(255) null
+            );
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
