@@ -38,7 +38,7 @@ public interface UserService {
      * @return publisher
      * @throws ServiceException from work with services
      */
-    User findById(int id) throws ServiceException;
+    User findUserById(int id) throws ServiceException;
 
     /**
      * Method to find user by name in database
@@ -47,5 +47,12 @@ public interface UserService {
      * @throws ServiceException from work with services
      */
     List<User> findUserByName(String name) throws ServiceException;
+
+    /**
+     * Method to find user by name in database
+     * @return list of users
+     * @throws ServiceException from work with services
+     */
+    List<User> findAllUsers() throws ServiceException;
 
 }

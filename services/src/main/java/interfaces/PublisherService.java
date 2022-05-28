@@ -1,6 +1,5 @@
 package interfaces;
 
-import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
 
@@ -39,7 +38,7 @@ public interface PublisherService {
      * @return publisher
      * @throws ServiceException from work with services
      */
-    Publisher findById(int id) throws ServiceException;
+    Publisher findPublisherById(int id) throws ServiceException;
 
     /**
      * Method to find publisher/publishers by name in database
@@ -49,4 +48,10 @@ public interface PublisherService {
      */
     List<Publisher> findPublisherByName(String name) throws ServiceException;
 
+    /**
+     * Method to find all publishers in database
+     * @return list of publishers
+     * @throws ServiceException from work with services
+     */
+    List<Publisher> findAllPublishers() throws ServiceException;
 }

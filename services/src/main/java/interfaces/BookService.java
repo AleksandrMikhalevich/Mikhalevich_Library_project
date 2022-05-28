@@ -38,7 +38,7 @@ public interface BookService {
      * @return book
      * @throws ServiceException from work with services
      */
-    Book findById(int id) throws ServiceException;
+    Book findBookById(int id) throws ServiceException;
 
     /**
      * Method to find book/books by name in database
@@ -47,4 +47,11 @@ public interface BookService {
      * @throws ServiceException from work with services
      */
     List<Book> findBookByName(String name) throws ServiceException;
+
+    /**
+     * Method to find all books in database
+     * @return list of books
+     * @throws ServiceException from work with services
+     */
+    List<Book> findAllBooks() throws ServiceException;
 }

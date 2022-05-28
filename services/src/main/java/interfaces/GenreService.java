@@ -38,7 +38,7 @@ public interface GenreService {
      * @return genre
      * @throws ServiceException from work with services
      */
-    Genre findById(int id) throws ServiceException;
+    Genre findGenreById(int id) throws ServiceException;
 
     /**
      * Method to find genre/genres by name in database
@@ -47,5 +47,12 @@ public interface GenreService {
      * @throws ServiceException from work with services
      */
     List<Genre> findGenreByName(String name) throws ServiceException;
+
+    /**
+     * Method to find all genres in database
+     * @return list of genres
+     * @throws ServiceException from work with services
+     */
+    List<Genre> findAllGenres() throws ServiceException;
 
 }

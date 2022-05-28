@@ -63,7 +63,7 @@ public class AuthorServiceImpl implements AuthorService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Author findById(int id) throws ServiceException {
+    public Author findAuthorById(int id) throws ServiceException {
         Author author;
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
@@ -85,6 +85,22 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
             authors = authorDao.findByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+        return authors;
+    }
+
+    /**
+     * @return list of authors
+     * @throws ServiceException from work with services
+     */
+    @Override
+    public List<Author> findAllAuthors() throws ServiceException {
+        List<Author> authors;
+        try {
+            Dao<Author> authorDao = new AuthorDaoImpl();
+            authors = authorDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException();
         }

@@ -38,7 +38,7 @@ public interface AuthorService {
      * @return author
      * @throws ServiceException from work with services
      */
-    Author findById(int id) throws ServiceException;
+    Author findAuthorById(int id) throws ServiceException;
 
     /**
      * Method to find author/authors by name in database
@@ -48,4 +48,10 @@ public interface AuthorService {
      */
     List<Author> findAuthorByName(String name) throws ServiceException;
 
+    /**
+     * Method to find all authors in database
+     * @return list of authors
+     * @throws ServiceException from work with services
+     */
+    List<Author> findAllAuthors() throws ServiceException;
 }

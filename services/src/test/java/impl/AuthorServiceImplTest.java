@@ -17,12 +17,13 @@ import static impl.mocks.MockConstants.*;
  */
 class AuthorServiceImplTest {
 
+
     @Test
     void shouldAddAuthorToDatabaseByService() throws ServiceException {
         Author author = MockUtils.createAuthor();
         AuthorService authorService = new AuthorServiceImpl();
         authorService.addAuthor(author);
-        Author authorFromDB = authorService.findById(author.getId());
+        Author authorFromDB = authorService.findAuthorById(author.getId());
         Assertions.assertNotNull(authorFromDB);
         Assertions.assertEquals(author, authorFromDB);
     }
@@ -34,12 +35,14 @@ class AuthorServiceImplTest {
         authorService.addAuthor(author);
         Author authorToUpdate = Author.builder()
                 .id(author.getId())
-                .firstName("Aaa")
-                .secondName("Bbb")
-                .surname("Ccc")
-                .country("Ddd")
+                .firstName(UPDATE_AUTHOR_FIRST_NAME)
+                .secondName(UPDATE_AUTHOR_SECOND_NAME)
+                .surname(UPDATE_AUTHOR_SURNAME)
+                .country(UPDATE_AUTHOR_COUNTRY)
                 .build();
         authorService.updateAuthor(authorToUpdate);
+        Author authorFromDB = authorService.findAuthorById(authorToUpdate.getId());
+        Assertions.assertEquals(authorToUpdate,authorFromDB);
     }
 
     @Test
@@ -48,6 +51,8 @@ class AuthorServiceImplTest {
         AuthorService authorService = new AuthorServiceImpl();
         authorService.addAuthor(author);
         authorService.deleteAuthor(author.getId());
+        Author authorFromDB = authorService.findAuthorById(author.getId());
+        Assertions.assertNull(authorFromDB);
     }
 
     @Test
@@ -55,7 +60,7 @@ class AuthorServiceImplTest {
         Author author = MockUtils.createAuthor();
         AuthorService authorService = new AuthorServiceImpl();
         authorService.addAuthor(author);
-        Author authorFromDB = authorService.findById(author.getId());
+        Author authorFromDB = authorService.findAuthorById(author.getId());
         Assertions.assertNotNull(authorFromDB);
         Assertions.assertNotNull(authorFromDB.getId());
         Assertions.assertEquals(FIRST_NAME, authorFromDB.getFirstName(), "First name is not equals");
@@ -67,16 +72,23 @@ class AuthorServiceImplTest {
     @Test
     void shouldFindAuthorByNameInDatabaseByService() throws ServiceException {
         Author author = MockUtils.createAuthor();
-        Author author2 = Author.builder()
-                .firstName("Yanka")
-                .secondName("Bbb")
-                .surname("Ccc")
-                .country("Ddd")
-                .build();
+        AuthorService authorService = new AuthorServiceImpl();
+        authorService.addAuthor(author);
+        List<Author> listFromDB = authorService.findAuthorByName(FIRST_NAME);
+        Assertions.assertTrue(listFromDB.contains(author));
+    }
+
+    @Test
+    void shouldFindAllAuthorsInDatabaseByService() throws ServiceException {
+        Author author = MockUtils.createAuthor();
+        Author author2 = MockUtils.createAuthor();
         AuthorService authorService = new AuthorServiceImpl();
         authorService.addAuthor(author);
         authorService.addAuthor(author2);
-        List<Author> authors = authorService.findAuthorByName(FIRST_NAME);
-        System.out.println(authors);
+        Author authorFromDB = authorService.findAuthorById(author.getId());
+        Author authorFromDB2 = authorService.findAuthorById(author2.getId());
+        List<Author> listFromDB = authorService.findAllAuthors();
+        Assertions.assertTrue(listFromDB.contains(authorFromDB));
+        Assertions.assertTrue(listFromDB.contains(authorFromDB2));
     }
 }

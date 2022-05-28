@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Book findById(int id) throws ServiceException {
+    public Book findBookById(int id) throws ServiceException {
         Book book;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
@@ -85,6 +85,22 @@ public class BookServiceImpl implements BookService {
         try {
             Dao<Book> bookDao = new BookDaoImpl();
             books = bookDao.findByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+        return books;
+    }
+
+    /**
+     * @return list of books
+     * @throws ServiceException from work with services
+     */
+    @Override
+    public List<Book> findAllBooks() throws ServiceException {
+        List<Book> books;
+        try {
+            Dao<Book> bookDao = new BookDaoImpl();
+            books = bookDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException();
         }

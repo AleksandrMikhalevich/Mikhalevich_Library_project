@@ -22,7 +22,7 @@ class UserServiceImplTest {
         User user = MockUtils.createUser();
         UserService userService = new UserServiceImpl();
         userService.addUser(user);
-        User userFromDB = userService.findById(user.getId());
+        User userFromDB = userService.findUserById(user.getId());
         Assertions.assertNotNull(userFromDB);
         Assertions.assertEquals(user, userFromDB);
     }
@@ -34,11 +34,13 @@ class UserServiceImplTest {
         userService.addUser(user);
         User userToUpdate = User.builder()
                 .id(user.getId())
-                .login("user_22")
-                .password("qwerty_22")
-                .email("user_22@library.org")
+                .login(UPDATE_USER_LOGIN)
+                .password(UPDATE_USER_PASSWORD)
+                .email(UPDATE_USER_EMAIL)
                 .build();
         userService.updateUser(userToUpdate);
+        User userFromDB = userService.findUserById(userToUpdate.getId());
+        Assertions.assertEquals(userToUpdate, userFromDB);
     }
 
     @Test
@@ -47,6 +49,8 @@ class UserServiceImplTest {
         UserService userService = new UserServiceImpl();
         userService.addUser(user);
         userService.deleteUser(user.getId());
+        User userFromDB = userService.findUserById(user.getId());
+        Assertions.assertNull(userFromDB);
     }
 
     @Test
@@ -54,7 +58,7 @@ class UserServiceImplTest {
         User user = MockUtils.createUser();
         UserService userService = new UserServiceImpl();
         userService.addUser(user);
-        User userFromDB = userService.findById(user.getId());
+        User userFromDB = userService.findUserById(user.getId());
         Assertions.assertNotNull(userFromDB);
         Assertions.assertNotNull(userFromDB.getId());
         Assertions.assertEquals(LOGIN, userFromDB.getLogin(),"User login is not equals");
@@ -67,7 +71,21 @@ class UserServiceImplTest {
         User user = MockUtils.createUser();
         UserService userService = new UserServiceImpl();
         userService.addUser(user);
-        List<User> users = userService.findUserByName(LOGIN);
-        System.out.println(users);
+        List<User> listFromDB = userService.findUserByName(LOGIN);
+        Assertions.assertTrue(listFromDB.contains(user));
+    }
+
+    @Test
+    void shouldFindAllUsersInDatabaseByService() throws ServiceException {
+        User user = MockUtils.createUser();
+        User user2 = MockUtils.createUser();
+        UserService userService = new UserServiceImpl();
+        userService.addUser(user);
+        userService.addUser(user2);
+        User userFromDB = userService.findUserById(user.getId());
+        User userFromDB2 = userService.findUserById(user2.getId());
+        List<User> listFromDB = userService.findAllUsers();
+        Assertions.assertTrue(listFromDB.contains(userFromDB));
+        Assertions.assertTrue(listFromDB.contains(userFromDB2));
     }
 }

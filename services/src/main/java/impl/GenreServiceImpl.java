@@ -63,7 +63,7 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Genre findById(int id) throws ServiceException {
+    public Genre findGenreById(int id) throws ServiceException {
         Genre genre;
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
@@ -85,6 +85,22 @@ public class GenreServiceImpl implements GenreService {
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
             genres = genreDao.findByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+        return genres;
+    }
+
+    /**
+     * @return list of genres
+     * @throws ServiceException from work with services
+     */
+    @Override
+    public List<Genre> findAllGenres() throws ServiceException {
+        List<Genre> genres;
+        try {
+            Dao<Genre> genreDao = new GenreDaoImpl();
+            genres = genreDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException();
         }

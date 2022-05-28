@@ -63,7 +63,7 @@ public class PublisherServiceImpl implements PublisherService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Publisher findById(int id) throws ServiceException {
+    public Publisher findPublisherById(int id) throws ServiceException {
         Publisher publisher;
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
@@ -85,6 +85,22 @@ public class PublisherServiceImpl implements PublisherService {
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
             publishers = publisherDao.findByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+        return publishers;
+    }
+
+    /**
+     * @return list of publishers
+     * @throws ServiceException from work with services
+     */
+    @Override
+    public List<Publisher> findAllPublishers() throws ServiceException {
+        List<Publisher> publishers;
+        try {
+            Dao<Publisher> publisherDao = new PublisherDaoImpl();
+            publishers = publisherDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException();
         }

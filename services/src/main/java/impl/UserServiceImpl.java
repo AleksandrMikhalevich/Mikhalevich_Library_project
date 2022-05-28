@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException from work with services
      */
     @Override
-    public User findById(int id) throws ServiceException {
+    public User findUserById(int id) throws ServiceException {
         User user;
         try {
             Dao<User> userDao = new UserDaoImpl();
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     /**
      * @param name of user
      * @return list of users
-     * @throws ServiceException from work with services
+     * @throws ServiceException c
      */
     @Override
     public List<User> findUserByName(String name) throws ServiceException {
@@ -85,6 +85,22 @@ public class UserServiceImpl implements UserService {
         try {
             Dao<User> userDao = new UserDaoImpl();
             users = userDao.findByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+        return users;
+    }
+
+    /**
+     * @return list of users
+     * @throws ServiceException from work with services
+     */
+    @Override
+    public List<User> findAllUsers() throws ServiceException {
+        List<User> users;
+        try {
+            Dao<User> userDao = new UserDaoImpl();
+            users = userDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException();
         }

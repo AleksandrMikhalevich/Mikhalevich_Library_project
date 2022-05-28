@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static impl.mocks.MockConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alex Mikhalevich
@@ -24,7 +23,7 @@ class PublisherServiceImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
         publisherService.addPublisher(publisher);
-        Publisher publisherFromDB = publisherService.findById(publisher.getId());
+        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
         Assertions.assertNotNull(publisherFromDB);
         Assertions.assertEquals(publisher, publisherFromDB);
     }
@@ -36,9 +35,11 @@ class PublisherServiceImplTest {
         publisherService.addPublisher(publisher);
         Publisher publisherToUpdate = Publisher.builder()
                 .id(publisher.getId())
-                .name("Aaa")
+                .name(UPDATE_PUBLISHER_NAME)
                 .build();
         publisherService.updatePublisher(publisherToUpdate);
+        Publisher publisherFromDB = publisherService.findPublisherById(publisherToUpdate.getId());
+        Assertions.assertEquals(publisherToUpdate, publisherFromDB);
     }
 
     @Test
@@ -47,7 +48,8 @@ class PublisherServiceImplTest {
         PublisherService publisherService = new PublisherServiceImpl();
         publisherService.addPublisher(publisher);
         publisherService.deletePublisher(publisher.getId());
-
+        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
+        Assertions.assertNull(publisherFromDB);
     }
 
     @Test
@@ -55,7 +57,7 @@ class PublisherServiceImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
         publisherService.addPublisher(publisher);
-        Publisher publisherFromDB = publisherService.findById(publisher.getId());
+        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
         Assertions.assertNotNull(publisherFromDB);
         Assertions.assertNotNull(publisherFromDB.getId());
         Assertions.assertEquals(PUBLISHER_NAME, publisherFromDB.getName(), "Publisher name is not equals");
@@ -74,7 +76,21 @@ class PublisherServiceImplTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
         publisherService.addPublisher(publisher);
-        List<Publisher> publishers = publisherService.findPublisherByName(PUBLISHER_NAME);
-        System.out.println(publishers);
+        List<Publisher> listFromDB = publisherService.findPublisherByName(PUBLISHER_NAME);
+        Assertions.assertTrue(listFromDB.contains(publisher));
+    }
+
+    @Test
+    void shouldFindAllPublishersInDatabaseByService() throws ServiceException {
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Publisher publisher2 = MockUtils.createPublisher(MockUtils.createAddress());
+        PublisherService publisherService = new PublisherServiceImpl();
+        publisherService.addPublisher(publisher);
+        publisherService.addPublisher(publisher2);
+        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
+        Publisher publisherFromDB2 = publisherService.findPublisherById(publisher2.getId());
+        List<Publisher> listFromDB = publisherService.findAllPublishers();
+        Assertions.assertTrue(listFromDB.contains(publisherFromDB));
+        Assertions.assertTrue(listFromDB.contains(publisherFromDB2));
     }
 }
