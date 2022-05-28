@@ -48,10 +48,10 @@ class AuthorDaoImplTest {
         authorDao.save(author);
         Author authorToUpdate = Author.builder()
                 .id(author.getId())
-                .firstName("Aaa")
-                .secondName("Bbb")
-                .surname("Ccc")
-                .country("Ddd")
+                .firstName(UPDATE_AUTHOR_FIRST_NAME)
+                .secondName(UPDATE_AUTHOR_SECOND_NAME)
+                .surname(UPDATE_AUTHOR_SURNAME)
+                .country(UPDATE_AUTHOR_COUNTRY)
                 .build();
         authorDao.update(authorToUpdate);
         Author authorFromDB = authorDao.findById(authorToUpdate.getId());

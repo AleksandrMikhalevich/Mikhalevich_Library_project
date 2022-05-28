@@ -62,12 +62,12 @@ class BookDaoImplTest {
         bookDao.save(book);
         Book bookToUpdate = Book.builder()
                 .id(book.getId())
-                .title("Aaa")
-                .language("Bbb")
+                .title(UPDATE_BOOK_TITLE)
+                .language(UPDATE_BOOK_LANGUAGE)
                 .authors(Set.of(author))
                 .genres(Set.of(genre))
                 .publisher(publisher)
-                .yearOfPublishing("1900")
+                .yearOfPublishing(UPDATE_BOOK_YEAR_OF_PUBLISHING)
                 .receiptDate(new Date(LocalDate.now().toEpochDay()))
                 .build();
         bookDao.update(bookToUpdate);

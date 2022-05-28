@@ -54,7 +54,7 @@ class PublisherDaoImplTest {
         publisherDao.save(publisher);
         Publisher publisherToUpdate = Publisher.builder()
                 .id(publisher.getId())
-                .name("Aaa")
+                .name(UPDATE_PUBLISHER_NAME)
                 .build();
         publisherDao.update(publisherToUpdate);
         Publisher publisherFromDB = publisherDao.findById(publisherToUpdate.getId());

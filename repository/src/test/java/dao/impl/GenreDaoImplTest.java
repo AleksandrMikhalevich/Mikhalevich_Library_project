@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.exceptions.DaoException;
+import dao.impl.mocks.MockConstants;
 import dao.impl.mocks.MockUtils;
 import dao.interfaces.Dao;
 import entities.Genre;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static dao.impl.mocks.MockConstants.*;
 import static dao.impl.mocks.MockConstants.GENRE_NAME;
 
 /**
@@ -45,7 +47,7 @@ class GenreDaoImplTest {
         genreDao.save(genre);
         Genre genreToUpdate = Genre.builder()
                 .id(genre.getId())
-                .name("Action")
+                .name(UPDATE_GENRE_NAME)
                 .build();
         genreDao.update(genreToUpdate);
         Genre genreFromDB = genreDao.findById(genreToUpdate.getId());

@@ -17,6 +17,7 @@ import static dao.impl.mocks.MockConstants.*;
  */
 class UserDaoImplTest {
 
+
     @Test
     void shouldCreateUserInDatabase() throws DaoException {
         User user = MockUtils.createUser();
@@ -47,9 +48,9 @@ class UserDaoImplTest {
         userDao.save(user);
         User userToUpdate = User.builder()
                 .id(user.getId())
-                .login("user_22")
-                .password("qwerty_22")
-                .email("user_22@library.org")
+                .login(UPDATE_LOGIN)
+                .password(UPDATE_PASSWORD)
+                .email(UPDATE_EMAIL)
                 .build();
         userDao.update(userToUpdate);
         User userFromDB = userDao.findById(userToUpdate.getId());
