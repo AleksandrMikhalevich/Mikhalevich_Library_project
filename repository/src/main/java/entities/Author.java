@@ -42,11 +42,11 @@ public class Author implements Serializable {
     @Column
     private String country;
 
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Book> books = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany
     @ToString.Exclude
     @JoinTable(name = "author_publisher",
             joinColumns = {@JoinColumn(name = "author_id")},

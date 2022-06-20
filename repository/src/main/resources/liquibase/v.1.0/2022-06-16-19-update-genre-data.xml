@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet id="1" author="Alex Mikhalevich">
+        <comment>update genre data</comment>
+        <sql>
+            update genre
+            set description = 'Description of thriller genre'
+            where id = 1;
+            update genre
+            set description = 'Description of action genre'
+            where id = 2;
+            update genre
+            set name = 'Fantasy'
+            where id = 3;
+            update genre
+            set description = 'Description of fantasy genre'
+            where id = 3;
+            update genre
+            set name = 'Lyrics'
+            where id = 4;
+            update genre
+            set description = 'Description of lyrics genre'
+            where id = 4;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

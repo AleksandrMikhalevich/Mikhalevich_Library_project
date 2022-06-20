@@ -36,7 +36,7 @@ public class Publisher implements Serializable {
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "publisher")
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Book> books = new HashSet<>();
 
@@ -55,5 +55,10 @@ public class Publisher implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void removeAuthor(Author author) {
+        this.authors.remove(author);
+        author.getPublishers().remove(this);
     }
 }

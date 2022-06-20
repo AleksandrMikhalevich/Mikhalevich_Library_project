@@ -47,16 +47,16 @@ public class UserDaoImpl implements Dao<User> {
     @Override
     public User findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        User forFind = null;
+        User toFind = null;
         try {
             entityManager.getTransaction().begin();
-            forFind = entityManager.find(User.class, id);
+            toFind = entityManager.find(User.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();
         }
-        return forFind;
+        return toFind;
     }
 
     /**
@@ -88,8 +88,8 @@ public class UserDaoImpl implements Dao<User> {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            User forDelete = entityManager.find(User.class, id);
-            entityManager.remove(forDelete);
+            User toDelete = entityManager.find(User.class, id);
+            entityManager.remove(toDelete);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();

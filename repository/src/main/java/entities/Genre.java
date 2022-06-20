@@ -33,7 +33,10 @@ public class Genre implements Serializable {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "genres")
+    @Column
+    private String description;
+
+    @ManyToMany(mappedBy = "genres", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Book> books = new HashSet<>();
 

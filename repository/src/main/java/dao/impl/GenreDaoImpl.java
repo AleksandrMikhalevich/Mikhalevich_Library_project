@@ -47,16 +47,16 @@ public class GenreDaoImpl implements Dao<Genre> {
     @Override
     public Genre findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Genre forFind = null;
+        Genre toFind = null;
         try {
             entityManager.getTransaction().begin();
-            forFind = entityManager.find(Genre.class, id);
+            toFind = entityManager.find(Genre.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();
         }
-        return forFind;
+        return toFind;
     }
 
     /**
@@ -86,8 +86,8 @@ public class GenreDaoImpl implements Dao<Genre> {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            Genre forDelete = entityManager.find(Genre.class, id);
-            entityManager.remove(forDelete);
+            Genre toDelete = entityManager.find(Genre.class, id);
+            entityManager.remove(toDelete);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
@@ -108,7 +108,7 @@ public class GenreDaoImpl implements Dao<Genre> {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Genre> criteria = criteriaBuilder.createQuery(Genre.class);
         Root<Genre> genre = criteria.from(Genre.class);
-        criteria.select(genre).where(criteriaBuilder.equal(genre.get("name"), name));
+        criteria.select(genre).where(criteriaBuilder.like(genre.get("name"), "%" + name + "%"));
         return entityManager.createQuery(criteria).getResultList();
     }
 

@@ -4,6 +4,7 @@ import dao.exceptions.DaoException;
 import dao.impl.mocks.MockUtils;
 import dao.interfaces.Dao;
 import entities.Author;
+import entities.Publisher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,10 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldCreateAuthorInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         Author authorFromDB = authorDao.findById(author.getId());
@@ -29,7 +33,10 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldFindAuthorInDatabaseById() throws DaoException {
-        Author author = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         Author authorFromDB = authorDao.findById(author.getId());
@@ -43,7 +50,10 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldUpdateAuthorInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         Author authorToUpdate = Author.builder()
@@ -60,7 +70,10 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldDeleteAuthorFromDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         authorDao.delete(author.getId());
@@ -70,7 +83,10 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldFindAuthorInDatabaseByName() throws DaoException {
-        Author author = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         List<Author> listFromDB = authorDao.findByName(FIRST_NAME);
@@ -79,8 +95,11 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldFindAllAuthorsInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Author author2 = MockUtils.createAuthor();
+        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Author author = MockUtils.createAuthor(publisher);
+        Author author2 = MockUtils.createAuthor(publisher);
         Dao<Author> authorDao = new AuthorDaoImpl();
         authorDao.save(author);
         authorDao.save(author2);

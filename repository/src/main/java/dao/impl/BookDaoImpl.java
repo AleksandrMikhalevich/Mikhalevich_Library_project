@@ -109,7 +109,7 @@ public class BookDaoImpl implements Dao<Book> {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> criteria = criteriaBuilder.createQuery(Book.class);
         Root<Book> book = criteria.from(Book.class);
-        criteria.select(book).where(criteriaBuilder.equal(book.get("title"), name));
+        criteria.select(book).where(criteriaBuilder.like(book.get("title"), "%" + name + "%"));
         return entityManager.createQuery(criteria).getResultList();
     }
 

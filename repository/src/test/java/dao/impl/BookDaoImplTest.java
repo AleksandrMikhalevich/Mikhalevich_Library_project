@@ -25,9 +25,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldCreateBookInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);
@@ -38,9 +44,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldFindBookInDatabaseById() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);
@@ -54,9 +66,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldUpdateBookInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);
@@ -77,9 +95,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldDeleteBookFromDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);
@@ -90,9 +114,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldFindBookInDatabaseByName() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);
@@ -103,9 +133,15 @@ class BookDaoImplTest {
 
     @Test
     void shouldFindAllBooksInDatabase() throws DaoException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+        Dao<Publisher> publisherDao = new PublisherDaoImpl();
+        publisherDao.save(publisher);
+        Genre genre = MockUtils.createGenre();
+        Dao<Genre> genreDao = new GenreDaoImpl();
+        genreDao.save(genre);
+        Author author = MockUtils.createAuthor(publisher);
+        Dao<Author> authorDao = new AuthorDaoImpl();
+        authorDao.save(author);
         Book book = MockUtils.createBook(author, genre, publisher);
         Dao<Book> bookDao = new BookDaoImpl();
         bookDao.save(book);

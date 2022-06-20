@@ -17,7 +17,6 @@ import static dao.impl.mocks.MockConstants.*;
  */
 class UserDaoImplTest {
 
-
     @Test
     void shouldCreateUserInDatabase() throws DaoException {
         User user = MockUtils.createUser();

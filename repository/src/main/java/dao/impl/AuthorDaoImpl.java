@@ -48,16 +48,16 @@ public class AuthorDaoImpl implements Dao<Author> {
     @Override
     public Author findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Author forFind = null;
+        Author toFind = null;
         try {
             entityManager.getTransaction().begin();
-            forFind = entityManager.find(Author.class, id);
+            toFind = entityManager.find(Author.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();
         }
-        return forFind;
+        return toFind;
     }
 
     /**
@@ -89,8 +89,8 @@ public class AuthorDaoImpl implements Dao<Author> {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            Author forDelete = entityManager.find(Author.class, id);
-            entityManager.remove(forDelete);
+            Author toDelete = entityManager.find(Author.class, id);
+            entityManager.remove(toDelete);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
@@ -111,9 +111,9 @@ public class AuthorDaoImpl implements Dao<Author> {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Author> criteria = criteriaBuilder.createQuery(Author.class);
         Root<Author> author = criteria.from(Author.class);
-        Predicate predicate = criteriaBuilder.or(criteriaBuilder.equal(author.get("firstName"), name),
-                criteriaBuilder.equal(author.get("secondName"), name),
-                criteriaBuilder.equal(author.get("surname"), name));
+        Predicate predicate = criteriaBuilder.or(criteriaBuilder.like(author.get("firstName"), "%" + name + "%"),
+                criteriaBuilder.like(author.get("secondName"), "%" + name + "%"),
+                criteriaBuilder.like(author.get("surname"), "%" + name + "%"));
         criteria.select(author).where(predicate);
         return entityManager.createQuery(criteria).getResultList();
     }

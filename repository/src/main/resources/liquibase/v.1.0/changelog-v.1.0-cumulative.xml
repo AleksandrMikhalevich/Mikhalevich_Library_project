@@ -21,5 +21,8 @@
     <include file="2022-05-28-14-set-book-author.xml" relativeToChangelogFile="true"/>
     <include file="2022-05-28-15-set-book-genre.xml" relativeToChangelogFile="true"/>
     <include file="2022-05-28-16-add-library-user-data.xml" relativeToChangelogFile="true"/>
+    <include file="2022-06-16-17-add-description-column-to-table-genre.xml" relativeToChangelogFile="true"/>
+    <include file="2022-06-16-18-add-genre-description-data.xml" relativeToChangelogFile="true"/>
+    <include file="2022-06-16-19-update-genre-data.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
