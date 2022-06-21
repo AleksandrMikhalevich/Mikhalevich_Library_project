@@ -3,6 +3,7 @@ package interfaces;
 import entities.Book;
 import exceptions.ServiceException;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -13,45 +14,83 @@ public interface BookService {
 
     /**
      * Method to add book to database
-     * @param book is created record
+     *
+     * @param title            is title of created book
+     * @param language         is language of created book
+     * @param yearOfPublishing is year of publishing of created book
+     * @param receiptDate      is receipt date of created book
+     * @param authorsIds        are ids of added authors to created book
+     * @param genresIds         are ids of added genres to created book
+     * @param publisherId      is id of added publisher to created book
      * @throws ServiceException from work with services
      */
-    void addBook(Book book) throws ServiceException;
+    void addBook(String title, String language, String yearOfPublishing,
+                 Date receiptDate, int[] authorsIds, int[] genresIds, int publisherId) throws ServiceException;
 
     /**
-     * Method to update book by name in database
-     * @param book is updated record
+     * Method to update book in database
+     *
+     * @param id               is id of updated book
+     * @param title            is title of updated book
+     * @param language         is language of updated book
+     * @param yearOfPublishing is year of publishing of updated book
+     * @param receiptDate      is receipt date of updated book
+     * @param authorsIds        are ids of added authors to updated book
+     * @param genresIds         are ids of added genres to updated book
+     * @param publisherId      is id of added publisher to updated book
      * @throws ServiceException from work with services
      */
-    void updateBook(Book book) throws ServiceException;
+    void updateBook(int id, String title, String language, String yearOfPublishing,
+                    Date receiptDate, int[] authorsIds, int[] genresIds, int publisherId) throws ServiceException;
 
     /**
-     * Method to delete book by name in database
-     * @param id is identification number of book
+     * Method to delete book in database
+     *
+     * @param id is id of deleted book
      * @throws ServiceException from work with services
      */
     void deleteBook(int id) throws ServiceException;
 
     /**
-     * Method to find book by identification number in database
-     * @param id is identification number of book
-     * @return book
+     * Method to find book by id in database
+     *
+     * @param id is id of found book
+     * @return found book
      * @throws ServiceException from work with services
      */
     Book findBookById(int id) throws ServiceException;
 
     /**
      * Method to find book/books by name in database
+     *
      * @param name of book
-     * @return list of books
+     * @return list of found books
      * @throws ServiceException from work with services
      */
     List<Book> findBookByName(String name) throws ServiceException;
 
     /**
      * Method to find all books in database
-     * @return list of books
+     *
+     * @return list of all found books
      * @throws ServiceException from work with services
      */
     List<Book> findAllBooks() throws ServiceException;
+
+    /**
+     * Method to sort books from database by title
+     *
+     * @return list of sorted books
+     * @throws ServiceException from work with services
+     */
+    List<Book> sortAllBooksByName() throws ServiceException;
+
+    /**
+     * Method to sort books from database by receipt date
+     *
+     * @return list of sorted books
+     * @throws ServiceException from work with services
+     */
+    List<Book> sortAllBooksByDate() throws ServiceException;
+
 }

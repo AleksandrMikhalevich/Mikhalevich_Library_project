@@ -14,17 +14,18 @@ import static impl.mocks.MockConstants.*;
  */
 public class MockUtils {
 
-    public static Author createAuthor() {
+    public static Author createAuthor(Publisher publisher) {
         return Author.builder()
                 .firstName(FIRST_NAME)
                 .secondName(SECOND_NAME)
                 .surname(SURNAME)
                 .country(AUTHOR_COUNTRY)
+                .publishers(Set.of(publisher))
                 .build();
     }
 
     public static Book createBook(Author author, Genre genre, Publisher publisher) {
-        Book book = Book.builder()
+        return Book.builder()
                 .title(BOOK_TITLE)
                 .language(LANGUAGE)
                 .authors(Set.of(author))
@@ -33,10 +34,6 @@ public class MockUtils {
                 .yearOfPublishing(YEAR_OF_PUBLISHING)
                 .receiptDate(new Date(LocalDate.now().toEpochDay()))
                 .build();
-        author.setBooks(Set.of(book));
-        genre.setBooks(Set.of(book));
-        publisher.setBooks(Set.of(book));
-        return book;
     }
 
     public static Genre createGenre() {

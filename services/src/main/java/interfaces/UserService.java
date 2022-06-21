@@ -13,6 +13,7 @@ public interface UserService {
 
     /**
      * Method to add user to database
+     *
      * @param user is created record
      * @throws ServiceException from work with services
      */
@@ -20,6 +21,7 @@ public interface UserService {
 
     /**
      * Method to update user by name in database
+     *
      * @param user is updated record
      * @throws ServiceException from work with services
      */
@@ -27,6 +29,7 @@ public interface UserService {
 
     /**
      * Method to delete user by name in database
+     *
      * @param id is identification number of user
      * @throws ServiceException from work with services
      */
@@ -34,6 +37,7 @@ public interface UserService {
 
     /**
      * Method to find user by identification number in database
+     *
      * @param id is identification number of user
      * @return publisher
      * @throws ServiceException from work with services
@@ -42,6 +46,7 @@ public interface UserService {
 
     /**
      * Method to find user by name in database
+     *
      * @param name of user
      * @return list of users
      * @throws ServiceException from work with services
@@ -50,6 +55,7 @@ public interface UserService {
 
     /**
      * Method to find user by name in database
+     *
      * @return list of users
      * @throws ServiceException from work with services
      */
