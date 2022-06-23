@@ -3,6 +3,7 @@ package actions.impl.book.update_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -29,7 +30,7 @@ public class FindBookByIdToUpdate implements Command {
         int id = Integer.parseInt(req.getParameter(BOOK_ID));
         try {
             BookService bookService = new BookServiceImpl();
-            Book book = bookService.findBookById(id);
+            BookDto book = bookService.findBookById(id);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("book", book);
             page = PageManager.getProperty("page.book-update");

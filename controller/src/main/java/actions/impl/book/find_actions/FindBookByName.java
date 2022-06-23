@@ -3,6 +3,7 @@ package actions.impl.book.find_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -30,7 +31,7 @@ public class FindBookByName implements Command {
         String name = req.getParameter(SEARCH_BOOK_BY_NAME_QUERY);
         try {
             BookService bookService = new BookServiceImpl();
-            List<Book> bookList = bookService.findBookByName(name);
+            List<BookDto> bookList = bookService.findBookByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookList", bookList);
             req.setAttribute("searchBookResults", MessageManager.getProperty("message.search-results"));

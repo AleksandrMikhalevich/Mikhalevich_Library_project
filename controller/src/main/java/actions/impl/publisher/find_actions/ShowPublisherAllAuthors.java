@@ -4,6 +4,7 @@ import actions.impl.constants.Constants;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -32,7 +33,7 @@ public class ShowPublisherAllAuthors implements Command {
         int id = Integer.parseInt(req.getParameter(PUBLISHER_ID));
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            Publisher publisher = publisherService.findPublisherById(id);
+            PublisherDto publisher = publisherService.findPublisherById(id);
             req.setAttribute("publisher", publisher);
             page = PageManager.getProperty("page.publisherAllAuthors");
         } catch (ServiceException e) {

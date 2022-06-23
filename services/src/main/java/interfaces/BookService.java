@@ -1,5 +1,6 @@
 package interfaces;
 
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 
@@ -58,7 +59,7 @@ public interface BookService {
      * @return found book
      * @throws ServiceException from work with services
      */
-    Book findBookById(int id) throws ServiceException;
+    BookDto findBookById(int id) throws ServiceException;
 
     /**
      * Method to find book/books by name in database
@@ -67,7 +68,7 @@ public interface BookService {
      * @return list of found books
      * @throws ServiceException from work with services
      */
-    List<Book> findBookByName(String name) throws ServiceException;
+    List<BookDto> findBookByName(String name) throws ServiceException;
 
     /**
      * Method to find all books in database
@@ -75,7 +76,7 @@ public interface BookService {
      * @return list of all found books
      * @throws ServiceException from work with services
      */
-    List<Book> findAllBooks() throws ServiceException;
+    List<BookDto> findAllBooks() throws ServiceException;
 
     /**
      * Method to sort books from database by title
@@ -83,7 +84,7 @@ public interface BookService {
      * @return list of sorted books
      * @throws ServiceException from work with services
      */
-    List<Book> sortAllBooksByName() throws ServiceException;
+    List<BookDto> sortAllBooksByName() throws ServiceException;
 
     /**
      * Method to sort books from database by receipt date
@@ -91,6 +92,6 @@ public interface BookService {
      * @return list of sorted books
      * @throws ServiceException from work with services
      */
-    List<Book> sortAllBooksByDate() throws ServiceException;
+    List<BookDto> sortAllBooksByDate() throws ServiceException;
 
 }

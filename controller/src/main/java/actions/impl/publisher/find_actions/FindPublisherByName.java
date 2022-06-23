@@ -3,6 +3,7 @@ package actions.impl.publisher.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -30,7 +31,7 @@ public class FindPublisherByName implements Command {
         String name = req.getParameter(SEARCH_PUBLISHER_BY_NAME_QUERY);
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            List<Publisher> publisherList = publisherService.findPublisherByName(name);
+            List<PublisherDto> publisherList = publisherService.findPublisherByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
             req.setAttribute("searchPublisherResults", MessageManager.getProperty("message.search-results"));

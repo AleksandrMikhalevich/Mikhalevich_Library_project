@@ -1,5 +1,6 @@
 package interfaces;
 
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 
@@ -46,7 +47,7 @@ public interface GenreService {
      * @return genre
      * @throws ServiceException from work with services
      */
-    Genre findGenreById(int id) throws ServiceException;
+    GenreDto findGenreById(int id) throws ServiceException;
 
     /**
      * Method to find genre/genres by name in database
@@ -55,7 +56,7 @@ public interface GenreService {
      * @return list of genres
      * @throws ServiceException from work with services
      */
-    List<Genre> findGenreByName(String name) throws ServiceException;
+    List<GenreDto> findGenreByName(String name) throws ServiceException;
 
     /**
      * Method to find all genres in database
@@ -63,7 +64,7 @@ public interface GenreService {
      * @return list of genres
      * @throws ServiceException from work with services
      */
-    List<Genre> findAllGenres() throws ServiceException;
+    List<GenreDto> findAllGenres() throws ServiceException;
 
     /**
      * Method to find and add chosen genres to book
@@ -79,5 +80,5 @@ public interface GenreService {
      * @return list of sorted genres
      * @throws ServiceException from work with services
      */
-    List<Genre> sortAllGenresByName() throws ServiceException;
+    List<GenreDto> sortAllGenresByName() throws ServiceException;
 }

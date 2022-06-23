@@ -15,7 +15,9 @@ import java.util.List;
 @Mapper
 public interface EntityMapper {
 
-    EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
+    static EntityMapper getInstance() {
+        return Mappers.getMapper(EntityMapper.class);
+    }
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")

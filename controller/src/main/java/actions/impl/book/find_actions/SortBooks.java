@@ -3,6 +3,7 @@ package actions.impl.book.find_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -31,10 +32,10 @@ public class SortBooks implements Command {
             BookService bookService = new BookServiceImpl();
             HttpSession httpSession = req.getSession();
             if (req.getParameter(BOOKS_SORTING).equals("sort_by_date")) {
-                List<Book> bookListSortByDate = bookService.sortAllBooksByDate();
+                List<BookDto> bookListSortByDate = bookService.sortAllBooksByDate();
                 httpSession.setAttribute("bookList", bookListSortByDate);
             } else {
-                List<Book> bookListSortByName = bookService.sortAllBooksByName();
+                List<BookDto> bookListSortByName = bookService.sortAllBooksByName();
                 httpSession.setAttribute("bookList", bookListSortByName);
             }
             page = PageManager.getProperty("page.books");

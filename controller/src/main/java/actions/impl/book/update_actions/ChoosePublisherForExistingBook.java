@@ -4,6 +4,7 @@ import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
 import dao.exceptions.DaoException;
+import dto.PublisherDto;
 import entities.Author;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -37,7 +38,7 @@ public class ChoosePublisherForExistingBook implements Command {
         if (author_ids == null) {
             try {
                 PublisherService publisherService = new PublisherServiceImpl();
-                List<Publisher> publisherList = publisherService.findAllPublishers();
+                List<PublisherDto> publisherList = publisherService.findAllPublishers();
                 HttpSession httpSession = req.getSession();
                 httpSession.setAttribute("changedPublishers", publisherList);
                 page = PageManager.getProperty("page.choosePublisherForExistingBook");

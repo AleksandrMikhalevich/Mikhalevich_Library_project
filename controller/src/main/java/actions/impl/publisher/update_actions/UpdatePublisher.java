@@ -4,6 +4,7 @@ import actions.impl.constants.Constants;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -39,7 +40,7 @@ public class UpdatePublisher implements Command {
         try {
             PublisherService publisherService = new PublisherServiceImpl();
             publisherService.updatePublisher(id, name, country, city, street, house, zipcode);
-            List<Publisher> publisherList = publisherService.findAllPublishers();
+            List<PublisherDto> publisherList = publisherService.findAllPublishers();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
             req.setAttribute("successUpdatePublisher", MessageManager.getProperty("message.publisher-update"));

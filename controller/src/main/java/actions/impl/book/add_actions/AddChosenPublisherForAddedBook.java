@@ -3,6 +3,7 @@ package actions.impl.book.add_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -34,7 +35,7 @@ public class AddChosenPublisherForAddedBook implements Command {
         }
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            Publisher publisher = publisherService.findPublisherById(publisher_id);
+            PublisherDto publisher = publisherService.findPublisherById(publisher_id);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("chosenPublisherToAdd", publisher);
             page = PageManager.getProperty("page.book-add");

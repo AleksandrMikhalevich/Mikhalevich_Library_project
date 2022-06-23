@@ -3,6 +3,7 @@ package actions.impl.author.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -28,7 +29,7 @@ public class ShowAuthorAllPublishers implements Command {
         int id = Integer.parseInt(req.getParameter(AUTHOR_ID));
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            Author author = authorService.findAuthorById(id);
+            AuthorDto author = authorService.findAuthorById(id);
             req.setAttribute("author", author);
             page = PageManager.getProperty("page.authorAllPublishers");
         } catch (ServiceException e) {

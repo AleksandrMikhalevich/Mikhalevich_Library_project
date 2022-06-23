@@ -3,6 +3,7 @@ package actions.impl.book.add_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -53,7 +54,7 @@ public class AddBook implements Command {
             BookService bookService = new BookServiceImpl();
             bookService.addBook(title, language, yearOfPublishing, Date.valueOf(receiptDate),
                     authorIds, genreIds, publisherId);
-            List<Book> bookList = bookService.findAllBooks();
+            List<BookDto> bookList = bookService.findAllBooks();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookList", bookList);
             req.setAttribute("successAddBook", MessageManager.getProperty("message.book-add"));

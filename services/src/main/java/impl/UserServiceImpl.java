@@ -3,9 +3,11 @@ package impl;
 import dao.exceptions.DaoException;
 import dao.impl.UserDaoImpl;
 import dao.interfaces.Dao;
+import dto.UserDto;
 import entities.User;
 import exceptions.ServiceException;
 import interfaces.UserService;
+import mappers.EntityMapper;
 
 import java.util.List;
 
@@ -63,15 +65,16 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException from work with services
      */
     @Override
-    public User findUserById(int id) throws ServiceException {
-        User user;
+    public UserDto findUserById(int id) throws ServiceException {
+        UserDto userDto;
         try {
             Dao<User> userDao = new UserDaoImpl();
-            user = userDao.findById(id);
+            User user = userDao.findById(id);
+            userDto = EntityMapper.getInstance().mapUserToDto(user);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return user;
+        return userDto;
     }
 
     /**
@@ -80,15 +83,16 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException c
      */
     @Override
-    public List<User> findUserByName(String name) throws ServiceException {
-        List<User> users;
+    public List<UserDto> findUserByName(String name) throws ServiceException {
+        List<UserDto> usersDto;
         try {
             Dao<User> userDao = new UserDaoImpl();
-            users = userDao.findByName(name);
+            List<User> users = userDao.findByName(name);
+            usersDto = EntityMapper.getInstance().mapListToUserDto(users);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return users;
+        return usersDto;
     }
 
     /**
@@ -96,14 +100,15 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<User> findAllUsers() throws ServiceException {
-        List<User> users;
+    public List<UserDto> findAllUsers() throws ServiceException {
+        List<UserDto> usersDto;
         try {
             Dao<User> userDao = new UserDaoImpl();
-            users = userDao.findAll();
+            List<User> users = userDao.findAll();
+            usersDto = EntityMapper.getInstance().mapListToUserDto(users);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return users;
+        return usersDto;
     }
 }

@@ -1,5 +1,6 @@
 package interfaces;
 
+import dto.UserDto;
 import entities.User;
 import exceptions.ServiceException;
 
@@ -42,7 +43,7 @@ public interface UserService {
      * @return publisher
      * @throws ServiceException from work with services
      */
-    User findUserById(int id) throws ServiceException;
+    UserDto findUserById(int id) throws ServiceException;
 
     /**
      * Method to find user by name in database
@@ -51,7 +52,7 @@ public interface UserService {
      * @return list of users
      * @throws ServiceException from work with services
      */
-    List<User> findUserByName(String name) throws ServiceException;
+    List<UserDto> findUserByName(String name) throws ServiceException;
 
     /**
      * Method to find user by name in database
@@ -59,6 +60,6 @@ public interface UserService {
      * @return list of users
      * @throws ServiceException from work with services
      */
-    List<User> findAllUsers() throws ServiceException;
+    List<UserDto> findAllUsers() throws ServiceException;
 
 }

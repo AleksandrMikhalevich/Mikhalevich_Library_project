@@ -3,6 +3,7 @@ package actions.impl.author.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import entities.Book;
 import exceptions.ServiceException;
@@ -30,7 +31,7 @@ public class FindAllAuthors implements Command {
         String page;
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            List<Author> authorList = authorService.findAllAuthors();
+            List<AuthorDto> authorList = authorService.findAllAuthors();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
             page = PageManager.getProperty("page.authors");

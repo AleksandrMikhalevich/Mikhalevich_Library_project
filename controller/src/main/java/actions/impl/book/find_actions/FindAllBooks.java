@@ -3,6 +3,7 @@ package actions.impl.book.find_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -27,7 +28,7 @@ public class FindAllBooks implements Command {
         String page;
         try {
             BookService bookService = new BookServiceImpl();
-            List<Book> bookList = bookService.findAllBooks();
+            List<BookDto> bookList = bookService.findAllBooks();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookList", bookList);
             page = PageManager.getProperty("page.books");

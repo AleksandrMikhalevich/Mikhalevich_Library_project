@@ -3,6 +3,7 @@ package actions.impl.book.update_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import impl.GenreServiceImpl;
@@ -27,7 +28,7 @@ public class ChooseGenresForExistingBook implements Command {
         String page;
         try {
             GenreService genreService = new GenreServiceImpl();
-            List<Genre> genreList = genreService.findAllGenres();
+            List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("changedGenres", genreList);
             page = PageManager.getProperty("page.chooseGenresForExistingBook");

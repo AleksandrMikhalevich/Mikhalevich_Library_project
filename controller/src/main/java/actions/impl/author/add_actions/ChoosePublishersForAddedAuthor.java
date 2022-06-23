@@ -3,6 +3,7 @@ package actions.impl.author.add_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -30,7 +31,7 @@ public class ChoosePublishersForAddedAuthor implements Command {
         String page;
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            List<Publisher> publisherList = publisherService.findAllPublishers();
+            List<PublisherDto> publisherList = publisherService.findAllPublishers();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("addedPublishersToAuthor", publisherList);
             page = PageManager.getProperty("page.choosePublishersForAddedAuthor");

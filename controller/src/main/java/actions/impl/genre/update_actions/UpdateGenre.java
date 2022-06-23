@@ -3,6 +3,7 @@ package actions.impl.genre.update_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import impl.GenreServiceImpl;
@@ -33,7 +34,7 @@ public class UpdateGenre implements Command {
         try {
             GenreService genreService = new GenreServiceImpl();
             genreService.updateGenre(id, name, description);
-            List<Genre> genreList = genreService.findAllGenres();
+            List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
             req.setAttribute("successUpdateGenre", MessageManager.getProperty("message.genre-update"));

@@ -1,5 +1,6 @@
 package interfaces;
 
+import dto.AuthorDto;
 import entities.Author;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -53,7 +54,7 @@ public interface AuthorService {
      * @return author
      * @throws ServiceException from work with services
      */
-    Author findAuthorById(int id) throws ServiceException;
+    AuthorDto findAuthorById(int id) throws ServiceException;
 
     /**
      * Method to find author/authors by name in database
@@ -62,7 +63,7 @@ public interface AuthorService {
      * @return list of authors
      * @throws ServiceException from work with services
      */
-    List<Author> findAuthorByName(String name) throws ServiceException;
+    List<AuthorDto> findAuthorByName(String name) throws ServiceException;
 
     /**
      * Method to find all authors in database
@@ -70,7 +71,7 @@ public interface AuthorService {
      * @return list of authors
      * @throws ServiceException from work with services
      */
-    List<Author> findAllAuthors() throws ServiceException;
+    List<AuthorDto> findAllAuthors() throws ServiceException;
 
     /**
      * Method to find and add chosen authors to book
@@ -94,5 +95,5 @@ public interface AuthorService {
      * @return list of sorted authors
      * @throws ServiceException from work with services
      */
-    List<Author> sortAllAuthorsBySurname() throws ServiceException;
+    List<AuthorDto> sortAllAuthorsBySurname() throws ServiceException;
 }

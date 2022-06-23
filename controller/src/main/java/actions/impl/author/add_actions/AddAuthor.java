@@ -3,6 +3,7 @@ package actions.impl.author.add_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -43,7 +44,7 @@ public class AddAuthor implements Command {
         try {
             AuthorService authorService = new AuthorServiceImpl();
             authorService.addAuthor(surname, firstName, secondName, country, publishersIds);
-            List<Author> authorList = authorService.findAllAuthors();
+            List<AuthorDto> authorList = authorService.findAllAuthors();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
             req.setAttribute("successAddAuthor", MessageManager.getProperty("message.author-add"));

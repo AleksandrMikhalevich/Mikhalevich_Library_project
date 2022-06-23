@@ -3,6 +3,7 @@ package actions.impl.publisher.delete_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -35,7 +36,7 @@ public class DeletePublisher implements Command {
         try {
             PublisherService publisherService = new PublisherServiceImpl();
             publisherService.deletePublisher(id);
-            List<Publisher> publisherList = publisherService.findAllPublishers();
+            List<PublisherDto> publisherList = publisherService.findAllPublishers();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
             req.setAttribute("successDeletePublisher", MessageManager.getProperty("message.publisher-delete"));

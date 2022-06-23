@@ -3,9 +3,11 @@ package impl;
 import dao.exceptions.DaoException;
 import dao.impl.GenreDaoImpl;
 import dao.interfaces.Dao;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import interfaces.GenreService;
+import mappers.EntityMapper;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -76,15 +78,16 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Genre findGenreById(int id) throws ServiceException {
-        Genre genre;
+    public GenreDto findGenreById(int id) throws ServiceException {
+        GenreDto genreDto;
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            genre = genreDao.findById(id);
+            Genre genre = genreDao.findById(id);
+            genreDto = EntityMapper.getInstance().mapToGenreDto(genre);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return genre;
+        return genreDto;
     }
 
     /**
@@ -93,15 +96,16 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Genre> findGenreByName(String name) throws ServiceException {
-        List<Genre> genres;
+    public List<GenreDto> findGenreByName(String name) throws ServiceException {
+        List<GenreDto> genresDto;
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            genres = genreDao.findByName(name);
+            List<Genre> genres = genreDao.findByName(name);
+            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return genres;
+        return genresDto;
     }
 
     /**
@@ -109,15 +113,16 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Genre> findAllGenres() throws ServiceException {
-        List<Genre> genres;
+    public List<GenreDto> findAllGenres() throws ServiceException {
+        List<GenreDto> genresDto;
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            genres = genreDao.findAll();
+            List<Genre> genres = genreDao.findAll();
+            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return genres;
+        return genresDto;
     }
 
     /**
@@ -146,16 +151,17 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Genre> sortAllGenresByName() throws ServiceException {
-        List<Genre> genres;
+    public List<GenreDto> sortAllGenresByName() throws ServiceException {
+        List<GenreDto> genresDto;
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            genres = genreDao.findAll();
+            List<Genre> genres = genreDao.findAll();
             genres.sort(Comparator.comparing(Genre::getName));
+            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return genres;
+        return genresDto;
     }
 }
 

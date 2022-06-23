@@ -3,6 +3,7 @@ package actions.impl.genre.add_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Author;
 import entities.Genre;
 import exceptions.ServiceException;
@@ -36,7 +37,7 @@ public class AddGenre implements Command {
         try {
             GenreService genreService = new GenreServiceImpl();
             genreService.addGenre(name, description);
-            List<Genre> genreList = genreService.findAllGenres();
+            List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
             req.setAttribute("successAddGenre", MessageManager.getProperty("message.genre-add"));

@@ -3,6 +3,7 @@ package actions.impl.book.delete_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.BookDto;
 import entities.Book;
 import exceptions.ServiceException;
 import impl.BookServiceImpl;
@@ -29,7 +30,7 @@ public class FindBookByIdToDelete implements Command {
         int id = Integer.parseInt(req.getParameter(BOOK_ID));
         try {
             BookService bookService = new BookServiceImpl();
-            Book book = bookService.findBookById(id);
+            BookDto book = bookService.findBookById(id);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookToDelete", book);
             page = PageManager.getProperty("page.book-delete");

@@ -3,6 +3,7 @@ package actions.impl.genre.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import impl.GenreServiceImpl;
@@ -27,7 +28,7 @@ public class FindAllGenres implements Command {
         String page;
         try {
             GenreService genreService = new GenreServiceImpl();
-            List<Genre> genreList = genreService.findAllGenres();
+            List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
             page = PageManager.getProperty("page.genres");

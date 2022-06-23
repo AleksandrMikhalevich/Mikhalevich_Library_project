@@ -3,6 +3,7 @@ package actions.impl.genre.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import impl.GenreServiceImpl;
@@ -30,7 +31,7 @@ public class FindGenreByName implements Command {
         String name = req.getParameter(SEARCH_GENRE_BY_NAME_QUERY);
         try {
             GenreService genreService = new GenreServiceImpl();
-            List<Genre> genreList = genreService.findGenreByName(name);
+            List<GenreDto> genreList = genreService.findGenreByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
             req.setAttribute("searchGenreResults", MessageManager.getProperty("message.search-results"));

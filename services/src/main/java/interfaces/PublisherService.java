@@ -1,5 +1,6 @@
 package interfaces;
 
+import dto.PublisherDto;
 import entities.Author;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -55,7 +56,7 @@ public interface PublisherService {
      * @return publisher
      * @throws ServiceException from work with services
      */
-    Publisher findPublisherById(int id) throws ServiceException;
+    PublisherDto findPublisherById(int id) throws ServiceException;
 
     /**
      * Method to find publisher/publishers by name in database
@@ -64,7 +65,7 @@ public interface PublisherService {
      * @return list of found publishers
      * @throws ServiceException from work with services
      */
-    List<Publisher> findPublisherByName(String name) throws ServiceException;
+    List<PublisherDto> findPublisherByName(String name) throws ServiceException;
 
     /**
      * Method to find all publishers in database
@@ -72,7 +73,7 @@ public interface PublisherService {
      * @return list of all found publishers
      * @throws ServiceException from work with services
      */
-    List<Publisher> findAllPublishers() throws ServiceException;
+    List<PublisherDto> findAllPublishers() throws ServiceException;
 
     /**
      * Method to find all authors connected to publisher
@@ -97,5 +98,5 @@ public interface PublisherService {
      * @return list of sorted publishers
      * @throws ServiceException from work with services
      */
-    List<Publisher> sortAllPublishersByName() throws ServiceException;
+    List<PublisherDto> sortAllPublishersByName() throws ServiceException;
 }

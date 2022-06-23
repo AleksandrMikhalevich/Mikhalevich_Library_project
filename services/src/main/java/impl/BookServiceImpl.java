@@ -6,12 +6,14 @@ import dao.impl.BookDaoImpl;
 import dao.impl.GenreDaoImpl;
 import dao.impl.PublisherDaoImpl;
 import dao.interfaces.Dao;
+import dto.BookDto;
 import entities.Author;
 import entities.Book;
 import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
 import interfaces.BookService;
+import mappers.EntityMapper;
 
 import java.sql.Date;
 import java.util.Comparator;
@@ -133,15 +135,16 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Book findBookById(int id) throws ServiceException {
-        Book book;
+    public BookDto findBookById(int id) throws ServiceException {
+        BookDto bookDto;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            book = bookDao.findById(id);
+            Book book = bookDao.findById(id);
+            bookDto = EntityMapper.getInstance().mapToBookDto(book);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return book;
+        return bookDto;
     }
 
     /**
@@ -150,15 +153,16 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Book> findBookByName(String name) throws ServiceException {
-        List<Book> books;
+    public List<BookDto> findBookByName(String name) throws ServiceException {
+        List<BookDto> booksDto;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            books = bookDao.findByName(name);
+            List<Book> books = bookDao.findByName(name);
+            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return books;
+        return booksDto;
     }
 
     /**
@@ -166,15 +170,16 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Book> findAllBooks() throws ServiceException {
-        List<Book> books;
+    public List<BookDto> findAllBooks() throws ServiceException {
+        List<BookDto> booksDto;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            books = bookDao.findAll();
+            List<Book> books = bookDao.findAll();
+            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return books;
+        return booksDto;
     }
 
     /**
@@ -182,16 +187,17 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Book> sortAllBooksByName() throws ServiceException {
-        List<Book> books;
+    public List<BookDto> sortAllBooksByName() throws ServiceException {
+        List<BookDto> booksDto;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            books = bookDao.findAll();
+            List<Book> books = bookDao.findAll();
             books.sort(Comparator.comparing(Book::getTitle));
+            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return books;
+        return booksDto;
     }
 
     /**
@@ -199,15 +205,16 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<Book> sortAllBooksByDate() throws ServiceException {
-        List<Book> books;
+    public List<BookDto> sortAllBooksByDate() throws ServiceException {
+        List<BookDto> booksDto;
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            books = bookDao.findAll();
+            List<Book> books = bookDao.findAll();
             books.sort(Comparator.comparing(Book::getReceiptDate).reversed());
+            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
-        return books;
+        return booksDto;
     }
 }

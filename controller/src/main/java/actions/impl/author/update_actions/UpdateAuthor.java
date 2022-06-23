@@ -3,6 +3,7 @@ package actions.impl.author.update_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -41,7 +42,7 @@ public class UpdateAuthor implements Command {
         try {
             AuthorService authorService = new AuthorServiceImpl();
             authorService.updateAuthor(id, surname, firstName, secondName, country, publishersIds);
-            List<Author> authorList = authorService.findAllAuthors();
+            List<AuthorDto> authorList = authorService.findAllAuthors();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
             req.setAttribute("successUpdateAuthor", MessageManager.getProperty("message.author-update"));

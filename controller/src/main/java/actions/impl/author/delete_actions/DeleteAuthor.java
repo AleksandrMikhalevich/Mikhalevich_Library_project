@@ -4,6 +4,7 @@ import actions.impl.constants.Constants;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -32,7 +33,7 @@ public class DeleteAuthor implements Command {
         try {
             AuthorService authorService = new AuthorServiceImpl();
             authorService.deleteAuthor(id);
-            List<Author> authorList = authorService.findAllAuthors();
+            List<AuthorDto> authorList = authorService.findAllAuthors();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
             req.setAttribute("successDeleteAuthor", MessageManager.getProperty("message.author-delete"));

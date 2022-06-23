@@ -3,6 +3,7 @@ package actions.impl.publisher.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -27,7 +28,7 @@ public class SortPublishers implements Command {
         String page;
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            List<Publisher> publisherList = publisherService.sortAllPublishersByName();
+            List<PublisherDto> publisherList = publisherService.sortAllPublishersByName();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
             page = PageManager.getProperty("page.publishers");

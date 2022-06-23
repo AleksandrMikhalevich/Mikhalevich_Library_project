@@ -4,6 +4,7 @@ import actions.impl.constants.Constants;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
@@ -40,7 +41,7 @@ public class AddPublisher implements Command {
         try {
             PublisherService publisherService = new PublisherServiceImpl();
             publisherService.addPublisher(name, country, city, street, house, zipcode);
-            List<Publisher> publisherList = publisherService.findAllPublishers();
+            List<PublisherDto> publisherList = publisherService.findAllPublishers();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
             req.setAttribute("successAddPublisher", MessageManager.getProperty("message.publisher-add"));

@@ -3,6 +3,7 @@ package actions.impl.genre.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Author;
 import entities.Genre;
 import exceptions.ServiceException;
@@ -30,7 +31,7 @@ public class SortGenres implements Command {
         String page;
         try {
             GenreService genreService = new GenreServiceImpl();
-            List<Genre> genreListSortByName = genreService.sortAllGenresByName();
+            List<GenreDto> genreListSortByName = genreService.sortAllGenresByName();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreListSortByName);
             page = PageManager.getProperty("page.genres");

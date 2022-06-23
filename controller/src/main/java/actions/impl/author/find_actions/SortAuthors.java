@@ -3,6 +3,7 @@ package actions.impl.author.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -27,7 +28,7 @@ public class SortAuthors implements Command {
         String page;
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            List<Author> authorListSortBySurname = authorService.sortAllAuthorsBySurname();
+            List<AuthorDto> authorListSortBySurname = authorService.sortAllAuthorsBySurname();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorListSortBySurname);
             page = PageManager.getProperty("page.authors");

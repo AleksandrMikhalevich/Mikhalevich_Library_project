@@ -4,6 +4,7 @@ import actions.impl.constants.Constants;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.GenreDto;
 import entities.Genre;
 import exceptions.ServiceException;
 import impl.GenreServiceImpl;
@@ -34,7 +35,7 @@ public class DeleteGenre implements Command {
         try {
             GenreService genreService = new GenreServiceImpl();
             genreService.deleteGenre(id);
-            List<Genre> genreList = genreService.findAllGenres();
+            List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
             req.setAttribute("successDeleteGenre", MessageManager.getProperty("message.genre-delete"));

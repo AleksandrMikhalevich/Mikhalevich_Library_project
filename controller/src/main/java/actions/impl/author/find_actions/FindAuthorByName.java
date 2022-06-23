@@ -3,6 +3,7 @@ package actions.impl.author.find_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -31,7 +32,7 @@ public class FindAuthorByName implements Command {
         String name = req.getParameter(SEARCH_AUTHOR_BY_NAME_QUERY);
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            List<Author> authorList = authorService.findAuthorByName(name);
+            List<AuthorDto> authorList = authorService.findAuthorByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
             req.setAttribute("searchAuthorResults", MessageManager.getProperty("message.search-results"));

@@ -3,6 +3,7 @@ package actions.impl.author.update_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.AuthorDto;
 import entities.Author;
 import entities.Book;
 import exceptions.ServiceException;
@@ -33,7 +34,7 @@ public class FindAuthorByIdToUpdate implements Command {
         int id = Integer.parseInt(req.getParameter(AUTHOR_ID));
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            Author author = authorService.findAuthorById(id);
+            AuthorDto author = authorService.findAuthorById(id);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("author", author);
             page = PageManager.getProperty("page.author-update");
