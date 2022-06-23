@@ -33,6 +33,7 @@ public class UserDaoImpl implements Dao<User> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -47,12 +48,13 @@ public class UserDaoImpl implements Dao<User> {
     @Override
     public User findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        User toFind = null;
+        User toFind;
         try {
             entityManager.getTransaction().begin();
             toFind = entityManager.find(User.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -73,6 +75,7 @@ public class UserDaoImpl implements Dao<User> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -93,6 +96,7 @@ public class UserDaoImpl implements Dao<User> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }

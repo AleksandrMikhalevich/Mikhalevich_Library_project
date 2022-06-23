@@ -33,6 +33,7 @@ public class PublisherDaoImpl implements Dao<Publisher> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -47,12 +48,13 @@ public class PublisherDaoImpl implements Dao<Publisher> {
     @Override
     public Publisher findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Publisher toFind = null;
+        Publisher toFind;
         try {
             entityManager.getTransaction().begin();
             toFind = entityManager.find(Publisher.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -73,6 +75,7 @@ public class PublisherDaoImpl implements Dao<Publisher> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -96,6 +99,7 @@ public class PublisherDaoImpl implements Dao<Publisher> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }

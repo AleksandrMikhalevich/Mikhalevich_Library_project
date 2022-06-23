@@ -32,6 +32,7 @@ public class BookDaoImpl implements Dao<Book> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -46,12 +47,13 @@ public class BookDaoImpl implements Dao<Book> {
     @Override
     public Book findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Book toFind = null;
+        Book toFind;
         try {
             entityManager.getTransaction().begin();
             toFind = entityManager.find(Book.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -72,6 +74,7 @@ public class BookDaoImpl implements Dao<Book> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -92,6 +95,7 @@ public class BookDaoImpl implements Dao<Book> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }

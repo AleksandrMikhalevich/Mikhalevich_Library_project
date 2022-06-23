@@ -33,6 +33,7 @@ public class GenreDaoImpl implements Dao<Genre> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -47,12 +48,13 @@ public class GenreDaoImpl implements Dao<Genre> {
     @Override
     public Genre findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Genre toFind = null;
+        Genre toFind;
         try {
             entityManager.getTransaction().begin();
             toFind = entityManager.find(Genre.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
@@ -72,6 +74,7 @@ public class GenreDaoImpl implements Dao<Genre> {
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
+            throw new DaoException();
         } finally {
             entityManager.close();
         }
