@@ -1,8 +1,7 @@
 package interfaces;
 
 import dto.AuthorDto;
-import entities.Author;
-import entities.Publisher;
+import dto.PublisherDto;
 import exceptions.ServiceException;
 
 import java.util.List;
@@ -79,7 +78,7 @@ public interface AuthorService {
      * @return set of chosen authors
      * @throws ServiceException from work with services
      */
-    Set<Author> chooseAuthorsToBook(String[] authorIds) throws ServiceException;
+    Set<AuthorDto> chooseAuthorsToBook(String[] authorIds) throws ServiceException;
 
     /**
      * Method to find all publishers connected to authors
@@ -87,7 +86,7 @@ public interface AuthorService {
      * @return set of chosen publishers
      * @throws ServiceException from work with services
      */
-    Set<Publisher> getAuthorSetOfPublishers(String[] authorIds) throws ServiceException;
+    Set<PublisherDto> getAuthorSetOfPublishers(String[] authorsIds) throws ServiceException;
 
     /**
      * Method to sort authors from database by surname
@@ -95,5 +94,5 @@ public interface AuthorService {
      * @return list of sorted authors
      * @throws ServiceException from work with services
      */
-    List<AuthorDto> sortAllAuthorsBySurname() throws ServiceException;
+    List<AuthorDto> sortAllAuthorsBySurname(String[] authorsIds) throws ServiceException;
 }

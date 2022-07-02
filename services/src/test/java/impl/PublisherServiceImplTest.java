@@ -1,16 +1,18 @@
 package impl;
 
-import entities.Address;
-import entities.Publisher;
+import dto.AuthorDto;
+import dto.PublisherDto;
 import exceptions.ServiceException;
-import impl.mocks.MockUtils;
 import interfaces.PublisherService;
-import org.junit.jupiter.api.Assertions;
+import mocks.MockUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
-import static impl.mocks.MockConstants.*;
+import static mocks.MockConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alex Mikhalevich
@@ -18,79 +20,101 @@ import static impl.mocks.MockConstants.*;
  */
 class PublisherServiceImplTest {
 
-    @Test
-    void shouldCreatePublisherInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
+    @BeforeEach
+    void setUp() throws ServiceException {
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
-        Assertions.assertNotNull(publisherFromDB);
-        Assertions.assertEquals(publisher, publisherFromDB);
+        publisherService.addPublisher(PUBLISHER_NAME, PUBLISHER_COUNTRY, PUBLISHER_CITY, PUBLISHER_STREET, PUBLISHER_HOUSE, PUBLISHER_ZIPCODE);
+    }
+
+    @Test
+    void shouldAddPublisherInDatabaseByService() throws ServiceException {
+        PublisherService publisherService = new PublisherServiceImpl();
+        PublisherDto publisherDtoFromDB = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        assertNotNull(publisherDtoFromDB);
+        assertEquals(PUBLISHER_NAME, publisherDtoFromDB.getName(), "Publisher name is not equals");
     }
 
     @Test
     void shouldUpdatePublisherInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        Publisher publisherToUpdate = Publisher.builder()
-                .id(publisher.getId())
-                .name(UPDATE_PUBLISHER_NAME)
-                .build();
-        publisherService.updatePublisher(publisherToUpdate);
-        Publisher publisherFromDB = publisherService.findPublisherById(publisherToUpdate.getId());
-        Assertions.assertEquals(publisherToUpdate, publisherFromDB);
+        int id = MockUtils.findIdOfPublisher();
+        publisherService.updatePublisher(id, UPDATE_PUBLISHER_NAME, PUBLISHER_COUNTRY, PUBLISHER_CITY, PUBLISHER_STREET, PUBLISHER_HOUSE, PUBLISHER_ZIPCODE);
+        PublisherDto publisherDtoFromDB = publisherService.findPublisherById(id);
+        assertNotNull(publisherDtoFromDB);
+        assertEquals(UPDATE_PUBLISHER_NAME, publisherDtoFromDB.getName(), "Publisher name is not equals");
     }
 
     @Test
     void shouldDeletePublisherInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        publisherService.deletePublisher(publisher.getId());
-        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
-        Assertions.assertNull(publisherFromDB);
+        int id = MockUtils.findIdOfPublisher();
+        publisherService.deletePublisher(id);
+        PublisherDto publisherDtoFromDB = publisherService.findPublisherById(id);
+        assertNull(publisherDtoFromDB);
     }
 
     @Test
     void shouldFindPublisherByIdInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
-        Assertions.assertNotNull(publisherFromDB);
-        Assertions.assertNotNull(publisherFromDB.getId());
-        Assertions.assertEquals(PUBLISHER_NAME, publisherFromDB.getName(), "Publisher name is not equals");
-        Address addressToCompare = Address.builder()
-                .country(PUBLISHER_COUNTRY)
-                .city(CITY)
-                .street(STREET)
-                .house(HOUSE)
-                .zipcode(ZIPCODE)
-                .build();
-        Assertions.assertEquals(addressToCompare, publisherFromDB.getAddress());
+        PublisherDto publisherDtoFromDB = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        assertNotNull(publisherDtoFromDB);
+        assertEquals(PUBLISHER_NAME, publisherDtoFromDB.getName(), "Publisher name is not equals");
     }
 
     @Test
     void shouldFindPublisherByNameInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        List<Publisher> listFromDB = publisherService.findPublisherByName(PUBLISHER_NAME);
-        Assertions.assertTrue(listFromDB.contains(publisher));
+        List<PublisherDto> publisherDtoListFromDB = publisherService.findPublisherByName(PUBLISHER_NAME);
+        String name = null;
+        for (PublisherDto publisherDto : publisherDtoListFromDB) {
+            name = publisherDto.getName();
+        }
+        assertEquals(PUBLISHER_NAME, name, "Publisher name is not equals");
     }
 
     @Test
     void shouldFindAllPublishersInDatabaseByService() throws ServiceException {
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Publisher publisher2 = MockUtils.createPublisher(MockUtils.createAddress());
         PublisherService publisherService = new PublisherServiceImpl();
-        publisherService.addPublisher(publisher);
-        publisherService.addPublisher(publisher2);
-        Publisher publisherFromDB = publisherService.findPublisherById(publisher.getId());
-        Publisher publisherFromDB2 = publisherService.findPublisherById(publisher2.getId());
-        List<Publisher> listFromDB = publisherService.findAllPublishers();
-        Assertions.assertTrue(listFromDB.contains(publisherFromDB));
-        Assertions.assertTrue(listFromDB.contains(publisherFromDB2));
+        PublisherDto publisherDtoFromDB = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        List<PublisherDto> publisherDtoListFromDB = publisherService.findAllPublishers();
+        assertTrue(publisherDtoListFromDB.contains(publisherDtoFromDB));
+    }
+
+    @Test
+    void shouldGetPublisherSetOfAuthors() throws ServiceException {
+        PublisherService publisherService = new PublisherServiceImpl();
+        int id = MockUtils.findIdOfPublisher();
+        Set<AuthorDto> authorDtoSetFromDB = publisherService.getPublisherSetOfAuthors(id);
+        assertNotNull(authorDtoSetFromDB);
+    }
+
+    @Test
+    void shouldChoosePublishersToAuthor() throws ServiceException {
+        PublisherService publisherService = new PublisherServiceImpl();
+        PublisherDto publisherDtoFromDB_1 = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        String id1 = String.valueOf(MockUtils.findIdOfPublisher());
+        publisherService.addPublisher(PUBLISHER_NAME, UPDATE_PUBLISHER_COUNTRY, PUBLISHER_CITY, PUBLISHER_STREET, PUBLISHER_HOUSE, PUBLISHER_ZIPCODE);
+        PublisherDto publisherDtoFromDB_2 = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        String id2 = String.valueOf(MockUtils.findIdOfPublisher());
+        Set<PublisherDto> publisherDtoSetFromDB = publisherService.choosePublishersToAuthor(new String[]{id1, id2});
+        assertTrue(publisherDtoSetFromDB.contains(publisherDtoFromDB_1));
+        assertTrue(publisherDtoSetFromDB.contains(publisherDtoFromDB_2));
+    }
+
+    @Test
+    void shouldSortAllPublishersByName() throws ServiceException {
+        PublisherService publisherService = new PublisherServiceImpl();
+        String id1 = String.valueOf(MockUtils.findIdOfPublisher());
+        PublisherDto publisherDtoFromDB_1 = publisherService.findPublisherById(MockUtils.findIdOfPublisher());
+        publisherService.addPublisher(UPDATE_PUBLISHER_NAME, UPDATE_PUBLISHER_COUNTRY, PUBLISHER_CITY, PUBLISHER_STREET, PUBLISHER_HOUSE, PUBLISHER_ZIPCODE);
+        List<PublisherDto> publisherDtoListFromDB = publisherService.findPublisherByName(UPDATE_PUBLISHER_NAME);
+        String id2 = String.valueOf(0);
+        for (PublisherDto publisherDto : publisherDtoListFromDB) {
+            id2 = String.valueOf(publisherDto.getId());
+        }
+        PublisherDto publisherDtoFromDB_2 = publisherService.findPublisherById(Integer.parseInt(id2));
+        List<PublisherDto> publisherDtoList = publisherService.sortAllPublishersByName(new String[]{id1, id2});
+        assertEquals(publisherDtoFromDB_2, publisherDtoList.get(0));
+        assertEquals(publisherDtoFromDB_1, publisherDtoList.get(1));
     }
 }

@@ -9,10 +9,7 @@ import exceptions.ServiceException;
 import interfaces.GenreService;
 import mappers.EntityMapper;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alex Mikhalevich
@@ -83,7 +80,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
             Genre genre = genreDao.findById(id);
-            genreDto = EntityMapper.getInstance().mapToGenreDto(genre);
+            genreDto = EntityMapper.getInstance().mapGenreToGenreDto(genre);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -101,7 +98,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
             List<Genre> genres = genreDao.findByName(name);
-            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
+            genresDto = EntityMapper.getInstance().mapListGenreToListGenreDto(genres);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -118,7 +115,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
             List<Genre> genres = genreDao.findAll();
-            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
+            genresDto = EntityMapper.getInstance().mapListGenreToListGenreDto(genres);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -126,22 +123,24 @@ public class GenreServiceImpl implements GenreService {
     }
 
     /**
-     * @param genre_ids are ids of chosen genres
+     * @param genresIds are ids of chosen genres
      * @return set of chosen genres
      * @throws ServiceException from work with services
      */
     @Override
-    public Set<Genre> chooseGenresToBook(String[] genre_ids) throws ServiceException {
+    public Set<GenreDto> chooseGenresToBook(String[] genresIds) throws ServiceException {
         Dao<Genre> genreDao = new GenreDaoImpl();
-        Set<Genre> genreSet = new HashSet<>();
-        for (String genre_id : genre_ids) {
+        Set<GenreDto> genreSet = new HashSet<>();
+        for (String genre_id : genresIds) {
             Genre genre;
+            GenreDto genreDto;
             try {
                 genre = genreDao.findById(Integer.parseInt(genre_id));
+                genreDto = EntityMapper.getInstance().mapGenreToGenreDto(genre);
             } catch (DaoException e) {
                 throw new ServiceException(e);
             }
-            genreSet.add(genre);
+            genreSet.add(genreDto);
         }
         return genreSet;
     }
@@ -151,13 +150,17 @@ public class GenreServiceImpl implements GenreService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<GenreDto> sortAllGenresByName() throws ServiceException {
-        List<GenreDto> genresDto;
+    public List<GenreDto> sortAllGenresByName(String[] genresIds) throws ServiceException {
+        List<GenreDto> genresDto = new ArrayList<>();
         try {
             Dao<Genre> genreDao = new GenreDaoImpl();
-            List<Genre> genres = genreDao.findAll();
-            genres.sort(Comparator.comparing(Genre::getName));
-            genresDto = EntityMapper.getInstance().mapListToGenreDto(genres);
+            GenreDto genreDto;
+            for (String genre_id : genresIds) {
+                Genre genre = genreDao.findById(Integer.parseInt(genre_id));
+                genreDto = EntityMapper.getInstance().mapGenreToGenreDto(genre);
+                genresDto.add(genreDto);
+            }
+            genresDto.sort(Comparator.comparing(GenreDto::getName));
         } catch (DaoException e) {
             throw new ServiceException();
         }

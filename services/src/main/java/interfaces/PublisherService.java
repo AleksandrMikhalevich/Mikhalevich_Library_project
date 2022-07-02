@@ -1,8 +1,7 @@
 package interfaces;
 
+import dto.AuthorDto;
 import dto.PublisherDto;
-import entities.Author;
-import entities.Publisher;
 import exceptions.ServiceException;
 
 import java.util.List;
@@ -82,7 +81,7 @@ public interface PublisherService {
      * @return set of chosen authors
      * @throws ServiceException from work with services
      */
-    Set<Author> getPublisherSetOfAuthors(int publisherId) throws ServiceException;
+    Set<AuthorDto> getPublisherSetOfAuthors(int publisherId) throws ServiceException;
 
     /**
      * Method to find and add chosen publishers to author
@@ -90,7 +89,7 @@ public interface PublisherService {
      * @return set of chosen publishers
      * @throws ServiceException from work with services
      */
-    Set<Publisher> choosePublishersToAuthor(String[] publishersIds) throws ServiceException;
+    Set<PublisherDto> choosePublishersToAuthor(String[] publishersIds) throws ServiceException;
 
     /**
      * Method to sort publishers from database by name
@@ -98,5 +97,5 @@ public interface PublisherService {
      * @return list of sorted publishers
      * @throws ServiceException from work with services
      */
-    List<PublisherDto> sortAllPublishersByName() throws ServiceException;
+    List<PublisherDto> sortAllPublishersByName(String[] publishersIds) throws ServiceException;
 }

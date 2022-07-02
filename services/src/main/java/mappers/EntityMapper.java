@@ -2,11 +2,13 @@ package mappers;
 
 import dto.*;
 import entities.*;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Alex Mikhalevich
@@ -27,9 +29,9 @@ public interface EntityMapper {
     @Mapping(source = "publisher", target = "publisher")
     @Mapping(source = "yearOfPublishing", target = "yearOfPublishing")
     @Mapping(source = "receiptDate", target = "receiptDate")
-    BookDto mapToBookDto(Book book);
+    BookDto mapBookToBookDto(Book book);
 
-    List<BookDto> mapListToBookDto(List<Book> bookList);
+    List<BookDto> mapListBookToListBookDto(List<Book> bookList);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "firstName", target = "firstName")
@@ -38,35 +40,47 @@ public interface EntityMapper {
     @Mapping(source = "country", target = "country")
     @Mapping(source = "books", target = "books")
     @Mapping(source = "publishers", target = "publishers")
-    AuthorDto mapToAuthorDto(Author author);
+    AuthorDto mapAuthorToAuthorDto(Author author);
 
-    List<AuthorDto> mapListToAuthorDto(List<Author> authorList);
-
+    List<AuthorDto> mapListAuthorToListAuthorDto(List<Author> authorList);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "books", target = "books")
-    GenreDto mapToGenreDto(Genre genre);
+    GenreDto mapGenreToGenreDto(Genre genre);
 
-    List<GenreDto> mapListToGenreDto(List<Genre> genreList);
+    List<GenreDto> mapListGenreToListGenreDto(List<Genre> genreList);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "books", target = "books")
     @Mapping(source = "authors", target = "authors")
-    PublisherDto mapPublisherToDto(Publisher publisher);
+    PublisherDto mapPublisherToPublisherDto(Publisher publisher);
 
-    List<PublisherDto> mapListToPublisherDto(List<Publisher> publisherList);
+    List<PublisherDto> mapListPublisherToListPublisherDto(List<Publisher> publisherList);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "login", target = "login")
     @Mapping(source = "email", target = "email")
-    UserDto mapUserToDto(User user);
+    UserDto mapUserToUserDto(User user);
 
-    List<UserDto> mapListToUserDto(List<User> userList);
+    List<UserDto> mapListUserToListUserDto(List<User> userList);
 
+    @InheritInverseConfiguration
+    Book inverseMapBookDto(BookDto bookDto);
 
+    @InheritInverseConfiguration
+    Author inverseMapAuthorDto(AuthorDto authorDto);
+
+    @InheritInverseConfiguration
+    Genre inverseMapGenreDto(GenreDto genreDto);
+
+    @InheritInverseConfiguration
+    Publisher inverseMapPublisherDto(PublisherDto publisherDto);
+
+    @InheritInverseConfiguration
+    User inverseMapUserDto(UserDto userDto);
 
 }

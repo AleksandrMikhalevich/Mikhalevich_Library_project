@@ -1,7 +1,6 @@
 package interfaces;
 
 import dto.GenreDto;
-import entities.Genre;
 import exceptions.ServiceException;
 
 import java.util.List;
@@ -72,7 +71,7 @@ public interface GenreService {
      * @return set of chosen genres
      * @throws ServiceException from work with services
      */
-    Set<Genre> chooseGenresToBook(String[] genre_ids) throws ServiceException;
+    Set<GenreDto> chooseGenresToBook(String[] genresIds) throws ServiceException;
 
     /**
      * Method to sort genres from database by name
@@ -80,5 +79,5 @@ public interface GenreService {
      * @return list of sorted genres
      * @throws ServiceException from work with services
      */
-    List<GenreDto> sortAllGenresByName() throws ServiceException;
+    List<GenreDto> sortAllGenresByName(String[] genresIds) throws ServiceException;
 }

@@ -2,7 +2,7 @@ package mappers;
 
 import dto.*;
 import entities.*;
-import impl.mocks.MockUtils;
+import mocks.MockUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ class EntityMapperTest {
         Genre genre = MockUtils.createGenre();
         Author author = MockUtils.createAuthor(publisher);
         Book book = MockUtils.createBook(author, genre, publisher);
-        BookDto bookDto = EntityMapper.getInstance().mapToBookDto(book);
+        BookDto bookDto = EntityMapper.getInstance().mapBookToBookDto(book);
         assertNotNull(bookDto);
         assertEquals(bookDto.getTitle(), book.getTitle());
         assertEquals(bookDto.getLanguage(), book.getLanguage());
-        assertEquals(bookDto.getAuthors(), book.getAuthors());
+        assertEquals(bookDto.getAuthors().size(), book.getAuthors().size());
         assertEquals(bookDto.getYearOfPublishing(), book.getYearOfPublishing());
         assertEquals(bookDto.getReceiptDate(), book.getReceiptDate());
     }
@@ -40,7 +40,7 @@ class EntityMapperTest {
         Book book = MockUtils.createBook(author, genre, publisher);
         List<Book> bookList = new ArrayList<>();
         bookList.add(book);
-        List<BookDto> bookDtoList = EntityMapper.getInstance().mapListToBookDto(bookList);
+        List<BookDto> bookDtoList = EntityMapper.getInstance().mapListBookToListBookDto(bookList);
         assertNotNull(bookDtoList);
     }
 
@@ -48,7 +48,7 @@ class EntityMapperTest {
     void mapToAuthorDto() {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         Author author = MockUtils.createAuthor(publisher);
-        AuthorDto authorDto = EntityMapper.getInstance().mapToAuthorDto(author);
+        AuthorDto authorDto = EntityMapper.getInstance().mapAuthorToAuthorDto(author);
         assertNotNull(authorDto);
         assertEquals(authorDto.getFirstName(), author.getFirstName());
         assertEquals(authorDto.getSecondName(), author.getSecondName());
@@ -63,14 +63,14 @@ class EntityMapperTest {
         Author author = MockUtils.createAuthor(publisher);
         List<Author> authorList = new ArrayList<>();
         authorList.add(author);
-        List<AuthorDto> authorDtoList = EntityMapper.getInstance().mapListToAuthorDto(authorList);
+        List<AuthorDto> authorDtoList = EntityMapper.getInstance().mapListAuthorToListAuthorDto(authorList);
         assertNotNull(authorDtoList);
     }
 
     @Test
     void mapToGenreDto() {
         Genre genre = MockUtils.createGenre();
-        GenreDto genreDto = EntityMapper.getInstance().mapToGenreDto(genre);
+        GenreDto genreDto = EntityMapper.getInstance().mapGenreToGenreDto(genre);
         assertNotNull(genreDto);
         assertEquals(genreDto.getName(), genre.getName());
         assertEquals(genreDto.getDescription(), genre.getDescription());
@@ -81,14 +81,14 @@ class EntityMapperTest {
         Genre genre = MockUtils.createGenre();
         List<Genre> genreList = new ArrayList<>();
         genreList.add(genre);
-        List<GenreDto> genreDtoList = EntityMapper.getInstance().mapListToGenreDto(genreList);
+        List<GenreDto> genreDtoList = EntityMapper.getInstance().mapListGenreToListGenreDto(genreList);
         assertNotNull(genreDtoList);
     }
 
     @Test
     void mapPublisherToDto() {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        PublisherDto publisherDto = EntityMapper.getInstance().mapPublisherToDto(publisher);
+        PublisherDto publisherDto = EntityMapper.getInstance().mapPublisherToPublisherDto(publisher);
         assertNotNull(publisherDto);
         assertEquals(publisherDto.getName(), publisher.getName());
         assertEquals(publisherDto.getAddress(), publisher.getAddress());
@@ -99,14 +99,14 @@ class EntityMapperTest {
         Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
         List<Publisher> publisherList = new ArrayList<>();
         publisherList.add(publisher);
-        List<PublisherDto> publisherDtoList = EntityMapper.getInstance().mapListToPublisherDto(publisherList);
+        List<PublisherDto> publisherDtoList = EntityMapper.getInstance().mapListPublisherToListPublisherDto(publisherList);
         assertNotNull(publisherDtoList);
     }
 
     @Test
     void mapUserToDto() {
         User user = MockUtils.createUser();
-        UserDto userDto = EntityMapper.getInstance().mapUserToDto(user);
+        UserDto userDto = EntityMapper.getInstance().mapUserToUserDto(user);
         assertNotNull(userDto);
         assertEquals(userDto.getLogin(), user.getLogin());
         assertEquals(userDto.getEmail(), user.getEmail());
@@ -117,7 +117,7 @@ class EntityMapperTest {
         User user = MockUtils.createUser();
         List<User> userList = new ArrayList<>();
         userList.add(user);
-        List<UserDto> userDtoList = EntityMapper.getInstance().mapListToUserDto(userList);
+        List<UserDto> userDtoList = EntityMapper.getInstance().mapListUserToListUserDto(userList);
         assertNotNull(userDtoList);
     }
 }

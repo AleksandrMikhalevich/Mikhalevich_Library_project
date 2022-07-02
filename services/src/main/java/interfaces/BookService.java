@@ -84,7 +84,7 @@ public interface BookService {
      * @return list of sorted books
      * @throws ServiceException from work with services
      */
-    List<BookDto> sortAllBooksByName() throws ServiceException;
+    List<BookDto> sortAllBooksByName(String[] booksIds) throws ServiceException;
 
     /**
      * Method to sort books from database by receipt date
@@ -92,6 +92,6 @@ public interface BookService {
      * @return list of sorted books
      * @throws ServiceException from work with services
      */
-    List<BookDto> sortAllBooksByDate() throws ServiceException;
+    List<BookDto> sortAllBooksByDate(String[] booksIds) throws ServiceException;
 
 }

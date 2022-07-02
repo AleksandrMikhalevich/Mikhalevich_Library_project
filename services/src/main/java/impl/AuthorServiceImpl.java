@@ -5,16 +5,14 @@ import dao.impl.AuthorDaoImpl;
 import dao.impl.PublisherDaoImpl;
 import dao.interfaces.Dao;
 import dto.AuthorDto;
+import dto.PublisherDto;
 import entities.Author;
 import entities.Publisher;
 import exceptions.ServiceException;
 import interfaces.AuthorService;
 import mappers.EntityMapper;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alex Mikhalevich
@@ -23,10 +21,10 @@ import java.util.Set;
 public class AuthorServiceImpl implements AuthorService {
 
     /**
-     * @param surname is surname of created author
-     * @param firstName is name of created author
-     * @param secondName is second name of created author
-     * @param country is country of created author
+     * @param surname       is surname of created author
+     * @param firstName     is name of created author
+     * @param secondName    is second name of created author
+     * @param country       is country of created author
      * @param publishersIds are ids of added publishers to created author
      * @throws ServiceException from work with services
      */
@@ -54,11 +52,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     /**
-     * @param id is id of updated author
-     * @param surname is surname of updated author
-     * @param firstName is name of updated author
-     * @param secondName is second name of updated author
-     * @param country is country of updated author
+     * @param id            is id of updated author
+     * @param surname       is surname of updated author
+     * @param firstName     is name of updated author
+     * @param secondName    is second name of updated author
+     * @param country       is country of updated author
      * @param publishersIds are ids of added publishers to updated author
      * @throws ServiceException from work with services
      */
@@ -109,7 +107,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
             Author author = authorDao.findById(id);
-            authorDto = EntityMapper.getInstance().mapToAuthorDto(author);
+            authorDto = EntityMapper.getInstance().mapAuthorToAuthorDto(author);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -127,7 +125,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
             List<Author> authors = authorDao.findByName(name);
-            authorsDto = EntityMapper.getInstance().mapListToAuthorDto(authors);
+            authorsDto = EntityMapper.getInstance().mapListAuthorToListAuthorDto(authors);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -143,8 +141,8 @@ public class AuthorServiceImpl implements AuthorService {
         List<AuthorDto> authorsDto;
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
-            List<Author> authors  = authorDao.findAll();
-            authorsDto = EntityMapper.getInstance().mapListToAuthorDto(authors);
+            List<Author> authors = authorDao.findAll();
+            authorsDto = EntityMapper.getInstance().mapListAuthorToListAuthorDto(authors);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -157,38 +155,44 @@ public class AuthorServiceImpl implements AuthorService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Set<Author> chooseAuthorsToBook(String[] authorIds) throws ServiceException {
+    public Set<AuthorDto> chooseAuthorsToBook(String[] authorIds) throws ServiceException {
         Dao<Author> authorDao = new AuthorDaoImpl();
-        Set<Author> authorSet = new HashSet<>();
+        Set<AuthorDto> authorSet = new HashSet<>();
         for (String author_id : authorIds) {
             Author author;
+            AuthorDto authorDto;
             try {
                 author = authorDao.findById(Integer.parseInt(author_id));
+                authorDto = EntityMapper.getInstance().mapAuthorToAuthorDto(author);
             } catch (DaoException e) {
                 throw new ServiceException();
             }
-            authorSet.add(author);
+            authorSet.add(authorDto);
         }
         return authorSet;
     }
 
     /**
-     * @param authorIds are ids of needed authors
+     * @param authorsIds are ids of needed authors
      * @return set of author's publishers
      * @throws ServiceException from work with services
      */
     @Override
-    public Set<Publisher> getAuthorSetOfPublishers(String[] authorIds) throws ServiceException {
+    public Set<PublisherDto> getAuthorSetOfPublishers(String[] authorsIds) throws ServiceException {
         Dao<Author> authorDao = new AuthorDaoImpl();
-        Set<Publisher> authorsPublishers = new HashSet<>();
-        for (String author_id : authorIds) {
+        Set<PublisherDto> authorsPublishers = new HashSet<>();
+        for (String author_id : authorsIds) {
             Author author;
+            PublisherDto publisherDto = null;
             try {
                 author = authorDao.findById(Integer.parseInt(author_id));
+                for (Publisher publisher : author.getPublishers()) {
+                    publisherDto = EntityMapper.getInstance().mapPublisherToPublisherDto(publisher);
+                }
             } catch (DaoException e) {
                 throw new ServiceException();
             }
-            authorsPublishers.addAll(author.getPublishers());
+            authorsPublishers.add(publisherDto);
         }
         return authorsPublishers;
     }
@@ -198,13 +202,17 @@ public class AuthorServiceImpl implements AuthorService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<AuthorDto> sortAllAuthorsBySurname() throws ServiceException {
-        List<AuthorDto> authorsDto;
+    public List<AuthorDto> sortAllAuthorsBySurname(String[] authorsIds) throws ServiceException {
+        List<AuthorDto> authorsDto = new ArrayList<>();
         try {
             Dao<Author> authorDao = new AuthorDaoImpl();
-            List<Author> authors = authorDao.findAll();
-            authors.sort(Comparator.comparing(Author::getSurname));
-            authorsDto = EntityMapper.getInstance().mapListToAuthorDto(authors);
+            AuthorDto authorDto;
+            for (String author_id : authorsIds) {
+                Author author = authorDao.findById(Integer.parseInt(author_id));
+                authorDto = EntityMapper.getInstance().mapAuthorToAuthorDto(author);
+                authorsDto.add(authorDto);
+            }
+            authorsDto.sort(Comparator.comparing(AuthorDto::getSurname));
         } catch (DaoException e) {
             throw new ServiceException();
         }

@@ -1,21 +1,16 @@
 package impl;
 
-import entities.Author;
-import entities.Book;
-import entities.Genre;
-import entities.Publisher;
+import dto.BookDto;
 import exceptions.ServiceException;
-import impl.mocks.MockUtils;
+import mocks.MockUtils;
 import interfaces.BookService;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
-import static impl.mocks.MockConstants.*;
+import static mocks.MockConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alex Mikhalevich
@@ -23,94 +18,108 @@ import static impl.mocks.MockConstants.*;
  */
 class BookServiceImplTest {
 
+    @BeforeEach
+    void setUp() throws ServiceException {
+        BookService bookService = new BookServiceImpl();
+        bookService.addBook(BOOK_TITLE, BOOK_LANGUAGE, BOOK_YEAR_OF_PUBLISHING, BOOK_RECEIPT_DATE, BOOK_AUTHORS_IDS,
+                BOOK_GENRES_IDS, BOOK_PUBLISHER_ID);
+    }
+
     @Test
     void shouldAddBookToDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        Book bookFromDB = bookService.findBookById(book.getId());
-        Assertions.assertNotNull(bookFromDB);
-        Assertions.assertEquals(book, bookFromDB);
+        BookDto bookDtoFromDB = bookService.findBookById(MockUtils.findIdOfBook());
+        assertNotNull(bookDtoFromDB);
+        assertEquals(BOOK_TITLE, bookDtoFromDB.getTitle(), "Book name is not equals");
+        assertEquals(BOOK_LANGUAGE, bookDtoFromDB.getLanguage(), "Language is not equals");
+        assertEquals(BOOK_YEAR_OF_PUBLISHING, bookDtoFromDB.getYearOfPublishing(), "Year of publishing is not equals");
+        assertEquals(String.valueOf(BOOK_RECEIPT_DATE), String.valueOf(bookDtoFromDB.getReceiptDate()), "Year of publishing is not equals");
     }
 
     @Test
     void shouldUpdateBookInDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        Book bookToUpdate = Book.builder()
-                .id(book.getId())
-                .title(UPDATE_BOOK_TITLE)
-                .language(UPDATE_BOOK_LANGUAGE)
-                .authors(Set.of(author))
-                .genres(Set.of(genre))
-                .publisher(publisher)
-                .yearOfPublishing(UPDATE_BOOK_YEAR_OF_PUBLISHING)
-                .receiptDate(new Date(LocalDate.now().toEpochDay()))
-                .build();
-        bookService.updateBook(bookToUpdate);
-        Book bookFromDB = bookService.findBookById(bookToUpdate.getId());
-        Assertions.assertEquals(bookToUpdate,bookFromDB);
+        int id = MockUtils.findIdOfBook();
+        bookService.updateBook(id, UPDATE_BOOK_TITLE, UPDATE_BOOK_LANGUAGE, UPDATE_BOOK_YEAR_OF_PUBLISHING, UPDATE_BOOK_RECEIPT_DATE, BOOK_AUTHORS_IDS,
+                BOOK_GENRES_IDS, BOOK_PUBLISHER_ID);
+        BookDto bookDtoFromDB = bookService.findBookById(id);
+        assertNotNull(bookDtoFromDB);
+        assertEquals(UPDATE_BOOK_TITLE, bookDtoFromDB.getTitle(), "Book name is not equals");
+        assertEquals(UPDATE_BOOK_LANGUAGE, bookDtoFromDB.getLanguage(), "Language is not equals");
+        assertEquals(UPDATE_BOOK_YEAR_OF_PUBLISHING, bookDtoFromDB.getYearOfPublishing(), "Year of publishing is not equals");
     }
 
     @Test
     void shouldDeleteBookInDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        bookService.deleteBook(book.getId());
-        Book bookFromDB = bookService.findBookById(book.getId());
-        Assertions.assertNull(bookFromDB);
+        int id = MockUtils.findIdOfBook();
+        bookService.deleteBook(id);
+        BookDto bookDtoFromDB = bookService.findBookById(id);
+        assertNull(bookDtoFromDB);
     }
 
     @Test
     void shouldFindBookByIdInDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        Book bookFromDB = bookService.findBookById(book.getId());
-        Assertions.assertNotNull(bookFromDB);
-        Assertions.assertNotNull(bookFromDB.getId());
-        Assertions.assertEquals(BOOK_TITLE, bookFromDB.getTitle(), "Book name is not equals");
-        Assertions.assertEquals(LANGUAGE, bookFromDB.getLanguage(), "Language is not equals");
-        Assertions.assertEquals(YEAR_OF_PUBLISHING, bookFromDB.getYearOfPublishing(), "Year of publishing is not equals");
+        BookDto bookDtoFromDB = bookService.findBookById(MockUtils.findIdOfBook());
+        assertNotNull(bookDtoFromDB);
+        assertEquals(BOOK_TITLE, bookDtoFromDB.getTitle(), "Book name is not equals");
+        assertEquals(BOOK_LANGUAGE, bookDtoFromDB.getLanguage(), "Language is not equals");
+        assertEquals(BOOK_YEAR_OF_PUBLISHING, bookDtoFromDB.getYearOfPublishing(), "Year of publishing is not equals");
     }
 
     @Test
     void shouldFindBookByNameInDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        Book bookFromDB = bookService.findBookById(book.getId());
-        List<Book> listFromDB = bookService.findBookByName(BOOK_TITLE);
-        Assertions.assertTrue(listFromDB.contains(bookFromDB));
+        List<BookDto> bookDtoListFromDB = bookService.findBookByName(BOOK_TITLE);
+        String title = null;
+        for (BookDto bookDto : bookDtoListFromDB) {
+            title = bookDto.getTitle();
+        }
+        assertEquals(BOOK_TITLE, title, "Book name is not equals");
     }
 
     @Test
     void shouldFindAllBooksInDatabaseByService() throws ServiceException {
-        Author author = MockUtils.createAuthor();
-        Genre genre = MockUtils.createGenre();
-        Publisher publisher = MockUtils.createPublisher(MockUtils.createAddress());
-        Book book = MockUtils.createBook(author, genre, publisher);
         BookService bookService = new BookServiceImpl();
-        bookService.addBook(book);
-        Book bookFromDB = bookService.findBookById(book.getId());
-        List<Book> listFromDB = bookService.findAllBooks();
-        Assertions.assertTrue(listFromDB.contains(bookFromDB));
+        BookDto bookDtoFromDB = bookService.findBookById(MockUtils.findIdOfBook());
+        List<BookDto> bookDtoListFromDB = bookService.findAllBooks();
+        assertTrue(bookDtoListFromDB.contains(bookDtoFromDB));
+    }
+
+    @Test
+    void sortAllBooksByName() throws ServiceException {
+        BookService bookService = new BookServiceImpl();
+        String id1 = String.valueOf(MockUtils.findIdOfBook());
+        BookDto bookDtoFromDB_1 = bookService.findBookById(MockUtils.findIdOfBook());
+        bookService.addBook(UPDATE_BOOK_TITLE, UPDATE_BOOK_LANGUAGE, UPDATE_BOOK_YEAR_OF_PUBLISHING, BOOK_RECEIPT_DATE, BOOK_AUTHORS_IDS,
+                BOOK_GENRES_IDS, BOOK_PUBLISHER_ID);
+        List<BookDto> bookDtoListFromDB = bookService.findBookByName(UPDATE_BOOK_TITLE);
+        String id2 = String.valueOf(0);
+        for (BookDto bookDto : bookDtoListFromDB) {
+            id2 = String.valueOf(bookDto.getId());
+        }
+        BookDto bookDtoFromDB_2 = bookService.findBookById(Integer.parseInt(id2));
+        List<BookDto> bookDtoList = bookService.sortAllBooksByName(new String[]{id1, id2});
+        assertEquals(bookDtoFromDB_2, bookDtoList.get(0));
+        assertEquals(bookDtoFromDB_1, bookDtoList.get(1));
+    }
+
+    @Test
+    void sortAllBooksByDate() throws ServiceException {
+        BookService bookService = new BookServiceImpl();
+        String id1 = String.valueOf(MockUtils.findIdOfBook());
+        BookDto bookDtoFromDB_1 = bookService.findBookById(MockUtils.findIdOfBook());
+        bookService.addBook(UPDATE_BOOK_TITLE, UPDATE_BOOK_LANGUAGE, UPDATE_BOOK_YEAR_OF_PUBLISHING, UPDATE_BOOK_RECEIPT_DATE, BOOK_AUTHORS_IDS,
+                BOOK_GENRES_IDS, BOOK_PUBLISHER_ID);
+        List<BookDto> bookDtoListFromDB = bookService.findBookByName(UPDATE_BOOK_TITLE);
+        String id2 = String.valueOf(0);
+        for (BookDto bookDto : bookDtoListFromDB) {
+            id2 = String.valueOf(bookDto.getId());
+        }
+        BookDto bookDtoFromDB_2 = bookService.findBookById(Integer.parseInt(id2));
+        List<BookDto> bookDtoList = bookService.sortAllBooksByName(new String[]{id1, id2});
+        assertEquals(bookDtoFromDB_2, bookDtoList.get(0));
+        assertEquals(bookDtoFromDB_1, bookDtoList.get(1));
     }
 }

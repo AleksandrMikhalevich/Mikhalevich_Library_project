@@ -1,16 +1,17 @@
 package impl;
 
-import entities.Genre;
+import dto.GenreDto;
 import exceptions.ServiceException;
-import impl.mocks.MockConstants;
-import impl.mocks.MockUtils;
+import mocks.MockUtils;
 import interfaces.GenreService;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
-import static impl.mocks.MockConstants.GENRE_NAME;
+import static mocks.MockConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Alex Mikhalevich
@@ -18,71 +19,96 @@ import static impl.mocks.MockConstants.GENRE_NAME;
  */
 class GenreServiceImplTest {
 
-    @Test
-    void shouldCreateGenreInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
+    @BeforeEach
+    void setUp() throws ServiceException {
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        Genre genreFromDB = genreService.findGenreById(genre.getId());
-        Assertions.assertNotNull(genreFromDB);
-        Assertions.assertEquals(genre, genreFromDB);
+        genreService.addGenre(GENRE_NAME, GENRE_DESCRIPTION);
+    }
+
+    @Test
+    void shouldAddGenreInDatabaseByService() throws ServiceException {
+        GenreService genreService = new GenreServiceImpl();
+        GenreDto genreDtoFromDB = genreService.findGenreById(MockUtils.findIdOfGenre());
+        assertNotNull(genreDtoFromDB);
+        assertEquals(GENRE_NAME, genreDtoFromDB.getName(), "Name is not equals");
+        assertEquals(GENRE_DESCRIPTION, genreDtoFromDB.getDescription(), "Description is not equals");
     }
 
     @Test
     void shouldUpdateGenreInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        Genre genreToUpdate = Genre.builder()
-                .id(genre.getId())
-                .name(MockConstants.UPDATE_GENRE_NAME)
-                .build();
-        genreService.updateGenre(genreToUpdate);
-        Genre genreFromDB = genreService.findGenreById(genreToUpdate.getId());
-        Assertions.assertEquals(genreToUpdate, genreFromDB);
+        int id = MockUtils.findIdOfGenre();
+        genreService.updateGenre(id, UPDATE_GENRE_NAME, UPDATE_GENRE_DESCRIPTION);
+        GenreDto genreDtoFromDB = genreService.findGenreById(id);
+        assertNotNull(genreDtoFromDB);
+        assertEquals(UPDATE_GENRE_NAME, genreDtoFromDB.getName(), "Name is not equals");
+        assertEquals(UPDATE_GENRE_DESCRIPTION, genreDtoFromDB.getDescription(), "Description is not equals");
     }
 
     @Test
     void shouldDeleteGenreInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        genreService.deleteGenre(genre.getId());
-        Genre genreFromDB = genreService.findGenreById(genre.getId());
-        Assertions.assertNull(genreFromDB);
+        int id = MockUtils.findIdOfGenre();
+        genreService.deleteGenre(id);
+        GenreDto genreDtoFromDB = genreService.findGenreById(id);
+        assertNull(genreDtoFromDB);
     }
 
     @Test
     void shouldFindGenreByIdInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        Genre genreFromDB = genreService.findGenreById(genre.getId());
-        Assertions.assertNotNull(genreFromDB);
-        Assertions.assertEquals(genre, genreFromDB);
-        Assertions.assertEquals(GENRE_NAME, genreFromDB.getName(), "Genre name is not equals");
+        GenreDto genreDtoFromDB = genreService.findGenreById(MockUtils.findIdOfGenre());
+        assertNotNull(genreDtoFromDB);
+        assertEquals(GENRE_NAME, genreDtoFromDB.getName(), "Name is not equals");
+        assertEquals(GENRE_DESCRIPTION, genreDtoFromDB.getDescription(), "Description is not equals");
     }
 
     @Test
     void shouldFindGenreByNameInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        List<Genre> listFromDB = genreService.findGenreByName(GENRE_NAME);
-        Assertions.assertTrue(listFromDB.contains(genre));
+        List<GenreDto> genreDtoListFromDB = genreService.findGenreByName(GENRE_NAME);
+        String name = null;
+        for (GenreDto genreDto : genreDtoListFromDB) {
+            name = genreDto.getName();
+        }
+        assertEquals(GENRE_NAME, name, "Name is not equals");
     }
 
     @Test
     void shouldFindAllGenresInDatabaseByService() throws ServiceException {
-        Genre genre = MockUtils.createGenre();
-        Genre genre2 = MockUtils.createGenre();
         GenreService genreService = new GenreServiceImpl();
-        genreService.addGenre(genre);
-        genreService.addGenre(genre2);
-        Genre genreFromDB = genreService.findGenreById(genre.getId());
-        Genre genreFromDB2 = genreService.findGenreById(genre2.getId());
-        List<Genre> listFromDB = genreService.findAllGenres();
-        Assertions.assertTrue(listFromDB.contains(genreFromDB));
-        Assertions.assertTrue(listFromDB.contains(genreFromDB2));
+        GenreDto genreDtoFromDB = genreService.findGenreById(MockUtils.findIdOfGenre());
+        List<GenreDto> genreDtoListFromDB = genreService.findAllGenres();
+        assertTrue(genreDtoListFromDB.contains(genreDtoFromDB));
+    }
+
+    @Test
+    void shouldChooseGenresToBook() throws ServiceException {
+        GenreService genreService = new GenreServiceImpl();
+        GenreDto genreDtoFromDB_1 = genreService.findGenreById(MockUtils.findIdOfGenre());
+        String id1 = String.valueOf(MockUtils.findIdOfGenre());
+        genreService.addGenre(GENRE_NAME, UPDATE_GENRE_DESCRIPTION);
+        GenreDto genreDtoFromDB_2 = genreService.findGenreById(MockUtils.findIdOfGenre());
+        String id2 = String.valueOf(MockUtils.findIdOfGenre());
+        Set<GenreDto> genreDtoSetFromDB = genreService.chooseGenresToBook(new String[]{id1, id2});
+        assertTrue(genreDtoSetFromDB.contains(genreDtoFromDB_1));
+        assertTrue(genreDtoSetFromDB.contains(genreDtoFromDB_2));
+    }
+
+    @Test
+    void shouldSortAllGenresByName() throws ServiceException {
+        GenreService genreService = new GenreServiceImpl();
+        String id1 = String.valueOf(MockUtils.findIdOfGenre());
+        GenreDto genreDtoFromDB_1 = genreService.findGenreById(MockUtils.findIdOfGenre());
+        genreService.addGenre(UPDATE_GENRE_NAME, UPDATE_GENRE_DESCRIPTION);
+        List<GenreDto> genreDtoListFromDB = genreService.findGenreByName(UPDATE_GENRE_NAME);
+        String id2 = String.valueOf(0);
+        for (GenreDto genreDto : genreDtoListFromDB) {
+            id2 = String.valueOf(genreDto.getId());
+        }
+        GenreDto genreDtoFromDB_2 = genreService.findGenreById(Integer.parseInt(id2));
+        List<GenreDto> genreDtoList = genreService.sortAllGenresByName(new String[]{id1, id2});
+        assertEquals(genreDtoFromDB_2, genreDtoList.get(0));
+        assertEquals(genreDtoFromDB_1, genreDtoList.get(1));
     }
 }

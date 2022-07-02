@@ -1,20 +1,21 @@
 package impl;
 
 import dao.exceptions.DaoException;
+import dao.impl.GenreDaoImpl;
 import dao.impl.PublisherDaoImpl;
 import dao.interfaces.Dao;
+import dto.AuthorDto;
+import dto.GenreDto;
 import dto.PublisherDto;
 import entities.Address;
-import entities.Author;
+import entities.Genre;
 import entities.Publisher;
 import exceptions.ServiceException;
 import interfaces.PublisherService;
 import mappers.EntityMapper;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Alex Mikhalevich
@@ -93,7 +94,7 @@ public class PublisherServiceImpl implements PublisherService {
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
             Publisher publisher = publisherDao.findById(id);
-            publisherDto = EntityMapper.getInstance().mapPublisherToDto(publisher);
+            publisherDto = EntityMapper.getInstance().mapPublisherToPublisherDto(publisher);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -111,7 +112,7 @@ public class PublisherServiceImpl implements PublisherService {
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
             List<Publisher> publishers = publisherDao.findByName(name);
-            publishersDto = EntityMapper.getInstance().mapListToPublisherDto(publishers);
+            publishersDto = EntityMapper.getInstance().mapListPublisherToListPublisherDto(publishers);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -128,7 +129,7 @@ public class PublisherServiceImpl implements PublisherService {
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
             List<Publisher> publishers = publisherDao.findAll();
-            publishersDto = EntityMapper.getInstance().mapListToPublisherDto(publishers);
+            publishersDto = EntityMapper.getInstance().mapListPublisherToListPublisherDto(publishers);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -141,13 +142,15 @@ public class PublisherServiceImpl implements PublisherService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Set<Author> getPublisherSetOfAuthors(int publisherId) throws ServiceException {
+    public Set<AuthorDto> getPublisherSetOfAuthors(int publisherId) throws ServiceException {
         Dao<Publisher> publisherDao = new PublisherDaoImpl();
-        Set<Author> publisherAuthors;
         Publisher publisher;
+        Set<AuthorDto> publisherAuthors;
         try {
             publisher = publisherDao.findById(publisherId);
-            publisherAuthors = new HashSet<>(publisher.getAuthors());
+            publisherAuthors = publisher.getAuthors().stream()
+                    .map(author -> EntityMapper.getInstance().mapAuthorToAuthorDto(author))
+                    .collect(Collectors.toSet());
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -160,17 +163,19 @@ public class PublisherServiceImpl implements PublisherService {
      * @throws ServiceException from work with services
      */
     @Override
-    public Set<Publisher> choosePublishersToAuthor(String[] publishersIds) throws ServiceException {
+    public Set<PublisherDto> choosePublishersToAuthor(String[] publishersIds) throws ServiceException {
         Dao<Publisher> publisherDao = new PublisherDaoImpl();
-        Set<Publisher> publisherSet = new HashSet<>();
+        Set<PublisherDto> publisherSet = new HashSet<>();
         for (String publisher_id : publishersIds) {
             Publisher publisher;
+            PublisherDto publisherDto;
             try {
                 publisher = publisherDao.findById(Integer.parseInt(publisher_id));
+                publisherDto = EntityMapper.getInstance().mapPublisherToPublisherDto(publisher);
             } catch (DaoException e) {
                 throw new ServiceException();
             }
-            publisherSet.add(publisher);
+            publisherSet.add(publisherDto);
         }
         return publisherSet;
     }
@@ -180,13 +185,17 @@ public class PublisherServiceImpl implements PublisherService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<PublisherDto> sortAllPublishersByName() throws ServiceException {
-        List<PublisherDto> publishersDto;
+    public List<PublisherDto> sortAllPublishersByName(String[] publishersIds) throws ServiceException {
+        List<PublisherDto> publishersDto = new ArrayList<>();
         try {
             Dao<Publisher> publisherDao = new PublisherDaoImpl();
-            List<Publisher> publishers = publisherDao.findAll();
-            publishers.sort(Comparator.comparing(Publisher::getName));
-            publishersDto = EntityMapper.getInstance().mapListToPublisherDto(publishers);
+            PublisherDto publisherDto;
+            for (String publisher_id : publishersIds) {
+                Publisher publisher = publisherDao.findById(Integer.parseInt(publisher_id));
+                publisherDto = EntityMapper.getInstance().mapPublisherToPublisherDto(publisher);
+                publishersDto.add(publisherDto);
+            }
+            publishersDto.sort(Comparator.comparing(PublisherDto::getName));
         } catch (DaoException e) {
             throw new ServiceException();
         }

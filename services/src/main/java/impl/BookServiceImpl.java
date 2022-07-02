@@ -16,10 +16,7 @@ import interfaces.BookService;
 import mappers.EntityMapper;
 
 import java.sql.Date;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alex Mikhalevich
@@ -140,7 +137,7 @@ public class BookServiceImpl implements BookService {
         try {
             Dao<Book> bookDao = new BookDaoImpl();
             Book book = bookDao.findById(id);
-            bookDto = EntityMapper.getInstance().mapToBookDto(book);
+            bookDto = EntityMapper.getInstance().mapBookToBookDto(book);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -158,7 +155,7 @@ public class BookServiceImpl implements BookService {
         try {
             Dao<Book> bookDao = new BookDaoImpl();
             List<Book> books = bookDao.findByName(name);
-            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
+            booksDto = EntityMapper.getInstance().mapListBookToListBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -175,7 +172,7 @@ public class BookServiceImpl implements BookService {
         try {
             Dao<Book> bookDao = new BookDaoImpl();
             List<Book> books = bookDao.findAll();
-            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
+            booksDto = EntityMapper.getInstance().mapListBookToListBookDto(books);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -187,13 +184,17 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<BookDto> sortAllBooksByName() throws ServiceException {
-        List<BookDto> booksDto;
+    public List<BookDto> sortAllBooksByName(String[] booksIds) throws ServiceException {
+        List<BookDto> booksDto = new ArrayList<>();
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            List<Book> books = bookDao.findAll();
-            books.sort(Comparator.comparing(Book::getTitle));
-            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
+            BookDto bookDto;
+            for (String book_id : booksIds) {
+                Book book = bookDao.findById(Integer.parseInt(book_id));
+                bookDto = EntityMapper.getInstance().mapBookToBookDto(book);
+                booksDto.add(bookDto);
+            }
+            booksDto.sort(Comparator.comparing(BookDto::getTitle));
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -205,13 +206,17 @@ public class BookServiceImpl implements BookService {
      * @throws ServiceException from work with services
      */
     @Override
-    public List<BookDto> sortAllBooksByDate() throws ServiceException {
-        List<BookDto> booksDto;
+    public List<BookDto> sortAllBooksByDate(String[] booksIds) throws ServiceException {
+        List<BookDto> booksDto = new ArrayList<>();
         try {
             Dao<Book> bookDao = new BookDaoImpl();
-            List<Book> books = bookDao.findAll();
-            books.sort(Comparator.comparing(Book::getReceiptDate).reversed());
-            booksDto = EntityMapper.getInstance().mapListToBookDto(books);
+            BookDto bookDto;
+            for (String book_id : booksIds) {
+                Book book = bookDao.findById(Integer.parseInt(book_id));
+                bookDto = EntityMapper.getInstance().mapBookToBookDto(book);
+                booksDto.add(bookDto);
+            }
+            booksDto.sort(Comparator.comparing(BookDto::getReceiptDate).reversed());
         } catch (DaoException e) {
             throw new ServiceException();
         }
