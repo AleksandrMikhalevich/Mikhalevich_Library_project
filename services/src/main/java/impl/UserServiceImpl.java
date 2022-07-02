@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         try {
             Dao<User> userDao = new UserDaoImpl();
             User user = userDao.findById(id);
-            userDto = EntityMapper.getInstance().mapUserToDto(user);
+            userDto = EntityMapper.getInstance().mapUserToUserDto(user);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         try {
             Dao<User> userDao = new UserDaoImpl();
             List<User> users = userDao.findByName(name);
-            usersDto = EntityMapper.getInstance().mapListToUserDto(users);
+            usersDto = EntityMapper.getInstance().mapListUserToListUserDto(users);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         try {
             Dao<User> userDao = new UserDaoImpl();
             List<User> users = userDao.findAll();
-            usersDto = EntityMapper.getInstance().mapListToUserDto(users);
+            usersDto = EntityMapper.getInstance().mapListUserToListUserDto(users);
         } catch (DaoException e) {
             throw new ServiceException();
         }

@@ -40,14 +40,19 @@
             <input type="radio" name="sorting" value="sort_by_name" checked>
         </label> По названию
         ${requestScope.errorSortGenres}
+        <c:forEach var="genre" items="${sessionScope.genreList}">
+            <input name="genres_ids" type="hidden" value="${genre.id}">
+        </c:forEach>
         <input name="action" type="hidden" value="sort_genres">
         <button>Сортировать</button>
     </form>
 
     <table class="center">
         <p>
-            ${requestScope.searchGenreResults}
-            ${requestScope.errorSearchGenreResults}
+            <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">
+                ${sessionScope.searchGenreResults}
+                ${requestScope.errorSearchGenreResults}
+            </c:if>
         </p>
         <caption><b>
             Список жанров
@@ -86,23 +91,17 @@
     </table>
     <br>
     ${requestScope.successAddGenre}
-
     ${requestScope.errorAddGenre}
-
     ${requestScope.successUpdateGenre}
-
     ${requestScope.errorUpdateGenre}
-
     ${requestScope.successDeleteGenre}
-
     ${requestScope.errorDeleteGenre}
-
     <p>
         <a href="genre-add.jsp">Добавить жанр</a>
     <p>
         <a href="main.jsp">На главную страницу</a>
     <p>
-        <c:if test="${requestScope.searchGenreResults !=null}">
+        <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">
         <a href="controller?action=find_all_genres">Назад</a>
         </c:if>
 </div>

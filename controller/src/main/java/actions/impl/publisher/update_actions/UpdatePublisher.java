@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static actions.impl.constants.Constants.*;
 import static actions.impl.constants.Constants.PUBLISHER_ID;
 import static actions.impl.constants.Constants.PUBLISHER_NAME;
 
@@ -32,11 +33,11 @@ public class UpdatePublisher implements Command {
         String page;
         int id = Integer.parseInt(req.getParameter(PUBLISHER_ID));
         String name = req.getParameter(PUBLISHER_NAME);
-        String country = req.getParameter(Constants.PUBLISHER_COUNTRY);
-        String city = req.getParameter(Constants.PUBLISHER_CITY);
-        String street = req.getParameter(Constants.PUBLISHER_STREET);
-        String house = req.getParameter(Constants.PUBLISHER_HOUSE);
-        String zipcode = req.getParameter(Constants.PUBLISHER_ZIPCODE);
+        String country = req.getParameter(PUBLISHER_COUNTRY);
+        String city = req.getParameter(PUBLISHER_CITY);
+        String street = req.getParameter(PUBLISHER_STREET);
+        String house = req.getParameter(PUBLISHER_HOUSE);
+        String zipcode = req.getParameter(PUBLISHER_ZIPCODE);
         try {
             PublisherService publisherService = new PublisherServiceImpl();
             publisherService.updatePublisher(id, name, country, city, street, house, zipcode);

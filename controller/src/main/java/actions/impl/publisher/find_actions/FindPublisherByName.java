@@ -34,7 +34,7 @@ public class FindPublisherByName implements Command {
             List<PublisherDto> publisherList = publisherService.findPublisherByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
-            req.setAttribute("searchPublisherResults", MessageManager.getProperty("message.search-results"));
+            httpSession.setAttribute("searchPublisherResults", MessageManager.getProperty("message.search-results"));
             page = PageManager.getProperty("page.publishers");
         } catch (ServiceException e) {
             req.setAttribute("errorSearchPublisherResults", MessageManager.getProperty("message.search-error"));

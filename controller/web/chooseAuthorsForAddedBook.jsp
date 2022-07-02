@@ -16,7 +16,6 @@
     table, th, td {
         border: 1px solid black
     }
-
     .center {
         margin-left: auto;
         margin-right: auto;
@@ -47,7 +46,6 @@
                     </td>
                     <td>
                         <c:out value="${author.surname}"/>
-                        <c:set var="author_surname" scope="session" value="${author.surname}"/>
                     </td>
                     <td>
                         <c:out value="${author.country}"/>

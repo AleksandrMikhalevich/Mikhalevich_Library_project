@@ -31,6 +31,8 @@ public class FindAllGenres implements Command {
             List<GenreDto> genreList = genreService.findAllGenres();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
+            httpSession.removeAttribute("sortGenreResults");
+            httpSession.removeAttribute("searchGenreResults");
             page = PageManager.getProperty("page.genres");
         } catch (ServiceException e) {
             req.setAttribute("errorGenreList", MessageManager.getProperty("message.genre-list-error"));

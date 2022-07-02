@@ -4,8 +4,6 @@ import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
 import dto.AuthorDto;
-import entities.Author;
-import entities.Publisher;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
 import impl.PublisherServiceImpl;
@@ -14,11 +12,10 @@ import interfaces.PublisherService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static actions.impl.constants.Constants.AUTHORS_SET;
 import static actions.impl.constants.Constants.PUBLISHER_ID;
 
 /**
@@ -50,7 +47,7 @@ public class ChooseAuthorsForAddedBook implements Command {
             publisher_id = Integer.parseInt(req.getParameter(PUBLISHER_ID));
             try {
                 PublisherService publisherService = new PublisherServiceImpl();
-                Set<Author> publisherAuthors = publisherService.getPublisherSetOfAuthors(publisher_id);
+                Set<AuthorDto> publisherAuthors = publisherService.getPublisherSetOfAuthors(publisher_id);
                 HttpSession httpSession = req.getSession();
                 httpSession.setAttribute("addedAuthors", publisherAuthors);
                 page = PageManager.getProperty("page.chooseAuthorsForAddedBook");

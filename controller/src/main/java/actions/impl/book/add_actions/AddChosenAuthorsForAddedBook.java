@@ -3,6 +3,7 @@ package actions.impl.book.add_actions;
 import actions.interfaces.Command;
 import actions.utils.PageManager;
 import actions.utils.MessageManager;
+import dto.AuthorDto;
 import entities.Author;
 import exceptions.ServiceException;
 import impl.AuthorServiceImpl;
@@ -33,7 +34,7 @@ public class AddChosenAuthorsForAddedBook implements Command {
         }
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            Set<Author> authorSet = authorService.chooseAuthorsToBook(author_ids);
+            Set<AuthorDto> authorSet = authorService.chooseAuthorsToBook(author_ids);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("chosenAuthorsToAdd", authorSet);
             page = PageManager.getProperty("page.book-add");

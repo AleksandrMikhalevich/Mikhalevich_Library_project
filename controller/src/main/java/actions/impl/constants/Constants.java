@@ -1,5 +1,10 @@
 package actions.impl.constants;
 
+import dto.AuthorDto;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Alex Mikhalevich
  * @created 2022-05-28 16:39
@@ -27,6 +32,8 @@ public class Constants {
     public static final String AUTHOR_SECOND_NAME = "second_name";
     public static final String AUTHOR_COUNTRY = "country";
     public static final String SEARCH_AUTHOR_BY_NAME_QUERY = "search_query";
+
+    public static final Set<AuthorDto> AUTHORS_SET = new HashSet<>();
 
     /*
     Genre constants

@@ -34,6 +34,8 @@ public class FindAllAuthors implements Command {
             List<AuthorDto> authorList = authorService.findAllAuthors();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
+            httpSession.removeAttribute("sortAuthorResults");
+            httpSession.removeAttribute("searchAuthorResults");
             page = PageManager.getProperty("page.authors");
         } catch (ServiceException e) {
             req.setAttribute("errorAuthorList", MessageManager.getProperty("message.author-list-error"));

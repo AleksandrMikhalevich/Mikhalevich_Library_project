@@ -1,7 +1,4 @@
-<%@ page import="entities.Author" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.List" %>
-<%@ page import="entities.Book" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Alex Mikhalevich
   Date: 31.05.2022
@@ -47,14 +44,19 @@
             <input type="radio" name="sorting" value="sort_by_date">
         </label> По дате поступления
         ${requestScope.errorSortBooks}
+        <c:forEach var="book" items="${sessionScope.bookList}">
+            <input name="books_ids" type="hidden" value="${book.id}">
+        </c:forEach>
         <input name="action" type="hidden" value="sort_books">
         <button>Сортировать</button>
     </form>
 
     <table class="center">
         <p>
-            ${requestScope.searchBookResults}
-            ${requestScope.errorSearchBookResults}
+            <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">
+                ${sessionScope.searchBookResults}
+                ${requestScope.errorSearchBookResults}
+            </c:if>
         </p>
         <caption><b>
             Список книг
@@ -139,7 +141,7 @@
     <p>
         <a href="main.jsp">На главную страницу</a>
     <p>
-        <c:if test="${requestScope.searchBookResults !=null}">
+        <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">
         <a href="controller?action=find_all_books">Назад</a>
         </c:if>
 </div>

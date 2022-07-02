@@ -56,9 +56,9 @@ public class Controller extends HttpServlet {
         try {
             executeRequest(req, resp);
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            String page = PageManager.getProperty("page.error");
+            resp.sendRedirect(req.getContextPath() + page);
         }
-
     }
 
     /**
@@ -78,7 +78,7 @@ public class Controller extends HttpServlet {
             dispatcher.forward(req, resp);
         } else {
             page = PageManager.getProperty("page.index");
-            req.getSession().setAttribute("nullPage", MessageManager.getProperty("message.null-page"));
+            req.setAttribute("nullPage", MessageManager.getProperty("message.null-page"));
             resp.sendRedirect(req.getContextPath() + page);
         }
     }

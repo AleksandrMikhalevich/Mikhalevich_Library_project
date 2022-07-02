@@ -35,7 +35,7 @@ public class FindAuthorByName implements Command {
             List<AuthorDto> authorList = authorService.findAuthorByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorList);
-            req.setAttribute("searchAuthorResults", MessageManager.getProperty("message.search-results"));
+            httpSession.setAttribute("searchAuthorResults", MessageManager.getProperty("message.search-results"));
             page = PageManager.getProperty("page.authors");
         } catch (ServiceException e) {
             req.setAttribute("errorSearchAuthorResults", MessageManager.getProperty("message.search-error"));

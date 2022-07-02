@@ -34,6 +34,8 @@ public class FindAllPublishers implements Command {
             List<PublisherDto> publisherList = publisherService.findAllPublishers();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("publisherList", publisherList);
+            httpSession.removeAttribute("sortPublisherResults");
+            httpSession.removeAttribute("searchPublisherResults");
             page = PageManager.getProperty("page.publishers");
         } catch (ServiceException e) {
             req.setAttribute("errorPublisherList", MessageManager.getProperty("message.publisher-list-error"));

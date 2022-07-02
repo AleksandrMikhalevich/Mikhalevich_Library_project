@@ -11,6 +11,7 @@ import interfaces.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 import static actions.impl.constants.Constants.*;
@@ -28,16 +29,21 @@ public class SortBooks implements Command {
     @Override
     public String execute(HttpServletRequest req) {
         String page;
+        String[] books_ids = req.getParameterValues("books_ids");
+        if (books_ids == null) {
+            books_ids = new String[0];
+        }
         try {
             BookService bookService = new BookServiceImpl();
             HttpSession httpSession = req.getSession();
             if (req.getParameter(BOOKS_SORTING).equals("sort_by_date")) {
-                List<BookDto> bookListSortByDate = bookService.sortAllBooksByDate();
+                List<BookDto> bookListSortByDate = bookService.sortAllBooksByDate(books_ids);
                 httpSession.setAttribute("bookList", bookListSortByDate);
             } else {
-                List<BookDto> bookListSortByName = bookService.sortAllBooksByName();
+                List<BookDto> bookListSortByName = bookService.sortAllBooksByName(books_ids);
                 httpSession.setAttribute("bookList", bookListSortByName);
             }
+            httpSession.setAttribute("sortBookResults", 0);
             page = PageManager.getProperty("page.books");
         } catch (ServiceException e) {
             req.setAttribute("errorSortBooks", MessageManager.getProperty("message.sort-error"));

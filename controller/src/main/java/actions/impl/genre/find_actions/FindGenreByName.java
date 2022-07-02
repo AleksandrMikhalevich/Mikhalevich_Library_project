@@ -34,7 +34,7 @@ public class FindGenreByName implements Command {
             List<GenreDto> genreList = genreService.findGenreByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreList);
-            req.setAttribute("searchGenreResults", MessageManager.getProperty("message.search-results"));
+            httpSession.setAttribute("searchGenreResults", MessageManager.getProperty("message.search-results"));
             page = PageManager.getProperty("page.genres");
         } catch (ServiceException e) {
             req.setAttribute("errorSearchGenreResults", MessageManager.getProperty("message.search-error"));

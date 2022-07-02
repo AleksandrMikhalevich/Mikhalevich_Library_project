@@ -29,11 +29,16 @@ public class SortGenres implements Command {
     @Override
     public String execute(HttpServletRequest req) {
         String page;
+        String[] genres_ids = req.getParameterValues("genres_ids");
+        if (genres_ids == null) {
+            genres_ids = new String[0];
+        }
         try {
             GenreService genreService = new GenreServiceImpl();
-            List<GenreDto> genreListSortByName = genreService.sortAllGenresByName();
+            List<GenreDto> genreListSortByName = genreService.sortAllGenresByName(genres_ids);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("genreList", genreListSortByName);
+            httpSession.setAttribute("sortGenreResults", 0);
             page = PageManager.getProperty("page.genres");
         } catch (ServiceException e) {
             req.setAttribute("errorSortGenres", MessageManager.getProperty("message.sort-error"));

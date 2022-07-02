@@ -34,7 +34,7 @@ public class FindBookByName implements Command {
             List<BookDto> bookList = bookService.findBookByName(name);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookList", bookList);
-            req.setAttribute("searchBookResults", MessageManager.getProperty("message.search-results"));
+            httpSession.setAttribute("searchBookResults", MessageManager.getProperty("message.search-results"));
             page = PageManager.getProperty("page.books");
         } catch (ServiceException e) {
             req.setAttribute("errorSearchBookResults", MessageManager.getProperty("message.search-error"));

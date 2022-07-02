@@ -47,7 +47,6 @@
                     </td>
                     <td>
                         <c:out value="${author.surname}"/>
-                        <c:set var="author_surname" scope="session" value="${author.surname}"/>
                     </td>
                     <td>
                         <c:out value="${author.country}"/>
@@ -56,7 +55,6 @@
                         <label>
                             <input type="checkbox" name="author_ids" value="${author.id}">
                         </label> Выбрать
-
                     </td>
                 </tr>
             </c:forEach>

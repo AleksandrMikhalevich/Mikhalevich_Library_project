@@ -26,11 +26,16 @@ public class SortAuthors implements Command {
     @Override
     public String execute(HttpServletRequest req) {
         String page;
+        String[] authors_ids = req.getParameterValues("authors_ids");
+        if (authors_ids == null) {
+            authors_ids = new String[0];
+        }
         try {
             AuthorService authorService = new AuthorServiceImpl();
-            List<AuthorDto> authorListSortBySurname = authorService.sortAllAuthorsBySurname();
+            List<AuthorDto> authorListSortBySurname = authorService.sortAllAuthorsBySurname(authors_ids);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authorList", authorListSortBySurname);
+            httpSession.setAttribute("sortAuthorsResults", 0);
             page = PageManager.getProperty("page.authors");
         } catch (ServiceException e) {
             req.setAttribute("errorSortAuthors", MessageManager.getProperty("message.sort-error"));

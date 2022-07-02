@@ -31,6 +31,8 @@ public class FindAllBooks implements Command {
             List<BookDto> bookList = bookService.findAllBooks();
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("bookList", bookList);
+            httpSession.removeAttribute("sortBookResults");
+            httpSession.removeAttribute("searchBookResults");
             page = PageManager.getProperty("page.books");
         } catch (ServiceException e) {
             req.setAttribute("errorBookList", MessageManager.getProperty("message.book-list-error"));

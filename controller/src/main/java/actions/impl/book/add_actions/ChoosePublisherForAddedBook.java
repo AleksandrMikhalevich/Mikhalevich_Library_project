@@ -48,7 +48,7 @@ public class ChoosePublisherForAddedBook implements Command {
         } else {
             try {
                 AuthorService authorService = new AuthorServiceImpl();
-                Set<Publisher> authorsPublishers = authorService.getAuthorSetOfPublishers(author_ids);
+                Set<PublisherDto> authorsPublishers = authorService.getAuthorSetOfPublishers(author_ids);
                 HttpSession httpSession = req.getSession();
                 httpSession.setAttribute("addedPublishers", authorsPublishers);
                 page = PageManager.getProperty("page.choosePublisherForAddedBook");

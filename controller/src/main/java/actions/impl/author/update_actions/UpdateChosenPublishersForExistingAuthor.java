@@ -3,6 +3,7 @@ package actions.impl.author.update_actions;
 import actions.interfaces.Command;
 import actions.utils.MessageManager;
 import actions.utils.PageManager;
+import dto.PublisherDto;
 import entities.Publisher;
 import exceptions.ServiceException;
 import impl.PublisherServiceImpl;
@@ -33,7 +34,7 @@ public class UpdateChosenPublishersForExistingAuthor implements Command {
         }
         try {
             PublisherService publisherService = new PublisherServiceImpl();
-            Set<Publisher> publisherSet = publisherService.choosePublishersToAuthor(publishers_ids);
+            Set<PublisherDto> publisherSet = publisherService.choosePublishersToAuthor(publishers_ids);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("updatedChosenPublishersToAuthor", publisherSet);
             page = PageManager.getProperty("page.author-update");

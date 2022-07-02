@@ -40,14 +40,19 @@
             <input type="radio" name="sorting" value="sort_by_surname" checked>
         </label> По фамилии
         ${requestScope.errorSortAuthors}
+        <c:forEach var="author" items="${sessionScope.authorList}">
+            <input name="authors_ids" type="hidden" value="${author.id}">
+        </c:forEach>
         <input name="action" type="hidden" value="sort_authors">
         <button>Сортировать</button>
     </form>
 
     <table class="center">
         <p>
-            ${requestScope.searchAuthorResults}
-            ${requestScope.errorSearchAuthorResults}
+            <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
+                ${sessionScope.searchAuthorResults}
+                ${requestScope.errorSearchAuthorResults}
+            </c:if>
         </p>
         <caption><b>
             Список авторов
@@ -107,28 +112,20 @@
     </table>
     <br>
     ${requestScope.successAddAuthor}
-
     ${requestScope.errorAddAuthor}
-
     ${requestScope.successUpdateAuthor}
-
     ${requestScope.errorUpdateAuthor}
-
     ${requestScope.successDeleteAuthor}
-
     ${requestScope.errorDeleteAuthor}
-
     ${requestScope.errorFindAuthorToDelete}
-
     ${requestScope.errorFindAuthorToUpdate}
-
     <p>
         <c:remove var="addedChosenPublishersToAuthor"/>
         <a href="author-add.jsp">Добавить автора</a>
     <p>
         <a href="main.jsp">На главную страницу</a>
     <p>
-        <c:if test="${requestScope.searchAuthorResults !=null}">
+        <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
         <a href="controller?action=find_all_authors">Назад</a>
         </c:if>
 </div>

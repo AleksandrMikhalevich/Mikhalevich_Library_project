@@ -47,7 +47,7 @@ public class ChooseAuthorsForExistingBook implements Command {
             publisher_id = Integer.parseInt(req.getParameter(PUBLISHER_ID));
             try {
                 PublisherService publisherService = new PublisherServiceImpl();
-                Set<Author> publisherAuthors = publisherService.getPublisherSetOfAuthors(publisher_id);
+                Set<AuthorDto> publisherAuthors = publisherService.getPublisherSetOfAuthors(publisher_id);
                 HttpSession httpSession = req.getSession();
                 httpSession.setAttribute("changedAuthors", publisherAuthors);
                 page = PageManager.getProperty("page.chooseAuthorsForExistingBook");
