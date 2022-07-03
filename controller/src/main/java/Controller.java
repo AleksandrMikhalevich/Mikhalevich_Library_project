@@ -36,7 +36,8 @@ public class Controller extends HttpServlet {
         try {
             executeRequest(req, resp);
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            String page = PageManager.getProperty("page.error");
+            resp.sendRedirect(req.getContextPath() + page);
         }
 
     }
