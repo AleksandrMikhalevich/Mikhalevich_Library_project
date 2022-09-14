@@ -99,7 +99,7 @@
     <p>
         <a href="genre-add.jsp">Добавить жанр</a>
     <p>
-        <a href="main.jsp">На главную страницу</a>
+        <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">
         <a href="controller?action=find_all_genres">Назад</a>

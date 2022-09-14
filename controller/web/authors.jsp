@@ -123,7 +123,7 @@
         <c:remove var="addedChosenPublishersToAuthor"/>
         <a href="author-add.jsp">Добавить автора</a>
     <p>
-        <a href="main.jsp">На главную страницу</a>
+        <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
         <a href="controller?action=find_all_authors">Назад</a>

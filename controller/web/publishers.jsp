@@ -139,7 +139,7 @@
     <p>
         <a href="publisher-add.jsp">Добавить издательство</a>
     <p>
-        <a href="main.jsp">На главную страницу</a>
+        <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchPublisherResults != null || sessionScope.searchPublisherResults != null && sessionScope.sortPublisherResults != null}">
         <a href="controller?action=find_all_publishers">Назад</a>

@@ -12,65 +12,65 @@
 <head>
     <title>Книги</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
     Добро пожаловать к Книгам!
-    <p>
+</div>
+<p>
+<div class="d-flex justify-content-center">
     <form name="search" method="post" action="controller">
-        <label>
-            <input name="search_query" type="text" required placeholder="Поиск книг">
-        </label>
-        ${requestScope.errorSearchBookResults}
-        <input name="action" type="hidden" value="find_book_by_name">
-        <button>Искать</button>
+        <div class="input-group">
+            <input type="text" class="d-flex flex-row form-control" name="search_query"
+                   aria-describedby="searchInput" aria-label="Search books" placeholder="Поиск книг">
+            <input name="action" type="hidden" value="find_book_by_name">
+            <button class="d-flex flex-row btn btn-outline-success" type="submit" id="searchInput">Искать</button>
+        </div>
     </form>
-
+</div>
+<div class="d-flex justify-content-center">
     <form name="sorting" method="post" action="controller">
-        <label>
-            <input type="radio" name="sorting" value="sort_by_name" checked>
-        </label> По имени
-        <label>
-            <input type="radio" name="sorting" value="sort_by_date">
-        </label> По дате поступления
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sorting" id="inlineRadio1"
+                   value="sort_by_name" checked="checked">
+            <label class="form-check-label" for="inlineRadio1">По названию</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sorting" id="inlineRadio2"
+                   value="sort_by_date">
+            <label class="form-check-label" for="inlineRadio2">По дате поступления</label>
+        </div>
         ${requestScope.errorSortBooks}
         <c:forEach var="book" items="${sessionScope.bookList}">
             <input name="books_ids" type="hidden" value="${book.id}">
         </c:forEach>
         <input name="action" type="hidden" value="sort_books">
-        <button>Сортировать</button>
+        <button type="submit" class="btn btn-outline-secondary">Сортировать</button>
     </form>
-
-    <table class="center">
-        <p>
-            <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">
-                ${sessionScope.searchBookResults}
-                ${requestScope.errorSearchBookResults}
-            </c:if>
-        </p>
-        <caption><b>
-            Список книг
-        </b></caption>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
+    <p>
+        <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">
+            ${sessionScope.searchBookResults}
+            ${requestScope.errorSearchBookResults}
+        </c:if>
+    <table class="table table-bordered table-hover" style="text-align: center;">
+        <thead class="align-middle">
         <tr>
-            <th>Название</th>
-            <th>Язык</th>
-            <th>Авторы</th>
-            <th>Жанры</th>
-            <th>Издатель</th>
-            <th>Год издания</th>
-            <th>Дата поступления</th>
-            <th>Действия</th>
+            <th scope="col">Название</th>
+            <th scope="col">Язык</th>
+            <th scope="col">Авторы</th>
+            <th scope="col">Жанры</th>
+            <th scope="col">Издатель</th>
+            <th scope="col">Год издания</th>
+            <th scope="col">Дата поступления</th>
+            <th colspan="2">Действия</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="book" items="${sessionScope.bookList}">
             <tr>
                 <td>
@@ -110,20 +110,25 @@
                     <form name="delete" method="post" action="controller">
                         <input name="id" type="hidden" value="${book.id}">
                         <input name="action" type="hidden" value="find_book_by_id_to_delete">
-                        <button>Удалить</button>
+                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
                     </form>
+                </td>
+                <td>
                     <form name="update" method="post" action="controller">
                         <c:remove var="chosenAuthors"/>
                         <c:remove var="chosenGenres"/>
                         <c:remove var="chosenPublisher"/>
                         <input name="id" type="hidden" value="${book.id}">
                         <input name="action" type="hidden" value="find_book_by_id_to_update">
-                        <button>Редактировать</button>
+                        <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
+</div>
+<div style="text-align: center;">
     <br>
     ${requestScope.successAddBook}
     ${requestScope.errorAddBook}
@@ -139,11 +144,17 @@
                 <c:remove var="chosenPublisherToAdd"/>
                 href="book-add.jsp">Добавить книгу</a>
     <p>
-        <a href="main.jsp">На главную страницу</a>
+        <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">
-        <a href="controller?action=find_all_books">Назад</a>
+            <a href="controller?action=find_all_books">Назад</a>
         </c:if>
+    </p>
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>
