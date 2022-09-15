@@ -335,12 +335,6 @@ public enum CommandName {
         {
             this.command = new ShowPublisherAllAuthors();
         }
-    },
-
-    FIND_AUTHOR_TO_CHOOSE {
-        {
-            this.command = new FindAuthorToChoose();
-        }
     };
 
     Command command;
