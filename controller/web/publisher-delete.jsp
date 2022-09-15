@@ -62,6 +62,7 @@
     </form>
     <a href="publishers.jsp">К списку издательств</a>
 </div>
+<p>
 <div class="wrapper flex-grow-1">
 </div>
 <footer>
