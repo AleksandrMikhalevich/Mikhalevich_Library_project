@@ -12,56 +12,56 @@
 <head>
     <title>Авторы</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
     Добро пожаловать к Жанрам!
-    <p>
+</div>
+<p>
+<div class="d-flex justify-content-center">
     <form name="search" method="post" action="controller">
-        <label>
-            <input name="search_query" type="text" required placeholder="Поиск жанров">
-        </label>
-        <input name="action" type="hidden" value="find_genre_by_name">
-        <button>Искать</button>
+        <div class="input-group">
+            <input type="text" class="d-flex flex-row form-control" name="search_query"
+                   aria-describedby="searchInput" aria-label="Search genres" placeholder="Поиск жанров">
+            <input name="action" type="hidden" value="find_genre_by_name">
+            <button class="d-flex flex-row btn btn-outline-success" type="submit" id="searchInput">Искать</button>
+        </div>
     </form>
-
+</div>
+<div class="d-flex justify-content-center">
     <form name="sorting" method="post" action="controller">
-        <label>
-            <input type="radio" name="sorting" value="sort_by_name" checked>
-        </label> По названию
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sorting" id="inlineRadio1"
+                   value="sort_by_name" checked="checked">
+            <label class="form-check-label" for="inlineRadio1">По названию</label>
+        </div>
         ${requestScope.errorSortGenres}
         <c:forEach var="genre" items="${sessionScope.genreList}">
             <input name="genres_ids" type="hidden" value="${genre.id}">
         </c:forEach>
         <input name="action" type="hidden" value="sort_genres">
-        <button>Сортировать</button>
+        <button type="submit" class="btn btn-outline-secondary">Сортировать</button>
     </form>
-
-    <table class="center">
-        <p>
-            <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">
-                ${sessionScope.searchGenreResults}
-                ${requestScope.errorSearchGenreResults}
-            </c:if>
-        </p>
-        <caption><b>
-            Список жанров
-        </b></caption>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
+    <p>
+        <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">
+            ${sessionScope.searchGenreResults}
+            ${requestScope.errorSearchGenreResults}
+        </c:if>
+    </p>
+    <table class="table table-bordered table-hover" style="text-align: center;">
+        <thead>
         <tr>
-            <th>Название</th>
-            <th>Описание</th>
-            <th>Действия</th>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+            <th colspan="2">Действия</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="genre" items="${sessionScope.genreList}">
             <tr>
                 <td>
@@ -76,18 +76,21 @@
                         <input name="name" type="hidden" value="${genre.name}">
                         <input name="description" type="hidden" value="${genre.description}">
                         <input name="action" type="hidden" value="genre-delete.jsp">
-                        <button>Удалить</button>
+                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
                     </form>
+                </td>
+                <td>
                     <form name="update" method="post" action="genre-update.jsp">
                         <input name="id" type="hidden" value="${genre.id}">
                         <input name="name" type="hidden" value="${genre.name}">
                         <input name="description" type="hidden" value="${genre.description}">
                         <input name="action" type="hidden" value="genre-update.jsp">
-                        <button>Редактировать</button>
+                        <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
     <br>
     ${requestScope.successAddGenre}
@@ -105,5 +108,10 @@
         <a href="controller?action=find_all_genres">Назад</a>
         </c:if>
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

@@ -12,60 +12,60 @@
 <head>
     <title>Авторы</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
     Добро пожаловать к Авторам!
-    <p>
+</div>
+<p>
+<div class="d-flex justify-content-center">
     <form name="search" method="post" action="controller">
-        <label>
-            <input name="search_query" type="text" required placeholder="Поиск авторов">
-        </label>
-        <input name="action" type="hidden" value="find_author_by_name">
-        <button>Искать</button>
+        <div class="input-group">
+            <input type="text" class="d-flex flex-row form-control" name="search_query"
+                   aria-describedby="searchInput" aria-label="Search authors" placeholder="Поиск авторов">
+            <input name="action" type="hidden" value="find_author_by_name">
+            <button class="d-flex flex-row btn btn-outline-success" type="submit" id="searchInput">Искать</button>
+        </div>
     </form>
-
+</div>
+<div class="d-flex justify-content-center">
     <form name="sorting" method="post" action="controller">
-        <label>
-            <input type="radio" name="sorting" value="sort_by_surname" checked>
-        </label> По фамилии
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sorting" id="inlineRadio1"
+                   value="sort_by_surname" checked="checked">
+            <label class="form-check-label" for="inlineRadio1">По фамилии</label>
+        </div>
         ${requestScope.errorSortAuthors}
         <c:forEach var="author" items="${sessionScope.authorList}">
             <input name="authors_ids" type="hidden" value="${author.id}">
         </c:forEach>
         <input name="action" type="hidden" value="sort_authors">
-        <button>Сортировать</button>
+        <button type="submit" class="btn btn-outline-secondary">Сортировать</button>
     </form>
-
-    <table class="center">
-        <p>
-            <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
-                ${sessionScope.searchAuthorResults}
-                ${requestScope.errorSearchAuthorResults}
-            </c:if>
-        </p>
-        <caption><b>
-            Список авторов
-        </b></caption>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
+    <p>
+        <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
+            ${sessionScope.searchAuthorResults}
+            ${requestScope.errorSearchAuthorResults}
+        </c:if>
+    </p>
+    <table class="table table-bordered table-hover" style="text-align: center;">
+        <thead>
         <tr>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
-            <th>Страна</th>
-            <th>Информация о книгах</th>
-            <th>Информация о сотрудничестве с издательствами</th>
-            <th>Действия</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Страна</th>
+            <th scope="col">Информация о книгах</th>
+            <th scope="col">Информация о сотрудничестве с издательствами</th>
+            <th colspan="2">Действия</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="author" items="${sessionScope.authorList}">
             <tr>
                 <td>
@@ -84,31 +84,34 @@
                     <form name="infoBooks" method="post" action="controller">
                         <input name="id" type="hidden" value="${author.id}">
                         <input name="action" type="hidden" value="show_author_all_books">
-                        <button>Просмотреть</button>
+                        <button type="submit" class="btn btn-outline-info">Просмотреть</button>
                     </form>
                 </td>
                 <td>
                     <form name="infoPublishers" method="post" action="controller">
                         <input name="id" type="hidden" value="${author.id}">
                         <input name="action" type="hidden" value="show_author_all_publishers">
-                        <button>Просмотреть</button>
+                        <button type="submit" class="btn btn-outline-info">Просмотреть</button>
                     </form>
                 </td>
                 <td>
                     <form name="delete" method="post" action="controller">
                         <input name="id" type="hidden" value="${author.id}">
                         <input name="action" type="hidden" value="find_author_by_id_to_delete">
-                        <button>Удалить</button>
+                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
                     </form>
+                </td>
+                <td>
                     <form name="update" method="post" action="controller">
                         <c:remove var="updatedChosenPublishersToAuthor"/>
                         <input name="id" type="hidden" value="${author.id}">
                         <input name="action" type="hidden" value="find_author_by_id_to_update">
-                        <button>Редактировать</button>
+                        <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
     <br>
     ${requestScope.successAddAuthor}
@@ -129,5 +132,10 @@
         <a href="controller?action=find_all_authors">Назад</a>
         </c:if>
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>
