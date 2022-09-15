@@ -12,33 +12,29 @@
 <head>
     <title>Выбор издательства</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
+    <h3>Добавление издательства к новой книге</h3>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
     <form name="choosePublisher" method="post" action="controller">
-        Выбор издательства
-        <table class="center">
-            <caption><b>
-                Список издательств
-            </b></caption>
+        <table class="table table-bordered table-hover" style="text-align: center;">
+            <thead>
             <tr>
-                <th>Название</th>
-                <th>Страна</th>
-                <th>Город</th>
-                <th>Улица</th>
-                <th>Дом</th>
-                <th>Почтовый индекс</th>
-                <th>Действия</th>
+                <th scope="col">Название</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Город</th>
+                <th scope="col">Улица</th>
+                <th scope="col">Дом</th>
+                <th scope="col">Почтовый индекс</th>
+                <th scope="col">Выбор</th>
             </tr>
+            </thead>
+            <tbody>
             <c:forEach var="publisher" items="${sessionScope.addedPublishers}">
                 <tr>
                     <td>
@@ -60,19 +56,25 @@
                         <c:out value="${publisher.address.zipcode}"/>
                     </td>
                     <td>
-                        <label>
-                            <input type="radio" name="publisher_id" value="${publisher.id}">
-                        </label> Выбрать
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="radio" name="publisher_id" value="${publisher.id}"
+                                   id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked"></label>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
         <input name="action" type="hidden" value="add_chosen_publisher_for_added_book">
-        <button>Добавить</button>
+        <button type="submit" class="btn btn-outline-success">Добавить</button>
     </form>
-
     <a href="book-add.jsp">Назад к странице добавления</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

@@ -12,19 +12,27 @@
 <head>
     <title>Страница удаления</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
-    <h2>Удаление жанра</h2>
-    <form name="deleteGenre" method="post" action="controller" autocomplete="off">
+    <h3>Удаление жанра</h3>
+</div>
+<div class="container">
+    <form name="updateGenre" method="post" action="controller" autocomplete="off">
         <fieldset>
             <legend>Информация</legend>
-            Название: <label>
-            <input name="name" type="text" disabled value="${param.name}">
-        </label>
-            Описание: <label>
-            <input name="description" type="text" disabled value="${param.description}">
-        </label>
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Название</label>
+                <input type="text" id="nameInput" name="name" class="form-control" disabled placeholder="${param.name}">
+            </div>
+            <div class="mb-3">
+                <label for="descriptionInput" class="form-label">Описание</label>
+                <input type="text" id="descriptionInput" name="description" class="form-control"
+                       disabled placeholder="${param.description}">
+            </div>
         </fieldset>
         <input name="id" type="hidden" value="${param.id}">
         <input name="action" type="hidden" value="delete_genre">
@@ -32,11 +40,14 @@
             Вниманию администратора!<br>
             Удаление жанра из базы данных библиотеки приведет к удалению всех книг данного жанра.
         </p>
-        <button>Удалить</button>
+        <button type="submit" class="btn btn-danger">Удалить</button>
     </form>
-
     <a href="genres.jsp">К списку жанров</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

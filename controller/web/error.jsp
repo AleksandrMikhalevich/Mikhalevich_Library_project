@@ -9,7 +9,11 @@
 <head>
     <title>Ошибка!</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 Запрос из ${pageContext.errorData.requestURI} не удался.
 <br/>
 Сервлет: ${pageContext.errorData.servletName}
@@ -17,5 +21,10 @@
 Статус код: ${pageContext.errorData.statusCode}
 <br/>
 Исключение: ${pageContext.errorData.throwable}
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

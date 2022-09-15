@@ -12,34 +12,50 @@
 <head>
     <title>Страница удаления</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
-    <h2>Удаление автора</h2>
+    <h3>Удаление автора</h3>
+</div>
+<div class="container">
     <form name="deleteAuthor" method="post" action="controller" autocomplete="off">
         <fieldset>
             <legend>Сотрудничество с издательствами</legend>
-            <c:forEach var="publisherExist" items="${sessionScope.authorToDelete.publishers}">
-                <label>
-                    <input name="author" type="text" disabled
-                           placeholder="${publisherExist.name}">
-                </label><br>
-            </c:forEach>
+            <div class="input-group mb-3">
+                <c:forEach var="publisherExist" items="${sessionScope.authorToDelete.publishers}">
+                    <label>
+                        <input type="text" name="publisher" class="form-control" disabled
+                               placeholder="${publisherExist.name}" aria-label="Издательства"
+                               aria-describedby="button-addon1">
+                    </label>
+                </c:forEach>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Персональная информация</legend>
-            Фамилия: <label>
-            <input name="surname" type="text" disabled value="${sessionScope.authorToDelete.surname}">
-        </label>
-            Имя: <label>
-            <input name="first_name" type="text" disabled value="${sessionScope.authorToDelete.firstName}">
-        </label>
-            Отчество: <label>
-            <input name="second_name" type="text" disabled value="${sessionScope.authorToDelete.secondName}">
-        </label>
-            Страна: <label>
-            <input name="country" type="text" disabled value="${sessionScope.authorToDelete.country}">
-        </label>
+            <div class="mb-3">
+                <label for="surnameInput" class="form-label">Фамилия</label>
+                <input type="text" id="surnameInput" name="surname" class="form-control" disabled
+                       placeholder="${sessionScope.authorToDelete.surname}">
+            </div>
+            <div class="mb-3">
+                <label for="firstNameInput" class="form-label">Имя</label>
+                <input type="text" id="firstNameInput" name="first_name" class="form-control" disabled
+                       placeholder="${sessionScope.authorToDelete.firstName}">
+            </div>
+            <div class="mb-3">
+                <label for="secondNameInput" class="form-label">Отчество</label>
+                <input type="text" id="secondNameInput" name="second_name" class="form-control" disabled
+                       placeholder="${sessionScope.authorToDelete.secondName}">
+            </div>
+            <div class="mb-3">
+                <label for="countryInput" class="form-label">Страна</label>
+                <input type="text" id="countryInput" name="country" class="form-control" disabled
+                       placeholder="${sessionScope.authorToDelete.country}">
+            </div>
         </fieldset>
         <input name="id" type="hidden" value="${sessionScope.authorToDelete.id}">
         <input name="action" type="hidden" value="delete_author">
@@ -47,11 +63,14 @@
             Вниманию администратора!<br>
             Удаление автора из базы данных библиотеки приведет к удалению всех книг данного автора.
         </p>
-        <button>Удалить</button>
+        <button type="submit" class="btn btn-danger">Удалить</button>
     </form>
-
     <a href="authors.jsp">К списку авторов</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

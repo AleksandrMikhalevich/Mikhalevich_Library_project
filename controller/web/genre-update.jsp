@@ -12,27 +12,39 @@
 <head>
   <title>Страница редактирования</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+  <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
-  <h2>Редактирование жанра</h2>
+  <h3>Редактирование жанра</h3>
+</div>
+<div class="container">
   <form name="updateGenre" method="post" action="controller" autocomplete="off">
     <fieldset>
       <legend>Информация</legend>
-      Название: <label>
-      <input name="name" type="text" required value="${param.name}">
-    </label>
-      Описание: <label>
-      <input name="description" type="text" required value="${param.description}">
-    </label>
+      <div class="mb-3">
+        <label for="nameInput" class="form-label">Название</label>
+        <input type="text" id="nameInput" name="name" class="form-control" required value="${param.name}">
+      </div>
+      <div class="mb-3">
+        <label for="descriptionInput" class="form-label">Описание</label>
+        <input type="text" id="descriptionInput" name="description" class="form-control"
+               required value="${param.description}">
+      </div>
     </fieldset>
     <input name="id" type="hidden" value="${param.id}">
     <input name="action" type="hidden" value="update_genre">
-    <button>Сохранить изменения</button>
+    <button type="submit" class="btn btn-outline-success">Сохранить</button>
   </form>
-
   <a href="genres.jsp">К списку жанров</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+  <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>
+

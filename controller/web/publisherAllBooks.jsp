@@ -12,28 +12,25 @@
 <head>
     <title>Информация о книгах издательства</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-    <table class="center">
-        <caption><b>
-            Список книг издательства ${requestScope.publisher.name}
-        </b></caption>
+    <h4>Список книг издательства ${requestScope.publisher.name}</h4>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
+    <table class="table table-bordered table-hover" style="text-align: center;">
+        <thead>
         <tr>
-            <th>Название</th>
-            <th>Язык</th>
-            <th>Год издания</th>
-            <th>Дата поступления</th>
+            <th scope="col">Название</th>
+            <th scope="col">Язык</th>
+            <th scope="col">Год издания</th>
+            <th scope="col">Дата поступления</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="book" items="${requestScope.publisher.books}">
             <tr>
                 <td>
@@ -50,10 +47,15 @@
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
     <p>
         <a href="publishers.jsp">К списку издательств</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

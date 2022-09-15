@@ -10,7 +10,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>Выбор издательства</title>
+    <title>Издательства</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header>

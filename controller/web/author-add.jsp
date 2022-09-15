@@ -12,19 +12,29 @@
 <head>
     <title>Страница добавления</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
-    <h2>Добавление автора</h2>
-    <form name="addPublishers" method="post" action="controller" autocomplete="off">
+    <h3>Добавление автора</h3>
+</div>
+<div class="container">
+    <form name="addAuthor" method="post" action="controller" autocomplete="off">
         <fieldset>
             <legend>Сотрудничество с издательствами</legend>
+            <div class="input-group mb-3">
+            <c:if test="${sessionScope.addedChosenPublishersToAuthor == null}">
+                <input type="text" class="form-control" disabled placeholder="Издательства" aria-label="Издательства"
+                       aria-describedby="button-addon1">
+            </c:if>
             <c:if test="${sessionScope.addedChosenPublishersToAuthor != null}">
                 <c:forEach var="publisher" items="${sessionScope.addedChosenPublishersToAuthor}">
                     <label>
-                        <input name="publisher" type="text" disabled
-                               placeholder="${publisher.name}">
-                    </label><br>
+                    <input type="text" name="publisher" class="form-control" disabled placeholder="${publisher.name}" aria-label="Издательства"
+                           aria-describedby="button-addon1">
+                    </label>
                 </c:forEach>
             </c:if>
             ${requestScope.errorChoosePublishers}
@@ -32,31 +42,36 @@
             <c:choose>
                 <c:when test="${sessionScope.addedChosenPublishersToAuthor != null}">
                     <input name="action" type="hidden" value="choose_publishers_for_added_author">
-                    <button>Изменить выбор издательств</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Изменить выбор издательств</button>
                 </c:when>
                 <c:otherwise>
                     <input name="action" type="hidden" value="choose_publishers_for_added_author">
-                    <button>Выбрать издательства</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Выбор издательств</button>
                 </c:otherwise>
             </c:choose>
+            </div>
         </fieldset>
     </form>
-
     <form name="addAuthor" method="post" action="controller" autocomplete="off">
         <fieldset>
             <legend>Персональная информация</legend>
-            Фамилия: <label>
-            <input name="surname" type="text" required value="">
-        </label>
-            Имя: <label>
-            <input name="first_name" type="text" required value="">
-        </label>
-            Отчество: <label>
-            <input name="second_name" type="text" required value="">
-        </label>
-            Страна: <label>
-            <input name="country" type="text" required value="">
-        </label>
+            <div class="mb-3">
+                <label for="surnameInput" class="form-label">Фамилия</label>
+                <input type="text" id="surnameInput" name="surname" class="form-control" placeholder="Фамилия" required>
+            </div>
+            <div class="mb-3">
+                <label for="firstNameInput" class="form-label">Имя</label>
+                <input type="text" id="firstNameInput" name="first_name" class="form-control" placeholder="Имя" required>
+            </div>
+            <div class="mb-3">
+                <label for="secondNameInput" class="form-label">Отчество</label>
+                <input type="text" id="secondNameInput" name="second_name" class="form-control" placeholder="Отчество" required>
+            </div>
+            <div class="mb-3">
+                <label for="countryInput" class="form-label">Страна</label>
+                <input type="text" id="countryInput" name="country" class="form-control"
+                       placeholder="Страна" required>
+            </div>
             <c:forEach var="publisher" items="${sessionScope.addedChosenPublishersToAuthor}">
                 <label>
                     <input name="publishers_ids" type="hidden" value="${publisher.id}">
@@ -64,11 +79,14 @@
             </c:forEach>
         </fieldset>
         <input name="action" type="hidden" value="add_author">
-        <button>Сохранить</button>
+        <button type="submit" class="btn btn-outline-success">Сохранить</button>
     </form>
-
     <a href="authors.jsp">К списку авторов</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

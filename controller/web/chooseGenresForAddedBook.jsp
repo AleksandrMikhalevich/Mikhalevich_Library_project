@@ -10,50 +10,51 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>Выбор авторов</title>
+    <title>Выбор жанров</title>
 </head>
-<style>
-    table, th, td {
-        border: 1px solid black
-    }
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
+    <h3>Добавление жанров к новой книге</h3>
+</div>
+<div class="w-90 p-3" style="text-align: center;">
     <form name="chooseGenres" method="post" action="controller">
-        Выбор жанров
-        <table class="center">
-            <caption><b>
-                Список жанров
-            </b></caption>
+        <table class="table table-bordered table-hover" style="text-align: center;">
+            <thead>
             <tr>
-                <th>Название</th>
-                <th>Действия</th>
+                <th scope="col">Название</th>
+                <th scope="col">Выбор</th>
             </tr>
+            </thead>
+            <tbody>
             <c:forEach var="genre" items="${sessionScope.addedGenres}">
                 <tr>
                     <td>
                         <c:out value="${genre.name}"/>
                     </td>
                     <td>
-                        <label>
-                            <input type="checkbox" name="genre_ids" value="${genre.id}">
-                        </label> Выбрать
-
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="checkbox" name="genre_ids" value="${genre.id}"
+                                   id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked"></label>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
         <input name="action" type="hidden" value="add_chosen_genres_for_added_book">
-        <button>Добавить</button>
+        <button type="submit" class="btn btn-outline-success">Добавить</button>
     </form>
-
     <a href="book-add.jsp">Назад к странице добавления</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>

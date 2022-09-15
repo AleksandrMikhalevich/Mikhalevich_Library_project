@@ -12,42 +12,56 @@
 <head>
     <title>Страница редактирования</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <%@include file="header.jsp" %>
+</header>
+<p>
 <div style="text-align: center;">
-
-    <h2>Редактирование издательства</h2>
+    <h3>Редактирование издательства</h3>
+</div>
+<div class="container">
     <form name="updatePublisher" method="post" action="controller" autocomplete="off">
         <fieldset>
             <legend>Название</legend>
-            Название: <label>
-            <input name="name" type="text" required value="${param.name}">
-        </label>
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Название</label>
+                <input type="text" id="nameInput" name="name" class="form-control" required value="${param.name}">
+            </div>
         </fieldset>
         <fieldset>
             <legend>Адрес</legend>
-            Страна: <label>
-            <input name="country" type="text" required value="${param.country}">
-        </label>
-            Город: <label>
-            <input name="city" type="text" required value="${param.city}">
-        </label>
-            Улица: <label>
-            <input name="street" type="text" required value="${param.street}">
-        </label>
-            Дом: <label>
-            <input name="house" type="text" required value="${param.house}">
-        </label>
-            Почтовый индекс: <label>
-            <input name="zipcode" type="text" required value="${param.zipcode}">
-        </label>
+            <div class="mb-3">
+                <label for="countryInput" class="form-label">Страна</label>
+                <input type="text" id="countryInput" name="country" class="form-control" required value="${param.country}">
+            </div>
+            <div class="mb-3">
+                <label for="cityInput" class="form-label">Город</label>
+                <input type="text" id="cityInput" name="city" class="form-control" required value="${param.city}">
+            </div>
+            <div class="mb-3">
+                <label for="streetInput" class="form-label">Улица</label>
+                <input type="text" id="streetInput" name="street" class="form-control" required value="${param.street}">
+            </div>
+            <div class="mb-3">
+                <label for="houseInput" class="form-label">Дом</label>
+                <input type="text" id="houseInput" name="house" class="form-control" required value="${param.house}">
+            </div>
+            <div class="mb-3">
+                <label for="zipcodeInput" class="form-label">Почтовый индекс</label>
+                <input type="text" id="zipcodeInput" name="zipcode" class="form-control" required value="${param.zipcode}">
+            </div>
         </fieldset>
         <input name="publisher_id" type="hidden" value="${param.id}">
         <input name="action" type="hidden" value="update_publisher">
-        <button>Сохранить изменения </button>
+        <button type="submit" class="btn btn-outline-success">Сохранить</button>
     </form>
-
     <a href="publishers.jsp">К списку издательств</a>
-
 </div>
+<div class="wrapper flex-grow-1">
+</div>
+<footer>
+    <%@include file="footer.jsp" %>
+</footer>
 </body>
 </html>
