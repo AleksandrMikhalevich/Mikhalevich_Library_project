@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="1" author="Alex Mikhalevich">
+        <comment>add admin to table library_user</comment>
+        <sql>
+            update library_user
+            set role_id = 1
+            where id = 1;
+            insert into library_user(email, login, password, role_id) values
+                ('admin_22@library.org', 'admin_22', 'admin', 2)
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
