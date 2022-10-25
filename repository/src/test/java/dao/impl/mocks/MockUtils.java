@@ -59,11 +59,18 @@ public class MockUtils {
                 .build();
     }
 
-    public static User createUser() {
+    public static User createUser(Role role) {
         return User.builder()
                 .login(LOGIN)
                 .password(PASSWORD)
                 .email(EMAIL)
+                .role(role)
+                .build();
+    }
+
+    public static Role createRole() {
+        return Role.builder()
+                .name("USER")
                 .build();
     }
 }

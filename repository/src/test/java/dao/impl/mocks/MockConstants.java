@@ -49,9 +49,17 @@ public class MockConstants {
     User's test constants
     */
     public static final String LOGIN = "user";
+    public static final String NEW_LOGIN = "new_user";
     public static final String PASSWORD = "qwerty";
     public static final String EMAIL = "user@library.org";
     public static final String UPDATE_LOGIN = "user_22";
     public static final String UPDATE_PASSWORD = "qwerty_22";
     public static final String UPDATE_EMAIL = "user_22@library.org";
+
+    /*
+    Role's test constants
+    */
+    public static final String ROLE_NAME = "USER";
+    public static final String UPDATE_ROLE_NAME = "LIBRARY_USER";
+    public static final String ROLE_ADMIN = "ADMIN";
 }
