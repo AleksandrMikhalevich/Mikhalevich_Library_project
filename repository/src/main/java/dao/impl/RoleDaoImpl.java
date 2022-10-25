@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
-import entities.Book;
+import entities.Role;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
 
@@ -14,21 +14,20 @@ import java.util.List;
 
 /**
  * @author Alex Mikhalevich
- * @created 2022-05-01 15:57
+ * @created 2022-09-24 13:44
  */
-public class BookDaoImpl implements Dao<Book> {
+public class RoleDaoImpl implements Dao<Role> {
 
     /**
-     *
-     * @param book is created record
+     * @param role is Class-parameter of created record
      * @throws DaoException from work with database
      */
     @Override
-    public void save(Book book) throws DaoException {
+    public void save(Role role) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(book);
+            entityManager.persist(role);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
@@ -39,18 +38,17 @@ public class BookDaoImpl implements Dao<Book> {
     }
 
     /**
-     *
      * @param id is identification number of found record
-     * @return book
+     * @return role
      * @throws DaoException from work with database
      */
     @Override
-    public Book findById(int id) throws DaoException {
+    public Role findById(int id) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Book toFind;
+        Role toFind;
         try {
             entityManager.getTransaction().begin();
-            toFind = entityManager.find(Book.class, id);
+            toFind = entityManager.find(Role.class, id);
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
             throw new DaoException();
@@ -61,16 +59,15 @@ public class BookDaoImpl implements Dao<Book> {
     }
 
     /**
-     *
-     * @param book is updated record
+     * @param role is updated record
      * @throws DaoException from work with database
      */
     @Override
-    public void update(Book book) throws DaoException {
+    public void update(Role role) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(book);
+            entityManager.merge(role);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
             entityManager.getTransaction().rollback();
@@ -81,7 +78,6 @@ public class BookDaoImpl implements Dao<Book> {
     }
 
     /**
-     *
      * @param id is identification number of deleted record
      * @throws DaoException from work with database
      */
@@ -90,7 +86,7 @@ public class BookDaoImpl implements Dao<Book> {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            Book toDelete = entityManager.find(Book.class, id);
+            Role toDelete = entityManager.find(Role.class, id);
             entityManager.remove(toDelete);
             entityManager.getTransaction().commit();
         } catch (HibernateException e) {
@@ -102,33 +98,31 @@ public class BookDaoImpl implements Dao<Book> {
     }
 
     /**
-     *
-     * @param name is name of book
-     * @return list of books
+     * @param name is name of found record
+     * @return list of roles
      * @throws DaoException from work with database
      */
     @Override
-    public List<Book> findByName(String name) throws DaoException {
+    public List<Role> findByName(String name) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Book> criteria = criteriaBuilder.createQuery(Book.class);
-        Root<Book> book = criteria.from(Book.class);
-        criteria.select(book).where(criteriaBuilder.like(book.get("title"), "%" + name + "%"));
+        CriteriaQuery<Role> criteria = criteriaBuilder.createQuery(Role.class);
+        Root<Role> role = criteria.from(Role.class);
+        criteria.select(role).where(criteriaBuilder.like(role.get("name"), "%" + name + "%"));
         return entityManager.createQuery(criteria).getResultList();
     }
 
     /**
-     *
-     * @return list of books
+     * @return list of roles
      * @throws DaoException from work with database
      */
     @Override
-    public List<Book> findAll() throws DaoException{
+    public List<Role> findAll() throws DaoException {
         EntityManager em = HibernateUtil.getEntityManager();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Book> criteria = criteriaBuilder.createQuery(Book.class);
-        Root<Book> allBooks = criteria.from(Book.class);
-        criteria.select(allBooks);
+        CriteriaQuery<Role> criteria = criteriaBuilder.createQuery(Role.class);
+        Root<Role> allRoles = criteria.from(Role.class);
+        criteria.select(allRoles);
         return em.createQuery(criteria).getResultList();
     }
 }

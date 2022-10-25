@@ -40,7 +40,7 @@ public interface Dao<T> {
     void delete(int id) throws DaoException;
 
     /**
-     * Method to read record by name from database
+     * Method to read records by name from database
      * @param name is name of found record
      * @return record
      * @throws DaoException from work with database

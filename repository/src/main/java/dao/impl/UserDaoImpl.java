@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.exceptions.DaoException;
 import dao.interfaces.Dao;
-import entities.Book;
 import entities.User;
 import org.hibernate.HibernateException;
 import utils.HibernateUtil;
@@ -103,17 +102,17 @@ public class UserDaoImpl implements Dao<User> {
     }
 
     /**
-     * @param name (login) of user
-     * @return list of users
+     * @param login of user
+     * @return list of users with similar logins
      * @throws DaoException from work with database
      */
     @Override
-    public List<User> findByName(String name) throws DaoException {
+    public List<User> findByName(String login) throws DaoException {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
         Root<User> user = criteria.from(User.class);
-        criteria.select(user).where(criteriaBuilder.equal(user.get("login"), name));
+        criteria.select(user).where(criteriaBuilder.like(user.get("login"), "%" + login + "%"));
         return entityManager.createQuery(criteria).getResultList();
     }
 
@@ -123,11 +122,26 @@ public class UserDaoImpl implements Dao<User> {
      */
     @Override
     public List<User> findAll() throws DaoException {
-        EntityManager em = HibernateUtil.getEntityManager();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        EntityManager entityManager = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
         Root<User> allUsers = criteria.from(User.class);
         criteria.select(allUsers);
-        return em.createQuery(criteria).getResultList();
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+    /**
+     * Method to find user by unique name in database
+     *
+     * @return unique user
+     * @throws DaoException from work with database
+     */
+    public User findByLogin(String login) throws DaoException {
+        EntityManager entityManager = HibernateUtil.getEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
+        Root<User> user = criteria.from(User.class);
+        criteria.select(user).where(criteriaBuilder.equal(user.get("login"), login));
+        return entityManager.createQuery(criteria).getSingleResult();
     }
 }
