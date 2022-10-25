@@ -24,5 +24,10 @@
     <include file="2022-06-16-17-add-description-column-to-table-genre.xml" relativeToChangelogFile="true"/>
     <include file="2022-06-16-18-add-genre-description-data.xml" relativeToChangelogFile="true"/>
     <include file="2022-06-16-19-update-genre-data.xml" relativeToChangelogFile="true"/>
+    <include file="2022-09-24-20-create-table-role.xml" relativeToChangelogFile="true"/>
+    <include file="2022-09-24-21-update-table-library-user.xml" relativeToChangelogFile="true"/>
+    <include file="2022-09-24-22-add-role-data.xml" relativeToChangelogFile="true"/>
+    <include file="2022-09-24-23-add-admin-to-table-library-user.xml" relativeToChangelogFile="true"/>
+    <include file="2022-09-24-24-update-constraint-table-library-user.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
