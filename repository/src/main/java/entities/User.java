@@ -34,8 +34,16 @@ public class User implements Serializable {
     @Column
     private String password;
 
+    @Transient
+    private String passwordConfirm;
+
     @Column
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    @ToString.Exclude
+    private Role role;
 
     @Override
     public boolean equals(Object o) {
