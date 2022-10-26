@@ -60,9 +60,10 @@ public class MockConstants {
     User's service test constants
     */
     public static final String LOGIN = "user_33";
+
+    public static final String ANOTHER_LOGIN = "anotherUser";
     public static final String PASSWORD = "qwerty_33";
     public static final String EMAIL = "user_33@library.org";
-    public static final String UPDATE_USER_LOGIN = "user_22";
     public static final String UPDATE_USER_PASSWORD = "qwerty_22";
     public static final String UPDATE_USER_EMAIL = "user_22@library.org";
 }

@@ -10,6 +10,7 @@
         <class>entities.Publisher</class>
         <class>entities.Genre</class>
         <class>entities.User</class>
+        <class>entities.Role</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url"

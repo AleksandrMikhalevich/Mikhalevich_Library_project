@@ -1,16 +1,13 @@
 package mocks;
 
+import dao.exceptions.DaoException;
+import dao.impl.RoleDaoImpl;
+import dao.interfaces.Dao;
 import dto.*;
 import entities.*;
 import exceptions.ServiceException;
-import impl.AuthorServiceImpl;
-import impl.BookServiceImpl;
-import impl.GenreServiceImpl;
-import impl.PublisherServiceImpl;
-import interfaces.AuthorService;
-import interfaces.BookService;
-import interfaces.GenreService;
-import interfaces.PublisherService;
+import impl.*;
+import interfaces.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -116,5 +113,13 @@ public class MockUtils {
                 .password(PASSWORD)
                 .email(EMAIL)
                 .build();
+    }
+
+    public static void createRole() throws DaoException {
+        Role role = Role.builder()
+                .name("USER")
+                .build();
+        Dao<Role> roleDao = new RoleDaoImpl();
+        roleDao.save(role);
     }
 }
