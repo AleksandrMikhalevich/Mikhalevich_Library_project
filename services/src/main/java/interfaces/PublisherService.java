@@ -41,7 +41,7 @@ public interface PublisherService {
     void updatePublisher(int id, String name, String country, String city, String street, String house, String zipcode) throws ServiceException;
 
     /**
-     * Method to delete publisher by name in database
+     * Method to delete publisher by id in database
      *
      * @param id is identification number of publisher
      * @throws ServiceException from work with services

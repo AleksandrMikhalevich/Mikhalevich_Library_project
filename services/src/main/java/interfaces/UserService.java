@@ -1,7 +1,6 @@
 package interfaces;
 
 import dto.UserDto;
-import entities.User;
 import exceptions.ServiceException;
 
 import java.util.List;
@@ -15,21 +14,26 @@ public interface UserService {
     /**
      * Method to add user to database
      *
-     * @param user is created record
+     * @param login    of added user
+     * @param password of added user
+     * @param email    of added user
+     * @return true if user added, false if user already existed
      * @throws ServiceException from work with services
      */
-    void addUser(User user) throws ServiceException;
+    boolean addUser(String login, String password, String email) throws ServiceException;
 
     /**
-     * Method to update user by name in database
+     * Method to update user by id in database
      *
-     * @param user is updated record
+     * @param id of updated user
+     * @param email of updated user
+     * @param password of updated user
      * @throws ServiceException from work with services
      */
-    void updateUser(User user) throws ServiceException;
+    void updateUser(int id, String email, String password) throws ServiceException;
 
     /**
-     * Method to delete user by name in database
+     * Method to delete user by id in database
      *
      * @param id is identification number of user
      * @throws ServiceException from work with services
@@ -37,7 +41,7 @@ public interface UserService {
     void deleteUser(int id) throws ServiceException;
 
     /**
-     * Method to find user by identification number in database
+     * Method to find user by id in database
      *
      * @param id is identification number of user
      * @return publisher
@@ -46,20 +50,36 @@ public interface UserService {
     UserDto findUserById(int id) throws ServiceException;
 
     /**
-     * Method to find user by name in database
+     * Method to find user/users by similar login in database
      *
-     * @param name of user
+     * @param login of user
      * @return list of users
      * @throws ServiceException from work with services
      */
-    List<UserDto> findUserByName(String name) throws ServiceException;
+    List<UserDto> findUserByName(String login) throws ServiceException;
 
     /**
-     * Method to find user by name in database
+     * Method to find all users in database
      *
      * @return list of users
      * @throws ServiceException from work with services
      */
     List<UserDto> findAllUsers() throws ServiceException;
+
+    /**
+     * Method to find user by exact login in database
+     *
+     * @return unique user
+     * @throws ServiceException from work with services
+     */
+    UserDto findUserByLogin(String login) throws ServiceException;
+
+    /**
+     * Method to sort users from database by login
+     *
+     * @return list of sorted users
+     * @throws ServiceException from work with services
+     */
+    List<UserDto> sortAllUsersByName(String[] usersIds) throws ServiceException;
 
 }
