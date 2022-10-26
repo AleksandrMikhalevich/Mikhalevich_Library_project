@@ -56,20 +56,31 @@
     <table class="table table-bordered table-hover" style="text-align: center;">
         <thead>
         <tr>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th scope="col">Id</th>
+            </c:if>
             <th scope="col">Название</th>
             <th scope="col">Описание</th>
-            <th colspan="2">Действия</th>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th colspan="2">Действия</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="genre" items="${sessionScope.genreList}">
             <tr>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                    <td>
+                        <c:out value="${genre.id}"/>
+                    </td>
+                </c:if>
                 <td>
                     <c:out value="${genre.name}"/>
                 </td>
                 <td>
                     <c:out value="${genre.description}"/>
                 </td>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
                 <td>
                     <form name="delete" method="post" action="genre-delete.jsp">
                         <input name="id" type="hidden" value="${genre.id}">
@@ -88,6 +99,7 @@
                         <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
@@ -99,9 +111,11 @@
     ${requestScope.errorUpdateGenre}
     ${requestScope.successDeleteGenre}
     ${requestScope.errorDeleteGenre}
+    <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
     <p>
         <a href="genre-add.jsp">Добавить жанр</a>
     <p>
+    </c:if>
         <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchGenreResults != null || sessionScope.searchGenreResults != null && sessionScope.sortGenreResults != null}">

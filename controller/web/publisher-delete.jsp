@@ -18,7 +18,7 @@
 </header>
 <p>
 <div style="text-align: center;">
-    <h3>Редактирование издательства</h3>
+    <h3>Удаление издательства</h3>
 </div>
 <div class="container">
     <form name="deletePublisher" method="post" action="controller" autocomplete="off">

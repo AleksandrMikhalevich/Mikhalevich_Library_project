@@ -18,7 +18,24 @@
 </header>
 <p>
 <div style="text-align: center;">
-    Вас приветствует библиотека Bookаньеры!
+    <c:choose>
+        <c:when test="${sessionScope.user != null}">
+            Добро пожаловать в библиотеку Bookаньеры, ${sessionScope.user.login}!
+        </c:when>
+        <c:otherwise>
+            Вас приветствует библиотека Bookаньеры!
+        </c:otherwise>
+    </c:choose>
+</div>
+<div style="text-align: center;">
+<p>
+    ${requestScope.successSignIn}
+    ${requestScope.errorSignIn}
+    ${requestScope.successSignOut}
+    ${requestScope.successAddUser}
+    ${requestScope.successUpdateUser}
+    ${requestScope.successDeleteUser}
+</p>
 </div>
 <div class="wrapper flex-grow-1">
 </div>

@@ -42,7 +42,26 @@
                 <li class="nav-item">
                     <a class="nav-link" href="controller?action=find_all_publishers">Издательства</a>
                 </li>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?action=find_all_users">Пользователи</a>
+                </li>
+                </c:if>
             </ul>
+        </div>
+        <div class="w-90 p-3 d-flex flex-row align-items-center">
+            <c:if test="${sessionScope.user != null}">
+                <div class="p-2">Вы вошли: ${sessionScope.user.login}</div>
+            </c:if>
+            <c:choose>
+                <c:when test="${sessionScope.user != null}">
+                    <div class="p-2"><a class="nav-link text-info" href="user-account.jsp">Профиль</a></div>
+                    <a class="nav-link text-info" href="controller?action=sign_out_user">Выход</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="nav-link text-info" href="login.jsp">Вход/Регистрация</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </nav>
 </div>

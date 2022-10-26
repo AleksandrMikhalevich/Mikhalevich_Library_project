@@ -56,6 +56,9 @@
     <table class="table table-bordered table-hover" style="text-align: center;">
         <thead>
         <tr>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th scope="col">Id</th>
+            </c:if>
             <th scope="col">Название</th>
             <th scope="col">Страна</th>
             <th scope="col">Город</th>
@@ -64,12 +67,19 @@
             <th scope="col">Почтовый индекс</th>
             <th scope="col">Информация о книгах</th>
             <th scope="col">Информация об авторах</th>
-            <th colspan="2">Действия</th>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th colspan="2">Действия</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="publisher" items="${sessionScope.publisherList}">
             <tr>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                    <td>
+                        <c:out value="${publisher.id}"/>
+                    </td>
+                </c:if>
                 <td>
                     <c:out value="${publisher.name}"/>
                 </td>
@@ -102,6 +112,7 @@
                         <button type="submit" class="btn btn-outline-info">Просмотреть</button>
                     </form>
                 </td>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
                 <td>
                     <form name="delete" method="post" action="publisher-delete.jsp">
                         <input name="id" type="hidden" value="${publisher.id}">
@@ -128,6 +139,7 @@
                         <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
@@ -139,9 +151,11 @@
     ${requestScope.errorUpdatePublisher}
     ${requestScope.successDeletePublisher}
     ${requestScope.errorDeletePublisher}
+    <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
     <p>
         <a href="publisher-add.jsp">Добавить издательство</a>
     <p>
+    </c:if>
         <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchPublisherResults != null || sessionScope.searchPublisherResults != null && sessionScope.sortPublisherResults != null}">

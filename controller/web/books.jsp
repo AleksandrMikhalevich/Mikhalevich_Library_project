@@ -60,6 +60,9 @@
     <table class="table table-bordered table-hover" style="text-align: center;">
         <thead class="align-middle">
         <tr>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th scope="col">Id</th>
+            </c:if>
             <th scope="col">Название</th>
             <th scope="col">Язык</th>
             <th scope="col">Авторы</th>
@@ -67,12 +70,19 @@
             <th scope="col">Издатель</th>
             <th scope="col">Год издания</th>
             <th scope="col">Дата поступления</th>
-            <th colspan="2">Действия</th>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th colspan="2">Действия</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="book" items="${sessionScope.bookList}">
             <tr>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                    <td>
+                        <c:out value="${book.id}"/>
+                    </td>
+                </c:if>
                 <td>
                     <c:out value="${book.title}"/>
                 </td>
@@ -106,6 +116,7 @@
                 <td>
                     <c:out value="${book.receiptDate}"/>
                 </td>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
                 <td>
                     <form name="delete" method="post" action="controller">
                         <input name="id" type="hidden" value="${book.id}">
@@ -123,6 +134,7 @@
                         <button type="submit" class="btn btn-outline-warning">Редактировать</button>
                     </form>
                 </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
@@ -138,12 +150,14 @@
     ${requestScope.errorDeleteBook}
     ${requestScope.errorFindBookToDelete}
     ${requestScope.errorFindBookToUpdate}
+    <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
     <p>
         <a      <c:remove var="chosenAuthorsToAdd"/>
                 <c:remove var="chosenGenresToAdd"/>
                 <c:remove var="chosenPublisherToAdd"/>
                 href="book-add.jsp">Добавить книгу</a>
     <p>
+    </c:if>
         <a href="index.jsp">На главную страницу</a>
     <p>
         <c:if test="${sessionScope.searchBookResults != null || sessionScope.searchBookResults != null && sessionScope.sortBookResults != null}">

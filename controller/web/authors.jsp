@@ -56,18 +56,28 @@
     <table class="table table-bordered table-hover" style="text-align: center;">
         <thead>
         <tr>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th scope="col">Id</th>
+            </c:if>
             <th scope="col">Фамилия</th>
             <th scope="col">Имя</th>
             <th scope="col">Отчество</th>
             <th scope="col">Страна</th>
             <th scope="col">Информация о книгах</th>
             <th scope="col">Информация о сотрудничестве с издательствами</th>
-            <th colspan="2">Действия</th>
+            <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                <th colspan="2">Действия</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="author" items="${sessionScope.authorList}">
             <tr>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                    <td>
+                        <c:out value="${author.id}"/>
+                    </td>
+                </c:if>
                 <td>
                     <c:out value="${author.surname}"/>
                 </td>
@@ -94,21 +104,23 @@
                         <button type="submit" class="btn btn-outline-info">Просмотреть</button>
                     </form>
                 </td>
-                <td>
-                    <form name="delete" method="post" action="controller">
-                        <input name="id" type="hidden" value="${author.id}">
-                        <input name="action" type="hidden" value="find_author_by_id_to_delete">
-                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                    </form>
-                </td>
-                <td>
-                    <form name="update" method="post" action="controller">
-                        <c:remove var="updatedChosenPublishersToAuthor"/>
-                        <input name="id" type="hidden" value="${author.id}">
-                        <input name="action" type="hidden" value="find_author_by_id_to_update">
-                        <button type="submit" class="btn btn-outline-warning">Редактировать</button>
-                    </form>
-                </td>
+                <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
+                    <td>
+                        <form name="delete" method="post" action="controller">
+                            <input name="id" type="hidden" value="${author.id}">
+                            <input name="action" type="hidden" value="find_author_by_id_to_delete">
+                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form name="update" method="post" action="controller">
+                            <c:remove var="updatedChosenPublishersToAuthor"/>
+                            <input name="id" type="hidden" value="${author.id}">
+                            <input name="action" type="hidden" value="find_author_by_id_to_update">
+                            <button type="submit" class="btn btn-outline-warning">Редактировать</button>
+                        </form>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
@@ -122,15 +134,17 @@
     ${requestScope.errorDeleteAuthor}
     ${requestScope.errorFindAuthorToDelete}
     ${requestScope.errorFindAuthorToUpdate}
+    <c:if test="${sessionScope.get('user').getRole().getName() eq 'ADMIN'}">
     <p>
-        <c:remove var="addedChosenPublishersToAuthor"/>
-        <a href="author-add.jsp">Добавить автора</a>
+        <a <c:remove var="addedChosenPublishersToAuthor"/>
+                href="author-add.jsp">Добавить автора</a>
     <p>
+    </c:if>
         <a href="index.jsp">На главную страницу</a>
     <p>
-        <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
+    <c:if test="${sessionScope.searchAuthorResults != null || sessionScope.searchAuthorResults != null && sessionScope.sortAuthorResults != null}">
         <a href="controller?action=find_all_authors">Назад</a>
-        </c:if>
+    </c:if>
 </div>
 <div class="wrapper flex-grow-1">
 </div>
