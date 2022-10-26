@@ -60,7 +60,12 @@ public class Constants {
     /*
     User constants
      */
-
+    public static final String USER_ID = "id";
+    public static final String USER_LOGIN = "login";
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_PASSWORD_CONFIRM = "password_confirm";
+    public static final String USER_EMAIL = "email";
+    public static final String SEARCH_USER_BY_NAME_QUERY = "search_query";
 
 
 }

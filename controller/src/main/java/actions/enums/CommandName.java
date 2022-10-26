@@ -28,6 +28,11 @@ import actions.impl.publisher.add_actions.AddPublisher;
 import actions.impl.publisher.delete_actions.DeletePublisher;
 import actions.impl.publisher.find_actions.*;
 import actions.impl.publisher.update_actions.UpdatePublisher;
+import actions.impl.user.add_actions.AddUser;
+import actions.impl.user.delete_actions.DeleteUser;
+import actions.impl.user.delete_actions.DeleteUserByAdmin;
+import actions.impl.user.find_actions.*;
+import actions.impl.user.update_actions.UpdateUser;
 import actions.interfaces.Command;
 
 /**
@@ -334,6 +339,60 @@ public enum CommandName {
     SHOW_PUBLISHER_ALL_AUTHORS {
         {
             this.command = new ShowPublisherAllAuthors();
+        }
+    },
+
+    SIGN_IN_USER {
+        {
+            this.command = new SignInUser();
+        }
+    },
+
+    SIGN_OUT_USER {
+        {
+            this.command = new SignOutUser();
+        }
+    },
+
+    ADD_USER {
+        {
+            this.command = new AddUser();
+        }
+    },
+
+    UPDATE_USER {
+        {
+            this.command = new UpdateUser();
+        }
+    },
+
+    DELETE_USER {
+        {
+            this.command = new DeleteUser();
+        }
+    },
+
+    DELETE_USER_BY_ADMIN {
+        {
+            this.command = new DeleteUserByAdmin();
+        }
+    },
+
+    FIND_ALL_USERS {
+        {
+            this.command = new FindAllUsers();
+        }
+    },
+
+    FIND_USER_BY_NAME {
+        {
+            this.command = new FindUserByName();
+        }
+    },
+
+    SORT_USERS {
+        {
+            this.command = new SortUsers();
         }
     };
 
