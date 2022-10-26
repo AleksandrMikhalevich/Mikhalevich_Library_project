@@ -1,5 +1,6 @@
 package dto;
 
+import entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,9 @@ public class UserDto {
 
     private int id;
     private String login;
+    private String password;
+    private String passwordConfirm;
     private String email;
+    private Role role;
 
 }

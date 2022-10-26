@@ -2,13 +2,11 @@ package mappers;
 
 import dto.*;
 import entities.*;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Alex Mikhalevich
@@ -64,23 +62,8 @@ public interface EntityMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "login", target = "login")
     @Mapping(source = "email", target = "email")
+    @Mapping(source = "role", target = "role")
     UserDto mapUserToUserDto(User user);
 
     List<UserDto> mapListUserToListUserDto(List<User> userList);
-
-    @InheritInverseConfiguration
-    Book inverseMapBookDto(BookDto bookDto);
-
-    @InheritInverseConfiguration
-    Author inverseMapAuthorDto(AuthorDto authorDto);
-
-    @InheritInverseConfiguration
-    Genre inverseMapGenreDto(GenreDto genreDto);
-
-    @InheritInverseConfiguration
-    Publisher inverseMapPublisherDto(PublisherDto publisherDto);
-
-    @InheritInverseConfiguration
-    User inverseMapUserDto(UserDto userDto);
-
 }
